@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CriticDiff",
+  "description": "Critic (Agent 8) output schema. Every correction must name the exact field, the specific issue, and the specific correction. Severity determines whether Rewriter handles it or logs only.",
+  "type": "object",
+  "required": [
+    "topic_id",
+    "corrections"
+  ],
+  "properties": {
+    "topic_id": {
+      "type": "string"
+    },
+    "corrections": {
+      "type": "array",
+      "maxItems": 10,
+      "description": "Surgical corrections only. Max 10. Prioritise by marks impact if more exist.",
+      "items": {
+        "type": "object",
+        "required": [
+          "field",
+          "issue",
+          "correction",
+          "severity"
+        ],
+        "properties": {
+          "field": {
+            "type": "string",
+            "description": "Exact field path e.g. definition, examples[0].steps[2].units_shown, rapid_revision.examiner_pattern"
+          },
+          "issue": {
+            "type": "string",
+            "description": "Specific description of what is wrong — not generic"
+          },
+          "correction": {
+            "type": "string",
+            "description": "Specific instruction for what to change — actionable"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "critical",
+              "major",
+              "minor"
+            ],
+            "description": "critical=marks lost, major=incomplete, minor=polish"
+          }
+        }
+      }
+    }
+  }
+}

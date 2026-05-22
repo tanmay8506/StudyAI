@@ -1,0 +1,40 @@
+{
+  "2352203601": {
+    "department": "Mathematics",
+    "programme": "B.Sc. (H) Mathematics",
+    "semester": 3,
+    "paper_name": "Probability and Statistics",
+    "paper_code": "DSC-3",
+    "paper_type": "numerical",
+    "diagram_heavy": false,
+    "practical_component": true,
+    "documentation_tier": 1,
+    "pyq_years_available": [
+      2023
+    ],
+    "primary_textbook": "Devore, Jay L. (2016). Probability and Statistics for Engineering and the Sciences (9th ed.). Cengage Learning India Private Limited.",
+    "all_prescribed_textbooks": [
+      "Devore, Jay L. (2016). Probability and Statistics for Engineering and the Sciences (9th ed.). Cengage Learning India Private Limited.",
+      "Mood, A.M., Graybill, F.A., & Boes, D.C. (1974). Introduction to the Theory of Statistics (3rd ed.). Tata McGraw-Hill."
+    ],
+    "units": [
+      {
+        "unit_number": 1,
+        "unit_name": "Descriptive Statistics, Probability, and Discrete Probability Distributions",
+        "hours": 15
+      },
+      {
+        "unit_number": 2,
+        "unit_name": "Continuous Probability Distributions",
+        "hours": 15
+      },
+      {
+        "unit_number": 3,
+        "unit_name": "Central Limit Theorem and Regression Analysis",
+        "hours": 15
+      }
+    ],
+    "syllabus_url": null,
+    "notes": "Discipline A-6. Practical component: 30 hours software labs using Microsoft Excel."
+  }
+}

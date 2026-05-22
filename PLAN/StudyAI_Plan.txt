@@ -1,0 +1,2360 @@
+StudyAI — The Complete Final Plan
+Version 4.0 — Every decision made. Every component defined. Every failure mode addressed. Ready to build.
+Table of Contents
+What We Are Building
+The Note Philosophy — Non-Negotiable
+Scope Definition
+The Product Name
+The Tech Stack — Complete and Final
+The Project Folder Structure
+The Architecture — How Everything Connects
+The Database Schema — Complete Field Specification
+The 12-Agent Pipeline — Full Detail
+The Parallel Processing Architecture
+The Paper DNA System — Four Analyses
+The Notes Structure — Complete Field Specification
+The Frontend — Complete Component Architecture
+The Trust Layer
+The PYQ Sourcing Strategy — Two-Layer System
+The Error Reporting Loop
+The Syllabus Change Detection System
+The SVG Diagram Library
+KaTeX — Mathematical Notation Rendering
+The Documentation Tier Classification System
+The Cold Start — 50 Seed Papers
+The Master Source Map
+The Pipeline Generation Cache
+The Quality Benchmark
+The Prompt Specifications
+The Failure Handling Specification
+Pre-Build Checklist
+Phase 2 — After Testing and Proven
+What This Plan Deliberately Excludes and Why
+Build Sequence
+Summary — What Makes This Different
+1. What We Are Building
+A study platform for Delhi University B.Sc. students on NEP/UGCF 2022.
+One input. One UPC. Everything else handled automatically.
+A DU student enters their paper code and receives a complete exam-oriented study package. Notes calibrated to exactly how their specific paper is examined — topic by topic, unit by unit. Definition, concept, examples, PYQs with year tags, quick checks. Unit closes with formula sheet and 20-question problem set with full answers. Nothing irrelevant. Nothing missing.
+Study this properly and top the exam. That is the only promise. It is kept through a 12-agent pipeline that verifies itself before the student ever sees the output.
+This is not a general study tool. It is not an AI tutor. It is not a flashcard app. It is one thing: the most exam-calibrated study notes that have ever existed for DU B.Sc. NEP papers. Every decision in this plan serves that one purpose.
+2. The Note Philosophy — Non-Negotiable
+Notes are the same whether the student studies 2 weeks out or 1 day out. There is no separate revision mode, no separate crash course track. The notes are already the most efficient version of the content.
+Every word earns its place. If it is not asked in DU exams it is not in the notes. If it is in the notes it will be asked.
+The student studies once, studies properly, and does not need to go anywhere else. No bloat. No fluff. Adults learning for results.
+The notes are not a document. They are a database of structured knowledge about one exam paper. The document the student sees is a rendered view of that database. These are two different things and keeping them separate is the most important architectural decision in the content system.
+Every field in the notes is a discrete database entry. Every field is generated, verified, criticised, and patched independently. This is what makes surgical refinement possible. This is what makes the platform maintainable. This is what makes it correct.
+3. Scope Definition
+Framework: NEP/UGCF 2022 only. No CBCS mixing ever. Not one CBCS question appears in the notes.
+Launch Faculty: All B.Sc. courses under NEP — Physical Sciences, Mathematical Sciences, Life Sciences, and all related combinations.
+Semesters: I through VIII, all from day one.
+PYQ Policy: Only NEP-era papers. However many years exist for that UPC — 1, 2, 3, or 4. Clearly shown to the student with year tags on every question. No CBCS mixing ever.
+Language: English at launch. Hindi toggle in Phase 2. The database stores both English and Hindi content from generation day one so retrofitting is never needed when Hindi launches.
+Expansion: B.Sc. proven first, then faculty by faculty.
+4. The Product Name
+Name: StudyAI
+One-liner: Study notes built from your DU question paper.
+Every design decision, every UX decision, every content decision references this positioning. The product is the notes. The promise is exam calibration. The one-liner is what appears on the landing page, in the browser tab, and in every student's head when they describe the platform to a friend.
+5. The Tech Stack — Complete and Final
+Backend
+Component
+Choice
+Reason
+Language
+Python
+Best AI SDK support across all providers. No contest.
+Framework
+FastAPI
+Async native, fast to build, no timeout limits unlike Vercel functions
+Hosting
+Railway free tier
+Simple Git deploy, no infrastructure management, scales when needed
+Frontend
+Component
+Choice
+Reason
+Framework
+Next.js
+Best React framework, Vercel native
+Styling
+Tailwind CSS
+Utility-first, fast to build, consistent
+Animation
+Framer Motion
+Notes reveal, topic transitions, pipeline progress animations
+Notes Rendering
+Tiptap
+Headless rich text framework, full component control over every note element
+Math Rendering
+KaTeX
+Fast, accurate LaTeX rendering for all mathematical notation
+Data Fetching
+React Query
+Caching, background refetch, optimistic updates
+Hosting
+Vercel
+Free, Git deploy, best Next.js host
+Database and Storage
+Component
+Choice
+Reason
+Database
+Supabase PostgreSQL
+Free tier generous, pgvector included natively, dashboard for inspection
+Vector Extension
+pgvector (in Supabase)
+Semantic coverage checking in same DB, no separate vector store
+File Storage
+Supabase Storage
+Student-submitted PYQ PDFs and photos — deleted after extraction
+Real-time
+Supabase Realtime
+Unit-by-unit progressive rendering as pipeline completes, free and built in
+Cache
+Upstash Redis
+Frequently accessed papers cached, 10k requests/day free
+Observability
+Component
+Choice
+Reason
+Error Tracking
+Sentry
+Free up to 5k errors/month, full stack traces
+Product Analytics
+PostHog
+Free up to 1M events/month, student behaviour insights
+AI Models — Tiered by Task Criticality + Free Tier Maximisation
+Not every agent needs the same model quality. Gemini 2.0 Flash is the best writer — but it's also the most expensive. The strategy: use Gemini 2.0 Flash for ALL quality-critical roles (Writer, Critic, Mapper, Paper DNA) — all FREE via Google AI Studio.
+5 Providers. 3 are free. 1 is near-free. 1 is paid only where it matters.
+Tier 1 — Quality-Critical (Gemini 2.0 Flash) — FREE via Google AI Studio:
+Agent
+Task
+Why Gemini 2.0 Flash
+Agent 5 — Writer
+Core note content generation
+THE product. Best structured JSON output. No compromise.
+Agent 8 — Critic
+DU-specific constitutional review
+Must deeply understand exam compliance nuances
+Gemini 2.0 Flash is used for exactly 2 agent types (~24-32 calls). Everything else is free or near-free.
+Tier 2 — Reasoning Tasks (Gemini 2.5 Pro) — FREE (5 RPM, 50-100 RPD):
+Agent
+Task
+Why Gemini Pro
+Agent 2 — Researcher
+Read syllabus + PYQ PDFs
+Only model with native PDF upload (Files API)
+Agent 3 — Paper DNA
+Pattern analysis across PYQ years
+Strong reasoning, free. 2-3 calls fits within rate limit
+Agent 4 — Mapper
+Dependency analysis + cycle detection
+Complex reasoning task, Gemini Pro handles well
+Agent 7 — Proof Verifier
+Verify logical steps in proofs
+Strong mathematical reasoning
+Gemini Pro free tier: 5 RPM, 50-100 RPD. These agents make ~6-8 total calls — easily within limits.
+Tier 3 — Execution Tasks (Gemini 2.5 Flash) — FREE (15 RPM, 1500 RPD):
+Agent
+Task
+Why Flash is sufficient
+Agent 9 — Rewriter
+Apply field-level diffs from Critic
+Following explicit instructions, not reasoning
+Agent 10 — Final Examiner
+PYQ coverage checking
+Mechanical comparison of lists
+Agent 11 — Patcher
+Add missing PYQ entries / fields
+Structured additions to existing content
+Agent 11b — Post-patch regen
+Regenerate 3 summary fields
+Short synthesis of existing content
+Unit Summary generation
+Conceptual summary + checklist
+Summarising already-written topics
+Problem Set generation
+Compile questions + write answers
+Structured question compilation
+Gemini Flash free tier: 15 RPM, 1500 RPD, 1M TPM. These agents make ~12-16 calls — nowhere near the limit.
+Tier 4 — Mechanical / Verification (Groq + Cerebras) — FREE:
+Provider
+Agent
+Free Tier
+Groq
+Agent 2b — Researcher Verifier
+30 RPM, fast inference
+Groq
+Agent 2c — PYQ Normaliser
+Llama 3 — standardise format
+Groq
+Agent 6 — Coverage Checker
+String matching syllabus vs notes
+Groq
+Agent 9b — Micro-validator
+Re-check patched fields only
+Groq
+Agent 12 — Consistency Checker
+Notation, definition, year checks
+Cerebras
+Agent 7 — Numerical Verifier
+1M tokens/day, 30 RPM, ~2600 tok/s
+Cerebras
+Groq overflow / fallback
+If Groq rate limits hit, Cerebras picks up
+Cerebras: 1M tokens/day free, 30 RPM, no credit card required, OpenAI-compatible API. Runs Llama 4 Scout + Qwen3. Ultra-fast (~2600 tokens/sec). Perfect for numerical verification where speed matters.
+Provider Summary
+Provider
+Models Used
+Free Tier
+Credit Card Required
+API Compatibility
+Gemini 2.0 Flash (Primary free-tier for quality tasks)
+Gemini 2.0 Flash
+Free tier (AI Studio)
+Yes
+google-generativeai SDK
+Google
+Gemini 2.5 Pro, 2.5 Flash
+Pro: 5 RPM / 50-100 RPD. Flash: 15 RPM / 1500 RPD
+No
+Google AI SDK
+Groq
+Llama 3, Mixtral
+30 RPM
+No
+OpenAI-compatible
+Cerebras
+Llama 4 Scout, Qwen3
+1M tokens/day, 30 RPM
+No
+OpenAI-compatible
+DeepSeek (optional backup)
+V3, R1
+5M tokens on signup (30-day expiry)
+No
+OpenAI-compatible
+DeepSeek as fallback: If API costs become a concern during heavy prompt tuning, DeepSeek V3 ($0.14/M input, $0.28/M output) can temporarily replace Gemini 2.0 Flash for Writer testing iterations. It's ~50x cheaper. Quality is lower but sufficient for iterating on prompt structure. Switch back to Gemini 2.0 Flash for final runs.
+Cost Per Clean Run (4-unit, ~14-topic paper)
+Provider
+Tier
+Calls
+Est. Cost
+Gemini 2.5 Pro (free)
+2
+6-8
+$0.00
+Gemini 2.5 Flash (free)
+3
+12-16
+$0.00
+Groq (free)
+4
+8-12
+$0.00
+Cerebras (free)
+4
+4-6
+$0.00
+Gemini 2.0 Flash (paid)
+1
+24-32
+~$0.80-1.50
+Total per clean run
+
+~54-74 calls
+~$0.80-1.50
+With prompt caching (Writer + Critic): The Writer's invariant system prompt (~2,000 tokens) is cached across all 12-16 topic calls. The Critic's constitutional document (~1,500 tokens) is cached similarly. Total savings: ~50K input tokens per run. Reduces Sonnet cost by ~15-20%.
+Budget for first paper (including 5-10 prompt tuning iterations): ~$8-15. Use DeepSeek V3 for early prompt iterations, switch to Gemini 2.0 Flash for final quality runs.
+Total API keys needed: 3 required (Google, Groq, Cerebras) + 1 optional (DeepSeek).
+No Docker. No Temporal. No separate auth. No search layer yet.
+These get added when there is a real reason — real users, real scale. Right now the only question is whether the pipeline produces notes worth studying from.
+6. The Project Folder Structure
+Defined before the first line of code is written. Every file has a known location. No decisions made mid-build.
+studyai/
+
+├── backend/
+
+│   ├── main.py                          ← FastAPI app entry point
+
+│   ├── pipeline/
+
+│   │   ├── orchestrator.py              ← Runs the full pipeline
+
+│   │   ├── agents/
+
+│   │   │   ├── 01_decoder.py
+
+│   │   │   ├── 02_researcher.py
+
+│   │   │   ├── 02b_researcher_verifier.py
+
+│   │   │   ├── 02c_pyq_normaliser.py
+
+│   │   │   ├── 03_paper_dna/
+
+│   │   │   │   ├── structural_dna.py
+
+│   │   │   │   ├── topic_dna.py
+
+│   │   │   │   ├── language_dna.py
+
+│   │   │   │   ├── combination_dna.py
+
+│   │   │   ├── 04_mental_model_mapper.py
+
+│   │   │   ├── 05_writer.py
+
+│   │   │   ├── 06_coverage_checker.py
+
+│   │   │   ├── 07_verifier.py
+
+│   │   │   ├── 08_critic.py
+
+│   │   │   ├── 09_rewriter.py
+
+│   │   │   ├── 09b_micro_validator.py
+
+│   │   │   ├── 10_final_examiner.py
+
+│   │   │   ├── 11_patcher.py
+
+│   │   │   ├── 11b_post_patch_regenerator.py
+
+│   │   │   ├── 12_consistency_checker.py
+
+│   │   ├── prompts/
+
+│   │   │   ├── writer_invariant.txt     ← cached system prompt prefix
+
+│   │   │   ├── writer_variant.py        ← dynamic prompt suffix per topic
+
+│   │   │   ├── critic_constitution.txt  ← DU-specific constitutional document
+
+│   │   │   ├── researcher.txt
+
+│   │   │   ├── paper_dna_topic.txt
+
+│   │   │   ├── paper_dna_language.txt
+
+│   │   │   ├── mapper.txt
+
+│   │   │   ├── final_examiner.txt
+
+│   │   │   ├── patcher.txt
+
+│   │   │   ├── proof_verifier.txt
+
+│   │   ├── schemas/
+
+│   │   │   ├── topic_schema.json        ← exact JSON output schema for Writer
+
+│   │   │   ├── unit_schema.json
+
+│   │   │   ├── paper_dna_schema.json
+
+│   │   │   ├── diff_schema.json         ← Critic output format
+
+│   ├── database/
+
+│   │   ├── client.py                    ← Supabase client
+
+│   │   ├── queries.py                   ← all DB reads and writes
+
+│   │   ├── migrations/
+
+│   │   │   ├── 001_initial_schema.sql   ← complete schema applied once
+
+│   ├── utils/
+
+│   │   ├── pdf_detector.py              ← PDF type detection
+
+│   │   ├── latex_formatter.py           ← LaTeX syntax helpers
+
+│   │   ├── svg_library.py               ← SVG diagram retrieval from library
+
+│   │   ├── cycle_detector.py            ← dependency cycle detection
+
+│   │   ├── tier_classifier.py           ← documentation tier logic
+
+│   │   ├── depth_signal.py              ← depth signal hierarchy
+
+│   │   ├── textbook_resolver.py         ← primary textbook resolution per UPC
+
+│   │   ├── rate_limiter.py              ← per-provider concurrency + backoff
+
+│   │   ├── cost_tracker.py              ← tracks API spend per run, enforces kill switch
+
+│   ├── source_map/
+
+│   │   ├── master_source_map.json       ← all DU department URLs
+
+│   │   ├── upc_registry.json            ← all known UPCs with full metadata
+
+│   │   ├── textbook_registry.json       ← prescribed books per UPC
+
+│   ├── source_pdfs/                      ← manually placed PDFs (not committed to git)
+
+│   │   ├── {upc}/
+
+│   │   │   ├── syllabus.pdf
+
+│   │   │   ├── pyq_2023.pdf
+
+│   │   │   ├── pyq_2024.pdf
+
+│   ├── requirements.txt
+
+│   ├── .env                             ← never committed to git
+
+│
+
+├── frontend/
+
+│   ├── app/
+
+│   │   ├── page.tsx                     ← UPC entry landing page
+
+│   │   ├── paper/[upc]/
+
+│   │   │   ├── page.tsx                 ← paper overview + tier badge
+
+│   │   │   ├── unit/[unitId]/
+
+│   │   │   │   ├── page.tsx             ← unit view with all topics
+
+│   │   ├── pipeline/[upc]/
+
+│   │   │   ├── page.tsx                 ← live pipeline progress view
+
+│   ├── components/
+
+│   │   ├── notes/
+
+│   │   │   ├── RapidRevisionCard.tsx
+
+│   │   │   ├── DefinitionBlock.tsx
+
+│   │   │   ├── CoreConceptBlock.tsx
+
+│   │   │   ├── ExampleBlock.tsx
+
+│   │   │   ├── DiagramBlock.tsx
+
+│   │   │   ├── ExaminersNoteBlock.tsx
+
+│   │   │   ├── CommonMistakesBlock.tsx
+
+│   │   │   ├── AnswerWritingTechniqueBlock.tsx
+
+│   │   │   ├── PYQBlock.tsx
+
+│   │   │   ├── QuickChecksBlock.tsx
+
+│   │   │   ├── ConnectsToBlock.tsx
+
+│   │   │   ├── FormulaSheet.tsx
+
+│   │   │   ├── DiagramReferenceSheet.tsx
+
+│   │   │   ├── KeyTermsSheet.tsx
+
+│   │   │   ├── ProblemSet.tsx
+
+│   │   ├── pipeline/
+
+│   │   │   ├── PipelineProgressView.tsx
+
+│   │   │   ├── AgentStatusCard.tsx
+
+│   │   │   ├── UnitProgressBar.tsx
+
+│   │   ├── ui/
+
+│   │   │   ├── FieldFlagButton.tsx
+
+│   │   │   ├── Last4HoursToggle.tsx
+
+│   │   │   ├── PYQSubmissionBanner.tsx
+
+│   │   │   ├── TierBadge.tsx
+
+│   │   │   ├── VerifiedBadge.tsx
+
+│   │   │   ├── PartialDeliveryNotice.tsx
+
+│   ├── lib/
+
+│   │   ├── supabase.ts
+
+│   │   ├── queries.ts
+
+│   │   ├── katex.ts                     ← KaTeX render helpers
+
+│   │   ├── sessions.ts                  ← anonymous session management
+
+│   ├── package.json
+
+│   ├── tailwind.config.ts
+
+│   ├── next.config.ts
+
+│
+
+├── diagrams/
+
+│   ├── life_sciences/
+
+│   │   ├── mitochondria.svg
+
+│   │   ├── chloroplast.svg
+
+│   │   ├── nephron.svg
+
+│   │   ├── cardiac_cycle.svg
+
+│   │   └── ...                          ← pre-built verified SVG library
+
+│   ├── index.json                       ← diagram name → file path mapping
+
+│
+
+├── docs/
+
+│   ├── StudyAI_FINAL_PLAN.md            ← this document
+
+│   ├── quality_benchmark.md             ← Section 24 of this plan
+
+│   ├── prompt_specifications.md         ← Section 25 of this plan
+
+│   ├── failure_handling.md              ← Section 26 of this plan
+
+│
+
+├── .gitignore
+
+├── README.md
+7. The Architecture — How Everything Connects
+Student (Next.js on Vercel)
+
+         |
+
+         | submits UPC
+
+         ↓
+
+FastAPI (Railway)
+
+         |
+
+         | checks pipeline cache (is this UPC already generating?)
+
+         | if yes → subscribe to existing Realtime channel
+
+         | if no → triggers new pipeline, returns pipeline_id immediately
+
+         |
+
+         ↓
+
+Pipeline Orchestrator (FastAPI background task)
+
+         |
+
+         | Agents 1-4 run sequentially (Decoder → Researcher → DNA → Mapper)
+
+         | Agent 4 outputs independence map
+
+         | Independent units fire Writer agents in parallel
+
+         | Each agent writes to Supabase as it completes
+
+         |
+
+         ↓
+
+Supabase PostgreSQL
+
+         |
+
+         | unit status: queued → generating → verifying → complete / failed
+
+         |
+
+         ↓ (Supabase Realtime pushes status changes)
+
+         |
+
+Student sees live pipeline progress
+
+Unit renders immediately when status flips to complete
+
+Student reads Unit 1 while Units 3 and 4 are still generating
+
+If a unit fails → PartialDeliveryNotice renders with retry status
+Core principle: The pipeline runs in the background. The student never waits for full completion before seeing anything. First unit renders in approximately 90 seconds. Full paper ready in approximately 4 minutes.
+8. The Database Schema — Complete Field Specification
+Every table. Every field. Named and typed. No ambiguity. Every agent writes to specific fields. Every frontend component reads specific fields. Nothing is unstructured.
+v1 convention: All generated_at, created_at, and submitted_at columns have DEFAULT NOW(). All foreign keys use ON DELETE CASCADE.
+papers
+sql
+upc                        TEXT PRIMARY KEY
+
+department                 TEXT
+
+programme                  TEXT
+
+semester                   INTEGER
+
+paper_name                 TEXT
+
+paper_type                 TEXT        -- theory/numerical/mixed/life_sciences
+
+diagram_heavy              BOOLEAN
+
+practical_component        BOOLEAN
+
+syllabus_url               TEXT
+
+syllabus_last_verified     TIMESTAMP
+
+syllabus_hash              TEXT        -- for weekly change detection
+
+syllabus_confidence        TEXT        -- high/medium/low (from PDF type detection)
+
+pyq_years_available        INTEGER[]
+
+documentation_tier         INTEGER     -- 1/2/3/4 (see Section 20)
+
+primary_textbook           TEXT        -- resolved primary textbook per UPC
+
+all_prescribed_textbooks   JSONB       -- array of all textbooks across colleges
+
+paper_dna                  JSONB       -- all four DNA analyses (structural, topic, language, combination)
+
+pipeline_status            TEXT        -- queued/generating/complete/failed/partial
+
+generated_at               TIMESTAMP DEFAULT NOW()
+
+last_updated               TIMESTAMP DEFAULT NOW()
+
+english_content_ready      BOOLEAN DEFAULT false
+
+hindi_content_ready        BOOLEAN DEFAULT false  -- Phase 2, column exists from day one
+Removed fields: credit_structure (not used by any agent), note_style_category (use paper_type directly).
+Added field: paper_dna JSONB — Paper DNA is paper-level, not unit-level. Topic DNA entries already have a unit field for per-unit filtering.
+units
+sql
+id                         UUID PRIMARY KEY DEFAULT gen_random_uuid()
+
+upc                        TEXT FOREIGN KEY → papers ON DELETE CASCADE
+
+unit_number                INTEGER
+
+unit_name                  TEXT
+
+estimated_study_hours      FLOAT
+
+marks_weightage            INTEGER
+
+status                     TEXT        -- queued/generating/verifying/complete/failed
+
+conceptual_summary         JSONB       -- { what_this_unit_is_about, how_topics_connect, unifying_idea }
+
+unit_closer                JSONB       -- { exam_ready_checklist: string[] }
+
+generated_at               TIMESTAMP DEFAULT NOW()
+
+last_updated               TIMESTAMP DEFAULT NOW()
+Changes from v3: paper_dna moved to papers table (DNA is paper-level). conceptual_summary changed from TEXT to JSONB (it holds structured data). unit_closer no longer contains the summary fields — those are in conceptual_summary.
+topics
+sql
+id                         UUID PRIMARY KEY
+
+unit_id                    UUID FOREIGN KEY → units ON DELETE CASCADE
+
+upc                        TEXT FOREIGN KEY → papers ON DELETE CASCADE
+
+topic_name                 TEXT
+
+topic_number               INTEGER
+
+difficulty                 TEXT        -- easy/medium/hard
+
+estimated_study_minutes    INTEGER
+
+priority                   TEXT        -- high/medium/low/never_asked
+
+-- marks_weightage removed: use priority (from Topic DNA) instead. Marks vary by year.
+
+prerequisite_topic_id      UUID nullable FOREIGN KEY → topics
+
+prerequisite_bridge        TEXT        -- specific concept bridge sentence
+
+status                     TEXT
+
+connects_to_topic_id       UUID nullable
+
+connects_to_reason         TEXT
+
+split_generation           BOOLEAN     -- true if topic required two Writer calls
+
+depth_signal_source        TEXT        -- pyq/cbcs_estimate/syllabus_hours
+
+ 
+rapid_revision             JSONB
+
+  definition_one_line      TEXT
+
+  key_formula_or_concept   TEXT
+
+  examiner_pattern         TEXT        -- exact phrasing DU uses
+
+ 
+definition                 TEXT        -- clean, under 40 words, DU-acceptable
+
+core_concept               TEXT
+
+analogy                    TEXT        -- verified correct
+
+analogy_verified           BOOLEAN
+
+ 
+examples                   JSONB[]
+
+  type                     TEXT        -- numerical/theory/biological
+
+  content                  TEXT
+
+  steps                    JSONB[]
+
+    step_number            INTEGER
+
+    step_text              TEXT        -- LaTeX formatted where needed
+
+    units_shown            BOOLEAN
+
+  answer                   TEXT        -- LaTeX formatted where needed
+
+  answer_boxed             BOOLEAN
+
+  common_error             TEXT
+
+  verified                 BOOLEAN
+
+  verification_mode        TEXT        -- numerical_single/numerical_dual/proof/none
+
+  verification_passed      BOOLEAN
+
+ 
+diagram_block              JSONB nullable
+
+  diagram_name             TEXT
+
+  svg_source               TEXT        -- library/generated
+
+  svg_file_path            TEXT nullable -- path in diagrams/ library
+
+  svg_code                 TEXT nullable -- only if generated (simple structures)
+
+  labeled_parts            JSONB[]
+
+    part_number            INTEGER
+
+    part_name              TEXT
+
+    explanation            TEXT
+
+    du_expected_label      TEXT
+
+  marks_value              INTEGER
+
+  draw_instructions        TEXT
+
+  source_book              TEXT
+
+  source_edition           TEXT
+
+  source_page              INTEGER
+
+ 
+examiners_note             TEXT
+
+examiners_note_pyq_refs    TEXT[]
+
+instruction_word_frequency JSONB
+
+ 
+common_mistakes            JSONB[]
+
+  description              TEXT
+
+  marks_impact             TEXT
+
+ 
+answer_writing_technique   JSONB nullable
+
+  applicable               BOOLEAN
+
+  min_marks_threshold      INTEGER
+
+  structure                TEXT[]
+
+  marks_distribution       JSONB
+
+  word_count_target        INTEGER     -- calibrated to DU marks convention
+
+ 
+pyqs                       JSONB[]
+
+  year                     INTEGER
+
+  year_confirmed           BOOLEAN     -- confirmed from document or student-tagged
+
+  year_confidence          TEXT        -- confirmed/unconfirmed
+
+  source                   TEXT        -- exam.du.ac.in/college/student_submitted
+
+  marks                    INTEGER
+
+  question_text            TEXT
+
+  key_steps                TEXT[]
+
+  instruction_word         TEXT
+
+  recency_weight           FLOAT       -- 1.5x for most recent year
+
+ 
+quick_checks               TEXT[3]
+
+flagged_fields             JSONB
+
+patched                    BOOLEAN     -- true if Agent 11 modified this topic
+
+generated_at               TIMESTAMP
+
+last_updated               TIMESTAMP
+problem_sets
+sql
+id                         UUID PRIMARY KEY
+
+unit_id                    UUID FOREIGN KEY → units
+
+questions                  JSONB[]
+
+  number                   INTEGER
+
+  source_type              TEXT        -- pyq/textbook
+
+  source_year              INTEGER nullable
+
+  source_book              TEXT nullable
+
+  source_exercise          TEXT nullable
+
+  marks                    INTEGER
+
+  question_text            TEXT
+
+  answer                   JSONB
+
+    type                   TEXT        -- numerical/theory/derivation/diagram
+
+    full_answer            TEXT
+
+    steps                  TEXT[]
+
+    word_count             INTEGER
+
+    common_error_callout   TEXT
+formula_sheets
+sql
+id                         UUID PRIMARY KEY
+
+unit_id                    UUID FOREIGN KEY → units
+
+sheet_type                 TEXT        -- formula/diagram_reference/key_terms
+
+content                    JSONB[]
+
+  item                     TEXT        -- LaTeX formatted for formulas
+
+  application_condition    TEXT
+
+  marks_value              INTEGER nullable
+pyq_submissions
+sql
+id                         UUID PRIMARY KEY
+
+upc                        TEXT
+
+year_tagged_by_student     INTEGER
+
+year_extracted_from_doc    INTEGER nullable
+
+year_confidence            TEXT        -- confirmed/unconfirmed
+
+file_url                   TEXT        -- Supabase Storage (deleted after extraction)
+
+file_deleted               BOOLEAN
+
+extracted_json             JSONB       -- normalised extraction, permanently stored
+
+verification_status        TEXT        -- pending/verified/failed/manual_review
+
+quality_scores             JSONB
+
+  scan_readability         BOOLEAN
+
+  completeness             BOOLEAN
+
+  upc_match                BOOLEAN
+
+  failure_reason           TEXT nullable
+
+reward_issued              BOOLEAN
+
+reward_type                TEXT        -- early_access/cross_paper_credit
+
+reward_paper_upc           TEXT nullable
+
+submitted_at               TIMESTAMP
+syllabus_change_log
+sql
+id                         UUID PRIMARY KEY
+
+upc                        TEXT FOREIGN KEY → papers
+
+detected_at                TIMESTAMP
+
+old_hash                   TEXT
+
+new_hash                   TEXT
+
+diff_summary               JSONB
+
+  topics_added             TEXT[]
+
+  topics_removed           TEXT[]
+
+  units_changed            TEXT[]
+
+  hours_changed            JSONB
+
+regeneration_status        TEXT
+
+students_notified          BOOLEAN
+field_flags
+sql
+id                         UUID PRIMARY KEY
+
+topic_id                   UUID FOREIGN KEY → topics
+
+field_name                 TEXT
+
+flag_type                  TEXT        -- seems_wrong/outdated/missing_something
+
+student_note               TEXT nullable
+
+session_id                 TEXT        -- anonymous session reference
+
+flags_in_session           INTEGER     -- rate limiting counter
+
+groq_verdict               TEXT        -- confirmed/unconfirmed/manual
+
+status                     TEXT        -- open/under_review/resolved
+
+resolved_at                TIMESTAMP nullable
+sessions
+sql
+id                         UUID PRIMARY KEY
+
+session_token              TEXT UNIQUE
+
+created_at                 TIMESTAMP
+
+last_active                TIMESTAMP
+
+papers_viewed              TEXT[]      -- array of UPCs
+session_paper_views
+sql
+id                         UUID PRIMARY KEY
+
+session_id                 UUID FOREIGN KEY → sessions
+
+upc                        TEXT
+
+first_viewed               TIMESTAMP
+
+last_viewed                TIMESTAMP
+
+units_completed            INTEGER[]
+
+pyqs_attempted             INTEGER
+9. The 12-Agent Pipeline — Full Detail
+Agent 1 — Decoder
+Model: None. Rule-based database lookup. Zero AI cost.
+Receives: UPC string.
+Disambiguation step — critical addition:
+Before any lookup, the Decoder checks if the UPC maps to multiple programme combinations in the UPC registry. If it does, it returns a disambiguation prompt to the frontend — a single dropdown: "This paper exists in multiple programmes. Which are you enrolled in?" One tap. Then proceeds with the correct programme context.
+Does: Looks up master_source_map.json and upc_registry.json. Validates UPC format. Outputs all paper metadata including documentation_tier from tier_classifier.py.
+Outputs: Paper metadata JSON. Writes to papers table. Sets pipeline_status to "queued."
+Fails if: UPC not found in registry. Returns: "This UPC is not in our system yet. Check your paper code or submit it for addition."
+Agent 2 — Researcher
+Model: Gemini 2.5 Pro.
+v1 Critical Simplification — Manual PDF Input:
+Gemini cannot browse the web, download files, or search exam.du.ac.in. For v1 (personal testing), all source PDFs are placed manually in the project:
+Syllabus PDF → source_pdfs/{upc}/syllabus.pdf
+PYQ papers → source_pdfs/{upc}/pyq_2023.pdf, source_pdfs/{upc}/pyq_2024.pdf, etc.
+The pipeline reads from these local paths. No web scraping. This is sufficient for testing 1-2 papers.
+PDF Type Detection — before any extraction:
+pdf_detector.py identifies what Gemini is actually receiving:
+Text PDF → extract directly, confidence: high
+Scanned/image PDF → enhanced OCR pass, confidence: medium, flag for human review if below threshold
+Combined university document → extract only the section matching the UPC paper name
+Low confidence extractions set syllabus_confidence to "low" on the papers table and trigger a human review flag before pipeline continues.
+Call 1 — Syllabus extraction: Full PDF in one pass. Outputs structured JSON: every unit, every subtopic, prescribed books, suggested books, hours per unit, practical components.
+Call 2 — PYQ reading: Reads each PYQ PDF from the local source_pdfs/{upc}/ directory. Extracts raw question text. Attempts year extraction from each document (not just relying on filename).
+Researcher Verification Pass — Groq Llama 3:
+After Gemini outputs the syllabus JSON, a Groq call receives the raw PDF text and the structured JSON side by side. Mechanical checks only:
+Every unit name in JSON appears in PDF?
+Every subtopic in JSON appears under its correct unit in PDF?
+Any units in PDF missing from JSON?
+Binary flags. If any fire → Agent 2 re-runs before pipeline continues. Prevents the entire pipeline building on a corrupted syllabus.
+Total calls: 1-3 Gemini (syllabus + each PYQ PDF) + 1 Groq verification.
+Agent 2c — PYQ Normaliser
+Model: Groq Llama 3. Runs immediately after Agent 2.
+Purpose: DU question papers are not standardised in format across colleges or years. This agent normalises all PYQ papers into a consistent JSON format before Paper DNA runs. Without this, Paper DNA quality varies wildly depending on which college's paper format it sees.
+Receives: All raw PYQ papers from Agent 2.
+Does: Standardises every PYQ paper into:
+json
+{
+
+  "year": 2024,
+
+  "year_confirmed": true,
+
+  "questions": [
+
+    {
+
+      "number": 1,
+
+      "total_marks": 6,
+
+      "parts": [
+
+        {
+
+          "part": "a",
+
+          "marks": 2,
+
+          "instruction_word": "define",
+
+          "topic_hint": "Cauchy sequence"
+
+        },
+
+        {
+
+          "part": "b",
+
+          "marks": 4,
+
+          "instruction_word": "prove",
+
+          "topic_hint": "Cauchy sequence boundedness"
+
+        }
+
+      ]
+
+    }
+
+  ]
+
+}
+Reconciles sub-parts. Attributes marks correctly. Standardises instruction words (what is / define / state → all standardised to their canonical form). Flags any question where year cannot be confirmed from the document text.
+Output: Normalised PYQ collection. This is what all downstream agents use — not the raw papers.
+Agent 3 — Paper DNA Generator
+Model: Gemini 2.0 Flash (2 calls). No Groq call needed.
+Paper DNA is four distinct analyses producing four structured JSON objects. Not one monolithic report.
+Analysis 1 — Structural DNA (No AI call — computed from normalised PYQ data)
+Total marks, section breakdown, choice structure, time per section, MCQ component, paper format ratios. This is a deterministic aggregation of the normalised PYQ collection from Agent 2C — not an AI inference. Code computes it directly from the JSON.
+Analysis 2 — Topic DNA (Gemini 2.0 Flash)
+Per topic across all normalised PYQ years: appearances, marks value each time, question type each time, which unit it appeared in, marks migration pattern (increasing/stable/decreasing), never-asked flag, recency weight (1.5x for most recent year's questions).
+Recency weighting: Questions appearing for the first time in the most recent available year receive 1.5x weight in priority scoring. A question appearing in 2024 for the first time is more likely to appear in 2025 than a question that appeared in 2022 but not since. Recent appearances are stronger signals, not weaker ones.
+Analysis 3 — Language DNA (Gemini 2.0 Flash, combined with Topic DNA call)
+Every instruction word extracted and counted. Frequency of each. Which instruction words appear with which topics. Exact examiner vocabulary per topic — specific phrases DU uses repeatedly. This feeds the Examiner's Note field directly.
+Analysis 4 — Combination DNA (Gemini 2.0 Flash, separate call)
+Which topics DU never asks alone. Which topics always carry a diagram requirement. Which topics always carry a numerical component even when phrased theoretically. Which sub-topics DU combines into one question across years. These combination patterns are as important as individual topic patterns.
+Output: Four structured JSON objects written to papers.paper_dna.
+Agent 4 — Mental Model Mapper
+Model: Gemini 2.0 Flash (Tier 1). One call.
+Receives: Syllabus JSON + Paper DNA (Topic DNA specifically — so the Mapper knows which topics are high priority and can optimise the sequence accordingly).
+Cycle Detection — critical addition:
+Mathematical and scientific subjects frequently have circular conceptual dependencies. Before outputting the sequence, cycle_detector.py runs on the dependency graph. If a cycle is detected (Topic A requires Topic B, Topic B requires Topic C, Topic C requires Topic A), it resolves by identifying the most foundational topic in the cycle (typically the definition-level topic), marking it as the entry point, and adding a note: "Mutual dependency exists — introduce this topic first with intuitive definition, return for formal rigour after adjacent topics are covered."
+Concept Bridges — critical addition:
+For every prerequisite link, the output is not just "Topic B requires Topic A." It outputs:
+Which specific concept from the prerequisite is needed
+Why it is needed
+The one-line bridge sentence connecting them
+This bridge sentence is the opening of the dependent topic in the Writer. The student never hits a concept cold.
+Outputs: Dependency graph JSON + optimised sequence + independence map (which units and topics can be processed in parallel) + concept bridge sentences + split_generation flags for complex topics.
+Agent 5 — Writer
+Model: Gemini 2.0 Flash.
+One call per topic — not per unit.
+Attention degradation across a long unit-level call means Topic 6 gets worse treatment than Topic 1. Every topic gets its own focused call. Uniform quality across all topics.
+Each Writer call receives:
+This topic's syllabus content only
+This topic's Paper DNA (Topic DNA, Language DNA, Combination DNA entries only)
+The concept bridge from Agent 4
+The two adjacent topics for context only
+Note style category for this paper
+Diagram-heavy flag
+Primary textbook for this UPC
+Whether split_generation is flagged for this topic
+Mandatory scratchpad reasoning before any field is written:
+What is this topic really about in one sentence?
+How does DU actually test this based on Paper DNA?
+What does a full-marks student know that a passing student doesn't?
+What is the single most important thing to communicate?
+This costs 150-200 extra tokens per topic. The quality improvement is significant.
+Output format: Strict JSON matching the topics schema exactly. Not prose. Not markdown. Every field a discrete value from the first moment of generation.
+Depth calibration by marks:
+2-mark questions only → definition + one example only
+3-4 mark questions → definition + concept + one example
+6-mark questions → full treatment: definition, concept, analogy, two examples, answer writing technique, common mistakes, answer writing technique
+Never-asked → single line: "On syllabus. Has not appeared in any NEP DU exam. Definition only."
+LaTeX requirement:
+All mathematical expressions output in LaTeX syntax using $ delimiters for inline and $$ for display. The Writer prompt enforces this explicitly. Example: "A sequence ${x_n}$ is Cauchy if for every $\varepsilon > 0$ there exists $N \in \mathbb{N}$ such that $|x_n - x_m| < \varepsilon$ for all $n, m > N$."
+Prompt caching:
+The system prompt is split into invariant (cached) and variant (not cached) portions. The invariant portion — output schema, constitutional constraints, LaTeX requirements, depth calibration rules, scratchpad requirement, word economy rule — is kept static across all topic calls. Gemini 2.0 Flash handles all per-topic calls efficiently at zero cost via Google AI Studio.
+Split generation for complex topics:
+Topics flagged split_generation = true by Agent 4 (estimated output exceeding 6,000 tokens) are generated in two calls: Content call (all text fields) and Examples call (worked examples and PYQs only). Orchestrator combines. Each call stays within comfortable token limits.
+Parallelisation:
+Topics within a unit with no inter-topic dependencies fire simultaneously. A six-topic unit where topics 1, 3, and 5 are independent fires three Writer calls in parallel.
+Unit-Level Generation (after all topics in a unit complete):
+After all topics in a unit pass through the Writer, two additional calls fire per unit (both use Gemini 2.0 Flash — Tier 2):
+Problem Set generation — Produces the 10-question problem set (reduced from 20 for v1). Sources questions from PYQs first. Remaining questions are generated by the AI from the topic content (the pipeline does not have textbook content — only the textbook name). Full answers required.
+Unit Summary generation — Produces conceptual_summary, unit_closer.exam_ready_checklist, and the appropriate sheet (formula_sheet / diagram_reference_sheet / key_terms_sheet based on paper_type).
+These write to the problem_sets, formula_sheets, and units tables respectively.
+Agent 6 — Semantic Coverage Checker
+Model: Groq Llama 3 (Tier 3). Mechanical, fast, free.
+Two-directional coverage check (v1 — string matching, no embeddings):
+Direction 1 — Syllabus to Notes: All syllabus topics covered in notes? Checks every syllabus subtopic has a corresponding topic in the generated notes. Flags any syllabus topic not adequately addressed.
+Direction 2 — Notes to Syllabus: All notes content traceable to syllabus? Flags content not traceable to any syllabus topic. Gemini 2.0 Flash has broad knowledge and may write correct information not part of this specific paper. Irrelevant content is not neutral — it costs the student study time on content that will not be examined.
+Contextual bridge exception — critical addition:
+Content in the prerequisite_bridge field and analogy field is explicitly excluded from the Direction 2 check. These fields are expected to contain material connecting to topics outside the immediate syllabus. Only definition, core_concept, and examples fields are checked for irrelevant content. The Coverage Checker is aware of the schema structure — not just checking prose against prose.
+Output: Coverage gaps (add these) + irrelevant content flags (remove these). Both fed to Agent 8.
+Agent 7 — Verifier
+Model: Groq Mixtral + Groq Llama 3 (numerical) / Gemini 2.0 Flash (proof and derivation).
+Two modes — paper type determines which fires per topic:
+Numerical Mode (Groq):
+For calculation-based topics. Groq Mixtral solves each worked example independently. Compares to notes answer. Standard verification for Medium and Low Priority topics. Dual verification (Mixtral + Llama 3) for High Priority numerical topics — both must agree. If they disagree with each other → manual review flag.
+Proof and Derivation Mode (Gemini 2.0 Flash) — critical addition:
+For proof-heavy papers (Real Analysis, Abstract Algebra, Pure Mathematics, theoretical Physics). The Numerical Verifier cannot verify proofs. A Gemini call checks:
+Does each logical step follow from the previous step?
+Are all assumed results either axioms, previously proven theorems, or syllabus-stated results?
+Is the conclusion valid from the final step?
+Any step that appears to be a logical jump without justification?
+Fires for High Priority proof topics only. Cost justified — a wrong proof in the notes is the worst possible content failure.
+Life Sciences diagram check:
+For diagram-heavy papers, checks that all labeled parts in the diagram block match the primary prescribed textbook. Wrong label names lose marks in DU even with correct placement.
+Agent 8 — Critic
+Model: Gemini 2.0 Flash.
+Receives: One topic at a time. One topic only.
+Has access to: The DU-specific constitutional document (critic_constitution.txt). Field-by-field specification. Not general quality rubric. DU-specific compliance.
+Constitutional document — field-by-field specification:
+Definition: Under 40 words? DU-acceptable for 2-mark question? No undefined terms a first-year student would not know?
+Core Concept: Uses an analogy? Analogy verifiably correct? Connects to prerequisite via concept bridge?
+Examples (numerical): Units shown on every intermediate step? Answer boxed? Common error callout present?
+Examples (theory): Matches how DU uses this concept in PYQs, not how textbook uses it?
+Examiner's Note: References specific PYQ pattern by year? Contains exact instruction word from Language DNA? Specifies what full marks includes that passing doesn't?
+Examiner's Note (proof topics — additional check): States exact hypothesis required before proof begins? Names most common logical error for this specific proof? Specifies expected proof technique? States exact concluding statement required?
+Answer Writing Technique: Present for all 6-mark topics? Specifies structure by sentence not just paragraph? Includes word count target?
+Quick Checks: All three answerable from notes content? At least one requires application not recall? None too easy?
+Rapid Revision: Contains minimum viable exam knowledge? Student who reads only this knows what they need for basic marks?
+LaTeX: All mathematical expressions in LaTeX syntax? No raw unicode math symbols?
+Output: Structured diff JSON only. No prose. Field-level corrections.
+json
+{
+
+  "topic_id": "uuid",
+
+  "corrections": [
+
+    {
+
+      "field": "definition",
+
+      "issue": "Contains undefined term 'eigenspace' without explanation",
+
+      "correction": "Remove 'eigenspace' or define it inline"
+
+    },
+
+    {
+
+      "field": "examples[0].steps[2].units_shown",
+
+      "issue": "Units missing from intermediate step 2",
+
+      "correction": "Add kg·m/s² after the force value"
+
+    }
+
+  ]
+
+}
+Agent 9 — Rewriter
+Model: Gemini 2.0 Flash.
+Receives: Only the flagged fields from Agent 8's diff JSON. Not the full topic. Not the full unit.
+Does: Makes targeted replacements. Updates database at field level. Does not touch unflagged content.
+Micro-validation after rewriting — critical addition:
+After patching, a lightweight Groq call re-checks only the patched fields against the constitutional document. Did the fix introduce a new violation? If yes → one more Rewriter pass. Maximum 2 micro-validation cycles per field. If it fails twice → manual review flag rather than infinite loop.
+This prevents the refinement loop from introducing new errors while fixing old ones.
+Agent 10 — Final Examiner
+Model: Gemini 2.5 Flash (Tier 3 — free). Coverage checking is mechanical comparison.
+Receives: All normalised PYQs + only Rapid Revision blocks and topic summaries.
+Check 1 — PYQ Coverage:
+Every question that has appeared in DU exams addressed in notes? Checks at summary level first. If gap found → requests full topic content for that specific topic only.
+Check 2 — Marks Coverage (critical addition):
+Total marks available across all PYQ papers. Total marks the notes adequately prepare the student for. Ratio must be above 90%. A topic can be present but treated too lightly. A 6-mark question requires: definition, full concept, worked example, answer writing technique, and at least one PYQ with key steps. Any missing → marks-incomplete flag.
+Recency weighting applied:
+Most recent year's questions receive 1.5x weight in coverage analysis. Ensures the most likely future exam content is covered to the highest standard.
+Output: Uncovered PYQ list + marks-incomplete topic list. Both fed to Agent 11.
+Agent 11 — Patcher
+Model: Gemini 2.5 Flash (Tier 3 — free). Structured additions to existing content.
+Receives: Uncovered PYQ list + marks-incomplete topic list + relevant topic sections only.
+Does: Adds what is missing. For uncovered PYQs — adds question to topic's PYQ array with correct year tag and key steps. For marks-incomplete topics — adds missing fields.
+Post-patch regeneration — critical addition:
+After patching a topic, a targeted Gemini 2.0 Flash micro-call re-generates only three fields for that topic: quick_checks, rapid_revision, and connects_to. These summary fields must reflect all content including patches.
+The unit's conceptual_summary is also re-generated if any topic in that unit was patched. Summary must reflect complete final state of the unit.
+One additional Gemini call per patched topic. One per patched unit. Prevents internal inconsistency after patching.
+Agent 12 — Consistency Checker
+Model: Groq Llama 3. Mechanical. Fast. Cheap.
+DU-specific checklist — not generic:
+Notation consistency: Same quantity uses different notation in same type of problem — flagged. Notation that varies by problem dimensionality or context is not flagged (scalar vs vector form in Physics is valid variation). The checker uses the accepted notation variations list from the paper type specification.
+Definition consistency: Term defined one way in Topic 2, different implication in Topic 7 — flagged.
+Unit consistency in numericals: Mixed SI and CGS across topics without explicit conversion — flagged. Most common source of wrong answers in Physics and Chemistry.
+PYQ year consistency: Same question tagged as two different years — flagged immediately.
+Priority tag consistency: Topic tagged High Priority but PYQ coverage lower than a Medium Priority topic — flagged for review.
+Never-asked tag consistency: Topic tagged never-asked but appears in normalised PYQ collection — flagged immediately. Cannot have both.
+LaTeX consistency: Mathematical expressions using raw unicode symbols instead of LaTeX — flagged for reformatting.
+Output: Minor violations auto-patched by rule. Major violations returned to Agent 8 for that specific topic only.
+Total API Calls Per Paper (4-unit paper, clean run)
+Provider
+Tier
+Calls
+Cost
+Purpose
+Gemini 2.5 Pro
+2
+6-8
+FREE
+Syllabus + PYQ PDF reading + DNA (2) + Mapper (1) + Proof Verifier
+Gemini 2.0 Flash
+1
+24-32
+~$0.80-1.50
+Writer (~12-16) + Critic (~12-16)
+Gemini 2.5 Flash
+3
+12-16
+FREE
+Rewriter + Final Examiner + Patcher + Post-patch regen + Unit summaries (4) + Problem sets (4)
+Groq
+4
+8-12
+FREE
+Researcher verification + PYQ normalisation + Coverage + Consistency + Micro-validations
+Cerebras
+4
+4-6
+FREE
+Numerical verifier + Groq overflow
+TOTAL
+
+~54-74
+~$0.80-1.50
+
+v1 model strategy: Gemini 2.0 Flash ONLY for Writer + Critic. Gemini Pro (free) for reasoning tasks. Gemini Flash (free) for execution tasks. Groq + Cerebras (free) for mechanical verification. Structural DNA computed from normalised PYQ data — no AI call.
+Refinement cycles: Only topics that failed re-enter the loop. Passing topics are frozen. Second cycle costs roughly 10-15% of first cycle.
+10. The Parallel Processing Architecture
+The problem with sequential processing:
+Units generated sequentially means the student waits 5-7 minutes seeing nothing. Trust collapses before reading a word.
+Dependency-aware parallel processing:
+Agent 4 outputs the independence map. Units without inter-unit dependencies fire their Writer agents simultaneously. Within units, topics without inter-topic dependencies fire simultaneously.
+Timeline (realistic for v1):
+T+0s      UPC submitted
+
+T+60-90s  Agents 1-4 complete (Gemini PDF reading is ~15-30s per PDF)
+
+T+3-4min  First unit complete (all topics written + unit summary)
+
+T+4-5min  Second unit complete
+
+T+5-6min  Third unit complete
+
+T+6-7min  Fourth unit complete
+
+T+8-10min Verification + Critic + Consistency complete for all units
+Unit status drives frontend:
+Each unit has a status field. Frontend subscribes via Supabase Realtime. Unit renders the moment status flips to complete. Student starts reading at T+90s.
+Graceful partial delivery — critical addition:
+When a unit fails after retries are exhausted:
+Failed unit renders with: "This unit encountered an error and is being retried automatically."
+All successfully completed units remain fully accessible.
+If retry succeeds → unit renders, student notified.
+If retry fails 3 times → "This unit could not be generated. Flagged for manual review. All other units are available."
+The student never loses completed content. Never sees a frozen screen with no explanation. Partial delivery is always better than total silence.
+Rate Limiting and Concurrency Control
+rate_limiter.py enforces per-provider concurrency limits to avoid API rate limit errors:
+Provider
+Max Concurrent Calls
+Rate Limit
+Strategy
+| Google (Gemini 2.0 Flash) | 5 | ~60 RPM (free) | Semaphore. Writer + Critic queue behind it. |
+Google (Gemini Pro)
+2
+5 RPM (free)
+Sequential. DNA + Mapper + Proof Verifier.
+Google (Gemini Flash)
+4
+15 RPM (free)
+Separate semaphore. Higher throughput.
+Groq
+3
+30 RPM (free)
+Fast inference (~1-2s/call), queuing fine.
+Cerebras
+3
+30 RPM (free)
+Ultra-fast (~2600 tok/s), used for numericals.
+Backoff strategy: Exponential backoff with jitter on 429 (rate limit) responses. Base delay 2s, max 30s, max 3 retries per call before marking as failed.
+Provider failover: If Groq hits rate limits, overflow calls route to Cerebras automatically (both are OpenAI-compatible, same model family). If Gemini Pro hits the 5 RPM ceiling, the orchestrator waits rather than failing — Pro calls are few and non-urgent.
+Orchestrator State Tracking
+If the pipeline crashes mid-run and you restart, the orchestrator must know where to resume.
+Strategy: Before calling each agent, the orchestrator checks what data already exists in the database:
+Papers row exists with syllabus data? → Skip Agent 1-2.
+paper_dna field populated? → Skip Agent 3.
+Topics have dependency data? → Skip Agent 4.
+Topic content fields populated? → Skip Agent 5 for that topic.
+And so on for each agent.
+This is simpler than maintaining a separate pipeline_runs table — the database IS the state. If a field has data, that agent's work is done. If it's null, it needs to run.
+Manual override: orchestrator.py --force-rerun-from=5 forces re-execution from Agent 5 onwards, clearing downstream data.
+Cost Kill Switch
+cost_tracker.py counts every API call and estimates token spend:
+python
+MAX_API_CALLS_PER_RUN = 120      # hard limit
+
+MAX_ESTIMATED_COST_PER_RUN = 8.00  # USD, hard limit
+
+WARN_COST_THRESHOLD = 5.00         # USD, logs warning
+If either limit is hit, the pipeline halts immediately, saves all completed work to the database, and logs the reason. This prevents infinite retry loops from burning your API budget.
+Every API call logs: agent_name, model, input_tokens, output_tokens, latency_ms, success, retry_count, estimated_cost.
+11. The Paper DNA System — Four Analyses
+Structural DNA — Example Output (Groq)
+json
+{
+
+  "total_marks": 75,
+
+  "sections": [
+
+    {
+
+      "name": "Section A",
+
+      "type": "short_answer",
+
+      "marks_per_question": 3,
+
+      "total_questions": 5,
+
+      "attempt_all": true
+
+    },
+
+    {
+
+      "name": "Section B",
+
+      "type": "long_answer",
+
+      "marks_per_question": 6,
+
+      "total_questions": 8,
+
+      "attempt": 5
+
+    }
+
+  ],
+
+  "time_minutes": 180,
+
+  "mcq_component": false
+
+}
+Topic DNA — Example Output (Gemini 2.0 Flash)
+json
+{
+
+  "topic_name": "Eigenvalues and Eigenvectors",
+
+  "appearances": [
+
+    {"year": 2023, "marks": 6, "question_type": "calculate", "unit": 3},
+
+    {"year": 2024, "marks": 6, "question_type": "find", "unit": 3}
+
+  ],
+
+  "total_appearances": 2,
+
+  "marks_trend": "stable",
+
+  "priority": "high",
+
+  "never_asked": false,
+
+  "recency_weight": 1.5
+
+}
+Language DNA — Example Output (Gemini 2.0 Flash)
+json
+{
+
+  "topic_name": "Eigenvalues and Eigenvectors",
+
+  "instruction_words": {"find": 2, "calculate": 1, "derive": 0, "prove": 0},
+
+  "examiner_vocabulary": [
+
+    "characteristic equation",
+
+    "characteristic polynomial",
+
+    "find the eigenvalues and corresponding eigenvectors of the matrix"
+
+  ],
+
+  "typical_phrasing": "Find the eigenvalues and corresponding eigenvectors of the matrix A = [...]"
+
+}
+Combination DNA — Example Output (Gemini 2.0 Flash)
+json
+{
+
+  "topic_name": "Eigenvalues and Eigenvectors",
+
+  "always_asked_with": ["Diagonalisation"],
+
+  "combination_pattern": "Find eigenvalues of A, hence diagonalise A",
+
+  "standalone_frequency": 0.2,
+
+  "diagram_required": false,
+
+  "numerical_always": true
+
+}
+12. The Notes Structure — Complete Field Specification
+Topic Level
+Every topic follows this exact structure. No deviation. Consistency is a feature — the student's brain stops spending energy on orientation and spends it entirely on content.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TOPIC NAME
+
+Difficulty: Easy / Medium / Hard
+
+Study time: ~X minutes
+
+Priority: High / Medium / Low / Not examined
+
+Documentation confidence: Tier [1/2/3/4]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ 
+RAPID REVISION
+
+[One-line definition — exactly as DU accepts for 2-mark question]
+
+[Key formula or concept in LaTeX — the single most tested element]
+
+[How DU tests this — exact instruction word + typical phrasing from Language DNA]
+
+ 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Prerequisite: [Topic Name, Unit X] → [Specific concept bridge sentence]
+
+or: None
+
+ 
+DEFINITION
+
+[Clean. Under 40 words. Every term explained. DU-acceptable.
+
+ Mathematical expressions in LaTeX.]
+
+ 
+CORE CONCEPT
+
+[Plain language. No assumed knowledge beyond prerequisite.]
+
+Think of it this way: [Verified analogy connecting to prerequisite]
+
+ 
+[FOR NUMERICAL / DERIVATION PAPERS]
+
+ 
+EXAMPLE 1 ✓ verified
+
+[Problem statement]
+
+Step 1: [Step — LaTeX where needed — units shown on intermediate values]
+
+Step 2: [Step]
+
+Step N: [Step]
+
+$$\boxed{Final Answer}$$
+
+Common error: [Specific error that loses marks in DU]
+
+ 
+EXAMPLE 2 ✓ verified / ✓✓ dual-verified
+
+[One added layer. Edge case or combination with adjacent topic.]
+
+ 
+[FOR THEORY PAPERS]
+
+ 
+EXAMPLE 1
+
+[Real instance matching how DU uses this concept in PYQs]
+
+ 
+EXAMPLE 2
+
+[Contrasting or extended case]
+
+ 
+[FOR DIAGRAM-HEAVY TOPICS — Life Sciences]
+
+ 
+DIAGRAM — [Diagram Name]
+
+[Rendered SVG — from pre-built library or programmatically built for simple structures]
+
+ 
+Labeled parts:
+
+1. [Part name] — [one-line explanation] — DU label: "[exact expected label]"
+
+2. [Part name] — [one-line explanation] — DU label: "[exact expected label]"
+
+...
+
+ 
+Carries approximately [X] marks.
+
+Draw instructions: [Specific step-by-step guide for exam]
+
+Labels sourced from: [Book Name, Edition, Page X]
+
+ 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+EXAMINER'S NOTE
+
+[Exact instruction word DU uses for this topic — from Language DNA]
+
+[Specific PYQ pattern referencing real years]
+
+[What full marks includes that passing doesn't]
+
+[Combination pattern if applicable — "Always asked with [Topic]"]
+
+[For proof topics: exact hypothesis required, expected technique, common logical error]
+
+ 
+COMMON MISTAKES
+
+1. [Specific DU exam error — marks impact stated]
+
+2. [Specific DU exam error — marks impact stated]
+
+ 
+ANSWER WRITING TECHNIQUE
+
+(Present only for 6+ mark topics)
+
+[Exact structure sentence by sentence]
+
+[Which part carries which marks]
+
+[Word count target: ~X words]
+
+[Whether diagram expected]
+
+ 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PYQ 1 — [Year] DU Exam ✓ / ~[Year] DU Exam — [X marks]
+
+[Question exactly as asked. Not paraphrased. Exact.]
+
+Key steps for full marks:
+
+→ [Step 1]
+
+→ [Step 2]
+
+ 
+PYQ 2 — [Year] DU Exam ✓ — [X marks]
+
+[Question exactly as asked]
+
+Key steps:
+
+→ [Step 1]
+
+→ [Step 2]
+
+ 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+QUICK CHECK
+
+1. [Memory check — no answer given]
+
+2. [Application check — no answer given]
+
+3. [Combined or edge case — no answer given]
+
+ 
+Connects to: [Topic Name, Unit X] — [One-line reason]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Rapid Revision is written last, placed first. After full topic generation, the Writer produces Rapid Revision as a synthesis. It contains minimum viable exam knowledge.
+Quick Checks have no answers — intentional and non-negotiable. Forced active recall. Forced re-reading. The mechanism for retention.
+Year tags: ✓ = confirmed from document. ~ = student-tagged, year not confirmed from document text. Student sees the distinction.
+Unit Level
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+UNIT [N] — [NAME]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[What this unit is really about — 2 plain lines]
+
+ 
+Prerequisites: [Topic, Unit X] or None
+
+Estimated study time: [X] hours
+
+ 
+PAPER DNA — THIS UNIT
+
+Questions from here: [X] marks
+
+Most frequent question type: [type]
+
+Topics that always appear: [list]
+
+Topics never asked: [list]
+
+ 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[ALL TOPICS — optimised sequence]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ 
+UNIT CLOSER
+
+ 
+CONCEPTUAL SUMMARY
+
+[What this unit was really about as a single idea]
+
+[How every topic connects]
+
+[The anchor point from which the student can reconstruct the unit]
+
+ 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[NUMERICAL / MATHS / PHYSICS / CHEMISTRY]
+
+FORMULA AND THEOREM SHEET
+
+[Every formula in LaTeX. Every theorem. One-line application condition each.]
+
+[Designed for phone screenshot.]
+
+ 
+[LIFE SCIENCES]
+
+DIAGRAM REFERENCE SHEET
+
+[Every diagram. All labeled parts. Marks value each.]
+
+[Designed for phone screenshot.]
+
+ 
+[THEORY]
+
+KEY TERMS AND CONCEPTS SHEET
+
+[Every definition. Every framework. One-line summary each.]
+
+[Designed for phone screenshot.]
+
+ 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+EXAM-READY CHECKLIST
+
+☐ Can I [core skill 1]?
+
+☐ Can I [core skill 2]?
+
+☐ Attempted at least 2 PYQs from this unit?
+
+☐ Can answer all Quick Checks without looking?
+
+ 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+20-QUESTION PROBLEM SET
+
+[Topic sequence. Difficulty increases within clusters.]
+
+[Max 3 per high-priority topic. Min 1 per low-priority. Zero for never-asked.]
+
+ 
+Q1. Source: [2023 DU Exam]   Marks: [X]
+
+    [Question]
+
+    Answer:
+
+    [Complete answer to DU examiner standard]
+
+    [Numericals: every step, units on intermediates, answer boxed, error callout]
+
+    [Theory: definition → explanation → example, word count ~X words]
+
+    [Derivations: every step, logical connective stated, result boxed and stated in words]
+
+ 
+... through Q20
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+13. The Frontend — Complete Component Architecture
+Every database field maps to a specific React component with specific behaviour. Notes rendered as components, not as a document.
+PipelineProgressView
+Live view of all 12 agents with status icons: queued (grey), running (animated pulse), complete (green), failed (red). Unit cards appear below as each completes — student starts reading Unit 1 while others generate. First thing seen after UPC submission. Builds trust before reading a word.
+RapidRevisionCard
+Always visible when topic is collapsed. Three lines. Tap to expand. Most-seen component in the product. Exam-morning use case is primary design constraint. Scanning all cards across a unit takes 2 minutes.
+DefinitionBlock
+Clean, bordered, distinct background. Slightly larger font. Student's eye lands here first on topic open. KaTeX renders all LaTeX expressions.
+CoreConceptBlock
+Plain background. Analogy italicised and visually separated — different type of content, different visual treatment.
+ExampleBlock (Numerical)
+Each step on its own numbered line. Final answer in box component. Verified badge top right — small, always present. Dual-verified examples have distinct badge. Common error in yellow callout at bottom. KaTeX throughout.
+ExampleBlock (Theory/Biological)
+Slightly indented. Connection to PYQ pattern shown below as a small note.
+DiagramBlock
+SVG renders inline. Label list directly below on mobile, beside on desktop. Draw instructions in distinct callout. Source citation in small text. Screenshot button — generates PNG via html2canvas, white background, high resolution, saved to camera roll. Works offline after saving. Not a system screenshot.
+ExaminersNoteBlock
+Most visually distinct component in the product. Different background colour. PYQ year references as inline tags. The student should feel they are getting insider information. Because they are.
+CommonMistakesBlock
+Subtly red-tinted. Each mistake numbered. Marks impact as badge beside each.
+AnswerWritingTechniqueBlock
+Renders only when applicable is true. Numbered steps. Marks distribution inline. Word count target shown.
+PYQBlock
+Visually distinct from generated content. Year tag prominent — ✓ for confirmed, ~ for unconfirmed. Marks badge. Question text in different font weight — source material not generated. Key steps as clean numbered list. Source attribution shown.
+QuickChecksBlock
+Three questions. Input field below each. No answer anywhere in the interface. "Check against your notes" prompt — not a reveal button. Forced re-reading is the mechanism.
+ConnectsToBlock
+Small. Bottom of every topic. Arrow icon, topic name, reason. Tappable — navigates directly to that topic.
+FormulaSheet / DiagramReferenceSheet / KeyTermsSheet
+Full-width, high contrast. Screenshot mode generates PNG via html2canvas. Sheet fills screen. Saved to camera roll.
+UnitProgressBar
+Persistent at unit level. Topics completed / total. PYQs attempted / total. Orientation, not gamification.
+Last4HoursToggle
+Single tap at paper level. Collapses everything except RapidRevisionCards, PYQBlocks, and relevant sheet. Sheet pinned to top. Same content, different rendering filter.
+TierBadge
+Shown prominently on paper overview. See Section 20 for tier descriptions.
+FieldFlagButton
+Flag icon on every field. Hover on desktop, always visible on mobile. Three-option bottom sheet. 10 seconds to submit. "Under review" after submission. "Updated — thank you" after resolution. Rate limited: maximum 10 flags per session per paper. Systematic flagging (5+ flags in same topic within 60 seconds) auto-marked low confidence.
+PartialDeliveryNotice
+Renders on failed units. Clear status message. Retry indicator. All successful units remain accessible.
+PYQSubmissionBanner
+On paper page when no NEP PYQs exist. Honest statement. Single "I have this question paper" button. Camera opens directly on tap.
+14. The Trust Layer
+Every trust signal is real, sourced, and verifiable. Nothing manufactured.
+On every paper page:
+"Syllabus sourced from [exact URL] — last verified [date]" — clickable, student can verify themselves.
+On every PYQ:
+Year tag with confidence indicator. ✓ = confirmed from document text. ~ = student-tagged, unconfirmed. Source attribution on every question.
+On paper overview:
+Exact count of NEP papers available. If 1: stated honestly. If 0: stated honestly with submission prompt.
+On worked examples:
+Verified badge. Dual-verified badge for High Priority numericals. Tooltip explaining verification method.
+On diagrams:
+"Labels sourced from [Book Name, Edition, Page X]" under every diagram.
+On Tier 3/4 papers:
+Prominent banner explaining confidence level before student begins studying. No false confidence.
+Never shown:
+Star ratings, user counts, testimonials before real data exists.
+15. The PYQ Sourcing Strategy — Two-Layer System
+Layer 1 — Fallback When No PYQs Found
+Pipeline continues. Modified Paper DNA uses syllabus weighting only. Notes generate with honest banner and embedded submission prompt.
+Layer 2 — Student Submission System
+Mobile-first flow (60-90 seconds):
+Tap "I have this question paper" on PYQSubmissionBanner
+Camera opens directly
+Photograph each page with "Next page?" guidance
+UPC pre-filled, year selected from dropdown
+Submit
+Year verification from document — critical addition:
+Gemini attempts to extract the year from the paper itself — not just trusting the student's tag. If Gemini extracts a year matching the tag → year_confirmed = true. If mismatch → flag showing both: "Tagged as 2024. Document suggests 2023." If cannot extract → year shown as unconfirmed in notes.
+Three-dimension quality verification (Groq):
+Scan readability
+Completeness
+UPC match
+All three pass → automatic pipeline entry. Any fail → manual review queue with specific reason.
+Reward:
+Pre-committed at submission. Early access to submitted paper's notes or cross-paper credit for a different paper, selected at submission time.
+PYQ PDFs deleted after extraction — raw file deleted from Supabase Storage after normalised JSON is extracted. Dramatically reduces storage usage. Extracted data permanently stored in database.
+Student-submitted questions tagged: "Student submitted — ~[Year]" in notes. Origin always visible.
+16. The Error Reporting Loop
+Every field has a FieldFlagButton. Student flags in 10 seconds.
+Processing: Groq first pass checks if flagged content contradicts prescribed textbook or PYQ source. Contradiction confirmed → auto-queued for Agent 9. Unconfirmed → manual review.
+Rate limiting: Maximum 10 flags per session per paper. Systematic flagging (5+ in same topic within 60s) auto-marked low confidence.
+Closure: "Under review" on field after submission. "Updated — thank you" after resolution.
+Trust signal: The platform publicly acknowledges notes can be wrong and has a system for fixing them. Honesty builds more trust than claiming perfection.
+17. The Syllabus Change Detection System
+Weekly detection: Lightweight Gemini call per cached paper. Compares content hash to syllabus_hash. Change detected → paper flagged for regeneration.
+Student-facing diff notification:
+Every student who accessed the paper in the last 30 days sees:
+"DU updated this syllabus on [date]. Your notes are being regenerated. What changed:
+Topics added: [list]
+Topics removed: [list]
+Hours changed: [details]"
+Existing notes remain accessible during regeneration. Trust-building not trust-destroying.
+18. The SVG Diagram Library
+The problem with programmatic SVG generation:
+AI-generated SVG code that is syntactically valid but spatially wrong for complex biological structures. Inner membrane outside outer membrane. Cristae as rectangles not folds. DU examiners award marks for correct structural representation. A spatially wrong diagram teaches the student the wrong structure — worse than no diagram.
+The solution — pre-built verified SVG library:
+For every diagram that appears in DU Life Sciences PYQs, a clean accurate SVG is built manually once. Stored in diagrams/life_sciences/. Indexed in diagrams/index.json mapping diagram names to file paths.
+The pipeline looks up the correct SVG by diagram name. Never generates complex biological SVGs from scratch.
+The svg_source field in the topic schema records "library" or "generated" so it is always clear which diagrams are verified pre-built vs programmatically created.
+Programmatic SVG generation is permitted only for:
+Simple geometric structures, basic chemical diagrams, linear process flow diagrams — structures where spatial relationships can be reliably encoded as code. Anything involving biological 3D structure with internal compartments → library only.
+Library build process:
+During cold start phase — identify every diagram that appears in DU Life Sciences PYQs across all available years. Build those first. Remaining diagrams built on demand when a paper is first generated. Each SVG verified against the primary prescribed textbook before being committed to the library.
+Token implication:
+Because the Writer retrieves svg_file_path from the library rather than generating SVG code, the SVG token problem (15,000-line SVG output consuming the context window) is eliminated entirely.
+19. KaTeX — Mathematical Notation Rendering
+Why this is non-negotiable:
+Without KaTeX, every mathematical expression in Physics, Chemistry, Mathematics, and Statistics papers renders as broken unicode symbols in the browser. This is not a polish issue. It is a day-one blocking issue on the first mathematical paper tested.
+What KaTeX does:
+Renders LaTeX syntax into clean, accurate mathematical notation in the browser. Fast. Accurate. Industry standard.
+Frontend integration:
+KaTeX installed in Next.js frontend. lib/katex.ts provides render helpers. Every component that renders note content passes field text through the KaTeX render helper before display. Inline math delimited by $...$. Display math delimited by $$...$$.
+Writer requirement:
+The Writer agent system prompt explicitly requires all mathematical expressions to be output in LaTeX syntax. No raw unicode math. Examples of required output:
+Greek letters: \varepsilon, \lambda, \omega not ε, λ, ω
+Sets: \mathbb{R}, \mathbb{N}, \mathbb{Q} not ℝ, ℕ, ℚ
+Fractions: \frac{dy}{dx} not dy/dx
+Integrals: \int_0^1 f(x)\,dx
+Vectors: \mathbf{F} = m\mathbf{a} or \vec{F} = m\vec{a} — consistent per paper notation convention
+Consistency Checker includes LaTeX check:
+Any field containing raw unicode mathematical symbols instead of LaTeX syntax is flagged for reformatting by Agent 12.
+Formula sheet PNG generation:
+Formula sheets use html2canvas to generate PNGs for student download. KaTeX renders correctly in html2canvas. PNG output is clean, high resolution, shareable on any platform.
+20. The Documentation Tier Classification System
+The core insight: Not all DU papers are equally documented online. The pipeline produces different quality output depending on how much source material exists. The student must know this before studying.
+Tier classification is determined by the Decoder using tier_classifier.py:
+Tier 1 — Fully Calibrated
+3+ NEP PYQ years available
+Clean text PDF syllabus (high confidence extraction)
+Primary textbook widely available
+Display: "Fully calibrated — based on [X] NEP question papers. All content exam-verified."
+Papers: Mathematics Semester I-II, Physics Semester I-II, Chemistry Semester I-II, Computer Science Semester I-II.
+Tier 2 — Partially Calibrated
+1-2 NEP PYQ years available
+Syllabus extracted with medium confidence
+Textbook available
+Display: "Partially calibrated — based on [X] NEP question paper(s). Some content estimated from syllabus. Priority tags are reliable. Depth estimates may vary."
+Papers: Most subjects with 2023-2024 papers available. The majority of the platform at launch.
+Tier 3 — Syllabus-Based
+0 NEP PYQ years publicly available
+Syllabus available
+CBCS papers may exist as weak signal
+Display: "Syllabus-based — no NEP question papers publicly available for this paper. Content estimated from syllabus and pre-NEP patterns where available. Treat priority tags as indicative, not definitive. Submit your question paper to improve these notes."
+Papers: Geology, Food Technology, Instrumentation, Polymer Science, niche combinations.
+Tier 4 — Insufficient Data
+No NEP PYQs
+Syllabus extraction failed or low confidence
+No reliable source material
+Display: "Insufficient data — we cannot generate reliable notes for this paper yet. If you have a question paper or syllabus for this UPC, please submit it. Notes will be generated once sufficient source material exists."
+Pipeline halts for Tier 4 papers. No notes generated. No false confidence.
+Depth Signal Hierarchy
+For topics with no PYQ data, depth is estimated using this hierarchy in order:
+NEP PYQ data — ground truth. If present, always used.
+CBCS PYQ data for similar topic — used as estimate with label: "Estimated from pre-NEP papers — treat as indicative."
+Syllabus hours allocation — more hours = more depth. Used as estimate with label: "Syllabus-based estimate — no exam data available."
+Never-asked tag reserved only for topics where CBCS and NEP both show zero appearances AND syllabus hours allocation is less than 2 hours. Everything else gets minimum medium treatment with appropriate uncertainty labeling.
+21. The Cold Start — 50 Seed Papers
+Selection methodology — three factors simultaneously:
+Factor 1 — Search frequency (Telegram groups, Reddit r/DelhiUniversity, Quora, WhatsApp groups)
+Factor 2 — Supply gap (how little quality material currently exists online for this paper)
+Factor 3 — Programme popularity (how many DU students need this paper)
+Weighting toward Semester I and II: Every student needs these. Highest volume. Highest impact.
+Subject distribution:
+Mathematical Sciences (Maths + Physics, Maths + Statistics, Maths + CS) — Semesters I and II.
+Physical Sciences (Physics + Maths, Physics + Chemistry, Physics + Electronics) — Semesters I and II.
+Life Sciences (Botany, Zoology, Biochemistry) — Semesters I and II. High supply gap.
+Chemistry all combinations — Semesters I and II.
+Computer Science — Semesters I and II.
+Niche combinations — disproportionately represented due to high motivation and high supply gap.
+Defined spot-check protocol:
+For each of the 50 seed papers, the spot-check requires a checker who has actually studied that subject. Not anyone — someone who knows the content. The checker:
+Runs through the Quality Benchmark checklist (Section 24) for every item.
+For every PYQ in the notes — verifies question text is exact, year tag is correct (if confirmed), key steps would receive full marks.
+For every worked example — solves it independently before reading the notes solution. Flags any discrepancy.
+For every diagram (Life Sciences) — verifies labels against the primary prescribed textbook.
+Minimum time: 2-3 hours per 4-unit paper. Done once. The quality of these 50 papers determines whether the platform is trusted by the first students who use it.
+22. The Master Source Map
+Built once. Verified manually. Rechecked every semester. Weekly automated change detection on top.
+Department
+URL
+Mathematics
+maths.du.ac.in
+Physics
+physics.du.ac.in
+Chemistry
+chemistry.du.ac.in
+Botany
+botany.du.ac.in
+Zoology
+zoology.du.ac.in
+Biochemistry
+biochemistry.du.ac.in
+Microbiology
+microbiology.du.ac.in
+Statistics
+stats.du.ac.in
+Computer Science
+cs.du.ac.in
+Electronics Science
+physics.du.ac.in (under Physics)
+Environmental Science
+environmentalstudies.du.ac.in
+Geology
+geology.du.ac.in
+Food Technology
+fst.du.ac.in
+Instrumentation
+physics.du.ac.in (under Physics)
+Polymer Science
+chemistry.du.ac.in (under Chemistry)
+Biomedical Science
+biomedical.du.ac.in
+PYQs — primary
+exam.du.ac.in
+PYQs — supplementary
+Individual college sites
+Textbook registry (textbook_registry.json) maps each UPC to:
+Primary textbook (most commonly prescribed across DU colleges)
+All prescribed textbooks with college names
+Suggested textbooks
+Prescribed textbook variation across colleges is resolved by designating one primary textbook per UPC for verification purposes. When multiple textbooks are prescribed, the one most commonly used across DU colleges is the primary. All textbooks are listed in the paper overview. Students whose college uses a different textbook can cross-reference.
+23. The Pipeline Generation Cache
+When a UPC enters the pipeline, status is immediately set to "generating." Any subsequent request for the same UPC checks status first. If "generating" — new request subscribes to the same Supabase Realtime channel. Pipeline runs once. Both requestors get output simultaneously.
+One additional database check at pipeline trigger. Zero architectural change otherwise.
+24. The Quality Benchmark
+Every generated paper must pass this checklist before being considered production-ready. This is the acceptance test for the 50 seed papers and the evaluation framework for all Stage 1 testing.
+Content Completeness
+Every topic in the syllabus is present in the notes
+No topic contains content not traceable to the syllabus (excluding prerequisite bridges and analogies)
+Every High Priority topic has full treatment (definition, concept, analogy, 2 examples, examiner's note, common mistakes, answer writing technique if 6-mark, PYQs, quick checks)
+Every Medium Priority topic has standard treatment
+Every never-asked topic has one line only
+PYQ coverage ratio above 90% of total available marks
+Exam Calibration
+Every Examiner's Note references a specific PYQ year (for Tier 1 and 2 papers)
+Every Examiner's Note contains the exact instruction word from Language DNA
+Every Examiner's Note specifies what full marks includes that passing doesn't
+Every 6-mark topic has an Answer Writing Technique field
+Every Answer Writing Technique includes a word count target calibrated to DU convention
+Combination patterns from Combination DNA are reflected in relevant Examiner's Notes
+Mathematical and Scientific Accuracy
+Every worked example independently verified (single or dual depending on priority)
+Every proof verified for logical step validity (High Priority proof topics)
+All LaTeX syntax renders correctly through KaTeX
+No raw unicode math symbols in any field
+Units shown on every intermediate step in numerical examples
+All SVG diagram labels verified against primary prescribed textbook
+Structural Integrity
+No notation inconsistencies across units
+No definition inconsistencies across topics
+No PYQ year tag duplications
+Priority tags consistent with PYQ frequency data
+Rapid Revision block written last, reflects complete topic content
+Quick Checks answerable from notes content, at least one requires application
+Conceptual Summary reflects complete final state of unit (including patches)
+20Q problem set has full complete answers for all 20 questions
+Trust Layer
+Syllabus URL present and clickable
+PYQ year confidence indicators accurate (✓ vs ~)
+Documentation tier badge accurate and prominent
+All student-submitted questions tagged as such
+Diagram source citations present and accurate
+Life Sciences Specific
+All diagram-required topics have diagram blocks
+All SVG diagrams from pre-built library (complex structures) or verified programmatic (simple)
+DU-expected label names present for every labeled part
+Diagram Reference Sheet present instead of Formula Sheet
+25. The Prompt Specifications
+Specifications for every AI agent. Not the final prompts — the constraints, output schemas, and failure modes each prompt must handle. The actual prompts are tuned during Stage 1 testing. These specifications define what correct looks like.
+Writer Prompt — Invariant Section (Cached)
+Must enforce:
+Output only valid JSON matching topic_schema.json exactly. No prose. No markdown. No preamble.
+All mathematical expressions in LaTeX syntax with $ delimiters. No exceptions.
+Every sentence must either define, explain, demonstrate, or warn. No sentence that does none of these four.
+Depth calibration: 2-mark topics → definition + one example only. 6-mark topics → full treatment. Never-asked → one line only.
+Scratchpad reasoning before any field: 4-question internal pass not in output.
+Definition field: under 40 words, no undefined terms, DU-acceptable for 2-mark question.
+Analogy field: must connect specifically to the prerequisite bridge provided.
+Example steps: units on every intermediate value for numerical examples.
+Common error: specific to DU exams, not generic advice.
+Rapid Revision: written as if student reads only this before the exam.
+Quick Checks: no answers. At least one requires application not recall.
+Must not:
+Write about the topic as it appears in a textbook. Write about how DU examines it.
+Include content not traceable to the syllabus, Paper DNA, or prerequisite bridge.
+Use hedging language ("it is important to note," "this concept plays a crucial role").
+Generate SVG code for complex biological structures.
+Failure modes to handle:
+Syllabus content too vague to write a specific definition → write the most precise definition possible and flag the field with low_confidence: true.
+No PYQ data for this topic → depth defaults to syllabus hours weighting. Mark rapid_revision.examiner_pattern as "No NEP exam data available."
+Topic has circular dependency with prerequisite → use the concept bridge provided, do not attempt to re-derive the dependency.
+Writer Prompt — Variant Section (Per Topic, Not Cached)
+Contains: topic syllabus content, this topic's four DNA analyses, concept bridge sentence, two adjacent topics, note style category, diagram heavy flag, primary textbook name, split_generation flag, UPC.
+Critic Prompt
+Must enforce:
+Output only valid JSON matching diff_schema.json. No prose feedback.
+Field-level corrections only. Not topic-level observations.
+Every correction must name the exact field, the specific issue, and the specific correction.
+Check every field against the DU-specific constitutional document, not general quality standards.
+For proof topics: check Examiner's Note against proof-specific constitutional requirements.
+LaTeX check: flag any field containing raw unicode math.
+Must not:
+Suggest stylistic changes not related to DU exam compliance.
+Flag content in prerequisite_bridge or analogy fields as irrelevant.
+Produce more than 10 corrections per topic (if more than 10 issues exist, prioritise by marks impact).
+Researcher Prompt
+Must enforce:
+Output only valid JSON matching the syllabus extraction schema.
+Every unit name extracted verbatim from the syllabus document.
+Prescribed books extracted with full title, author, edition where available.
+Hours per unit extracted exactly as stated.
+If content is ambiguous → output the ambiguous content and flag it, do not guess.
+Must not:
+Add topics not present in the source document.
+Merge units that are listed separately.
+Infer syllabus content from general subject knowledge.
+Paper DNA Prompt (Topic and Language Analysis)
+Must enforce:
+Every topic appearance recorded with year, marks, question type, and instruction word.
+Instruction words standardised to canonical forms.
+Recency weight of 1.5 applied to most recent available year's questions.
+Examiner vocabulary extracted as exact phrases, not paraphrased.
+Combination patterns identified only when appearing in 2+ years.
+Must not:
+Infer patterns from single-year appearances as definitive.
+Conflate topics that have similar names but are listed separately in the syllabus.
+Mental Model Mapper Prompt
+Must enforce:
+Cycle detection must run before outputting sequence. Cycles resolved with entry point designation.
+Concept bridge: one specific sentence per prerequisite link, not just topic name.
+Independence map: explicit list of which topics have no dependencies on incomplete topics.
+split_generation flag: set for any topic estimated to require more than 6,000 output tokens.
+Final Examiner Prompt
+Must enforce:
+Check PYQ coverage at summary level first.
+Request full topic content only for topics where gap is found.
+Apply 1.5x recency weight to most recent year's questions in coverage analysis.
+Marks coverage check: every 6-mark topic must have all required fields present.
+Output: two separate lists — uncovered_pyqs and marks_incomplete_topics.
+Proof Verifier Prompt (Agent 7, Proof Mode)
+Must enforce:
+Check every logical step in the proof.
+Verify every assumed result is either an axiom, previously proven theorem, or syllabus-stated result.
+Flag any logical jump without justification.
+Output: verified (boolean) + specific flagged steps with issue descriptions.
+Must not:
+Suggest alternative proof approaches if the current approach is logically valid.
+Flag steps as wrong based on notational preference.
+26. The Failure Handling Specification
+Defined response for every pipeline breakpoint. Failure paths designed in, not bolted on.
+Agent 1 — Decoder Failures
+UPC not found in registry:
+Return clear error to frontend: "This UPC is not in our system yet." No pipeline triggered. Offer: "Submit this UPC for addition."
+UPC maps to multiple programmes (disambiguation):
+Return disambiguation prompt to frontend. Pipeline pauses until student selects programme. Timeout after 10 minutes with no selection — pipeline abandoned, student notified.
+Agent 2 — Researcher Failures
+Syllabus URL returns 404:
+Retry once after 30 seconds. If still failing → mark syllabus_url as broken in database, send alert for manual URL update. Pipeline continues with partial syllabus if any cached version exists. If no cached version → halt pipeline, set status to "failed", student notified: "Could not fetch syllabus for this paper. Our team has been notified and will resolve this."
+Scanned PDF — OCR confidence below threshold:
+Set syllabus_confidence to "low." Set documentation_tier to 3 regardless of PYQ count. Flag for human review before pipeline continues. Do not auto-proceed on low confidence syllabus.
+Researcher verification pass fails:
+Agent 2 re-runs. Maximum 2 re-runs. If fails both times → human review flag, pipeline halts. Student notified: "Syllabus extraction encountered issues. Being reviewed manually."
+Zero PYQs found:
+Not a failure. Layer 1 fallback activates. Pipeline continues with syllabus-based notes. Documentation tier set accordingly.
+Agent 3 — Paper DNA Failures
+Normalised PYQ JSON malformed:
+PYQ normaliser re-runs that specific paper. Maximum 2 retries per paper. If still malformed → that paper excluded from DNA analysis, flagged in paper_dna with exclusion_reason.
+Paper DNA output fails schema validation:
+Agent 3 re-runs. Maximum 2 retries. If still failing → pipeline continues without Paper DNA for this paper, documentation tier set to 3, student sees lower confidence tier badge.
+Agent 4 — Mental Model Mapper Failures
+Cycle detected and unresolvable:
+Flag the cycle in the dependency graph. Proceed with the most foundational topic as entry point. Notes will have a warning on the cyclically-dependent topics: "This topic has a mutual dependency with [Topic X]. Study both before sitting exams."
+Output fails schema validation:
+Agent 4 re-runs. Maximum 2 retries. If still failing → default to syllabus order as the topic sequence, no parallel processing for this paper.
+Agent 5 — Writer Failures
+Output JSON fails schema validation:
+Writer re-runs for that specific topic. Maximum 3 retries with incrementally more explicit schema constraints in the prompt. If still failing after 3 → topic rendered with: "This topic encountered a generation error and is being regenerated." Unit status does not flip to complete until the topic is resolved.
+Output exceeds token limit (unflagged split_generation topic):
+Orchestrator catches the truncated output. Immediately triggers split_generation mode for this topic — Content call + Examples call. No retry count consumed. This is a routing adjustment, not a failure.
+LaTeX syntax errors in output:
+latex_formatter.py attempts auto-correction of common LaTeX errors before saving to database. If auto-correction fails → field saved with raw content and flagged for Critic's LaTeX check.
+Agent 6 — Coverage Checker Failures
+Groq API unavailable:
+Coverage check skipped for this run. Topic proceeds to Agent 8 (Critic) without coverage data. Critic's constitutional check partially compensates. Coverage check added to queue for retry.
+Agent 7 — Verifier Failures
+Groq API unavailable:
+Verified badge not assigned. Example saved with verified: false. Student sees no badge rather than false badge. Verifier queued for retry.
+Dual verification disagreement (both models give different answers):
+Field flagged for manual review. Manual_review: true set on that example. Student sees: "This example is pending expert review" rather than a verified badge.
+Proof verification flags an issue:
+Issue details passed to Agent 8 diff JSON. Critic incorporates into corrections. Proof not marked verified until re-verification passes after Rewriter.
+Agent 8 — Critic Failures
+Output JSON fails diff_schema:
+Critic re-runs for that topic. Maximum 2 retries. If still failing → topic proceeds to Agent 9 without Critic corrections. Logged as quality gap.
+More than 10 corrections in diff:
+Critic outputs only the 10 highest marks-impact corrections. Remaining issues logged but not passed to Rewriter in this cycle. May be caught by subsequent cycles or Agent 12.
+Agent 9 — Rewriter Failures
+Rewriter output fails schema for patched fields:
+That specific field retains its pre-rewrite value. Flagged for manual review. Other corrections in the same diff batch are applied normally.
+Micro-validation fails twice:
+Field sent to manual review queue. Pre-rewrite value retained. Logged with both versions for human decision.
+Agent 10 — Final Examiner Failures
+Output fails schema:
+Final Examiner re-runs. Maximum 2 retries. If still failing → paper proceeds to Agent 11 with empty uncovered lists. Quality gap logged. Critic cycle flags this as a risk in paper metadata.
+Agent 11 — Patcher Failures
+Patch output fails schema:
+Patch not applied. Missing content logged. Paper proceeds with gap noted in paper metadata. Student does not see an error — they see the unpatched notes with whatever the Critic cycle produced.
+Post-patch regeneration fails:
+quick_checks, rapid_revision, and conceptual_summary retain pre-patch values. Flagged for manual refresh.
+Agent 12 — Consistency Checker Failures
+Groq unavailable:
+Consistency check skipped. Paper proceeds. Logged as quality gap.
+Consistency violations found:
+Minor violations (LaTeX formatting, notation standardisation) → auto-patched by rule-based code, no AI call needed. Major violations (definition inconsistencies, PYQ year duplications) → returned to Agent 8 for those specific topics only.
+Pipeline-Level Failures
+Mid-pipeline crash (any agent):
+Units that completed before the crash retain their data. pipeline_status set to "partial." Student sees completed units immediately via Realtime. Failed unit renders PartialDeliveryNotice. Orchestrator attempts to resume from the failed agent for the failed unit. Maximum 3 resume attempts. After 3 → unit flagged for manual regeneration.
+Complete pipeline failure:
+pipeline_status set to "failed." Student notified: "Pipeline failed for this paper. Our team has been notified. Retry?" One-tap retry triggers fresh pipeline run.
+Supabase Realtime disconnect during generation:
+On reconnect, frontend polls database for current unit statuses immediately. Renders any units that completed during disconnect. Does not rely solely on missed Realtime events. Realtime is the fast path. Database poll on reconnect is the reliable fallback.
+27. Pre-Build Checklist
+Complete every item before writing the first line of code.
+Repository
+GitHub repository created (private)
+Folder structure created as specified in Section 6
+.gitignore created (includes .env, pycache, node_modules, .next, source_pdfs/)
+README.md created
+First Test Paper — Chosen Before Building
+Paper chosen from your own degree programme
+You have studied this paper and can evaluate output critically
+You know what the correct PYQ answers look like for this paper
+UPC is known and confirmed in the DU system
+Local Development Environment
+Python 3.11+ installed
+Node.js 18+ installed
+pip working
+npm/yarn working
+Git installed
+Code editor set up
+.env File — Create Before Running Anything
+# .env — never committed to git
+
+ 
+# PAID — Gemini 2.0 Flash (Writer + Critic only)
+
+GEMINI_API_KEY=AIzaSy...
+
+ 
+# FREE — Gemini Pro (reasoning) + Flash (execution)
+
+GOOGLE_AI_API_KEY=AIza...
+
+ 
+# FREE — Llama 3 / Mixtral (mechanical tasks)
+
+GROQ_API_KEY=gsk_...
+
+ 
+# FREE — Llama 4 Scout / Qwen3 (numerical verification + Groq fallback)
+
+CEREBRAS_API_KEY=csk-...
+
+ 
+# OPTIONAL — DeepSeek V3 (alternative for prompt tuning iterations)
+
+DEEPSEEK_API_KEY=sk-...
+
+ 
+# Infrastructure
+
+SUPABASE_URL=https://xxxxx.supabase.co
+
+SUPABASE_KEY=eyJhbGciOiJIUzI1NiIs...
+
+UPSTASH_REDIS_URL=https://xxxxx.upstash.io
+
+UPSTASH_REDIS_TOKEN=AXxx...
+API Key Verification — Confirm Active Before Building
+Google AI (Gemini) API key — test with one Gemini 2.0 Flash call. Only paid provider.
+Google AI API key — test with one Gemini 2.5 Pro call AND one Flash call. Note: Gemini reads PDFs via the Files API — you must upload the file first (genai.upload_file()), get a file URI, then pass the URI in the prompt.
+Groq API key — test with one Llama 3 call and one Mixtral call. No credit card needed.
+Cerebras API key — test with one Llama call. No credit card needed. Sign up at cloud.cerebras.ai.
+(Optional) DeepSeek API key — sign up for 5M free tokens. Use for cheap prompt tuning iterations.
+Supabase project URL and anon key — test with one insert and read
+Upstash Redis URL and token — test with one set and get
+Registry Files — Before Agent 1 Can Run
+master_source_map.json created with all department URLs
+upc_registry.json created with at minimum the first test paper's UPC entry
+textbook_registry.json created with primary textbook for first test paper
+Sample upc_registry.json entry:
+json
+{
+
+  "YOUR-UPC-CODE": {
+
+    "department": "Mathematics",
+
+    "programme": "B.Sc. (Hons) Mathematics",
+
+    "semester": 1,
+
+    "paper_name": "Calculus",
+
+    "paper_type": "numerical",
+
+    "diagram_heavy": false,
+
+    "practical_component": false
+
+  }
+
+}
+Source PDFs — Before Agent 2 Can Run
+source_pdfs/{upc}/syllabus.pdf placed (downloaded manually from department site)
+source_pdfs/{upc}/pyq_YYYY.pdf placed (downloaded manually from exam.du.ac.in)
+At minimum 1 PYQ paper available for the first test paper
+Supabase Setup — Before First Pipeline Test
+Supabase project created
+pgvector extension enabled
+Complete SQL schema from Section 8 applied (001_initial_schema.sql)
+All tables confirmed present with correct columns
+Manual insert and read tested on at least one table
+SVG Diagram Library — Before Testing Life Sciences Papers
+diagrams/life_sciences/ directory created
+diagrams/index.json created
+At minimum 10 most common DU Life Sciences diagrams built and verified
+Each SVG verified against primary prescribed textbook
+Legal Awareness
+DU question papers: government documents, public domain for educational use. Confirmed.
+Textbook citations: citing page numbers and label names is not reproduction. Confirmed.
+Textbook exercises: fair use for personal educational study under Section 52 of Indian Copyright Act. Confirmed.
+No substantial textbook passages reproduced in notes under any circumstance.
+28. Phase 2 — After Testing and Proven
+Not in scope until pipeline produces genuinely good notes and real students are using the platform.
+Student feedback integration — Real usage data. Feedback becomes meaningful signal.
+Hindi language toggle — Database stores both English and Hindi from day one. Phase 2 is a frontend switch and filling Hindi fields. No schema changes.
+Version control and changelogs — Students see what changed between note versions when syllabi update.
+PDF download — Database structure supports this from day one.
+Expansion to Humanities — Same pipeline, different note style category.
+Full observability stack — Grafana + Prometheus when there is infrastructure worth monitoring.
+Typesense search — When students need to search by paper name not just UPC.
+Full authentication — When student history and submission credits need to persist. Anonymous sessions upgrade cleanly to full auth — session_id becomes user_id.
+Formula sheet PNG via server-side Puppeteer — Replace client-side html2canvas with server-side generation for higher quality exports.
+Paid model tier upgrades — After revenue exists.
+29. What This Plan Deliberately Excludes and Why
+Internal assessment — Teacher-dependent, outside system control. Never included.
+Exam strategy cards — Notes are the product. Student determines their own approach.
+Revision mode vs study mode — Notes are already the most efficient version. Last 4 Hours toggle is a rendering filter. One experience.
+Gamification — Progress indicators are for orientation. No streaks, points, or badges.
+Social features — Study groups, comments. Adds complexity and moderation burden. The product is the notes.
+Scaling infrastructure — Temporal, multiple service replicas, CloudFront CDN. Added when users and revenue justify it. The free tier stack is sufficient to verify the model.
+Rate limit management — Single builder testing one pipeline at a time. Not a problem until real concurrent users exist.
+Concurrent pipeline cache edge cases — Not relevant for single-user testing phase.
+30. Build Sequence
+Each stage complete and verified before the next begins.
+Before Stage 1 — Pre-Build (Complete Checklist in Section 27)
+All API keys confirmed. First test paper chosen. Repository created. Folder structure initialised. Registry files created for test paper. Supabase project created and schema applied.
+Stage 1 — Pipeline Core
+Build all agents as Python functions. One orchestrator script. Run locally. Pass one UPC. Read output from Supabase. Evaluate against Quality Benchmark (Section 24).
+Priority order within Stage 1:
+Agents 1, 2, 2b (verification), 2c (normalisation) — get the source data right first
+Agent 3 — Paper DNA working correctly
+Agent 4 — Mental Model Mapper with cycle detection
+Agent 5 — Writer with LaTeX, scratchpad, and depth calibration working
+Agents 6, 7 — Coverage and verification
+Agents 8, 9, 9b — Critic, Rewriter, micro-validation cycle
+Agents 10, 11, 11b — Final examination and patching
+Agent 12 — Consistency checker
+Expect 5-10 prompt iteration cycles per paper before output consistently meets Quality Benchmark. Prompt tuning is the most important work in Stage 1.
+Stage 2 — Pipeline Validation Across Subject Types
+Run on 5 papers: one numerical (Maths or Physics), one theory (Real Analysis or Abstract Algebra), one Life Sciences (Botany or Biochemistry), one mixed, one with only 1 PYQ available. All must pass the Quality Benchmark before Stage 3.
+Stage 3 — Database and Schema Finalisation
+Confirm every pipeline output field maps correctly to schema. Diff-based refinement loop verified at field level. Graceful partial delivery tested by deliberately failing agents.
+Stage 4 — Backend API
+FastAPI service on Railway. Pipeline triggers via API endpoint. Background task. Supabase Realtime progress updates working. Pipeline cache implemented.
+Stage 5 — Frontend
+Next.js on Vercel. All components from Section 13 implemented. KaTeX rendering working. Progressive rendering working. Last 4 Hours toggle working. FieldFlagButton working. TierBadge accurate. DiagramBlock rendering from library.
+Stage 6 — PYQ Submission System
+Submission flow implemented. Camera-first mobile flow. Year verification from document. Three-dimension quality check. Reward system. Manual review queue.
+Stage 7 — SVG Diagram Library Completion
+All diagrams appearing in the 50 seed papers built and verified. Library index complete.
+Stage 8 — The 50 Seed Papers
+Full pipeline on all 50 selected papers. Defined spot-check protocol applied to each. Fix any pipeline failures. These 50 are the launch state.
+Stage 9 — Personal Testing
+Use the product yourself. Every paper. Every feature. Every edge case. Find everything that is wrong before anyone else sees it.
+31. Summary — What Makes This Different
+Every other DU study resource is written about the subject. This is written about the exam.
+The difference is everything.
+A textbook explains Eigenvalues because they are important in linear algebra.
+These notes explain Eigenvalues because DU has asked "find the eigenvalues and corresponding eigenvectors of the matrix A" as a 6-mark question in both 2023 and 2024, always using the word "find" not "derive", always combined with Diagonalisation in the same question, and students consistently lose marks by not stating the characteristic equation explicitly before solving — a pattern the Examiner's Note identifies directly.
+That is what exam calibration means. That is what this platform does. That is what no other resource does.
+The 12-agent pipeline exists to produce that calibration reliably, verifiably, for every NEP B.Sc. paper at Delhi University. The parallel processing architecture means the student starts reading in 90 seconds. The diff-based refinement loop means every correction is surgical and token-efficient. The trust layer means every single claim is sourced and verifiable. The tier classification system means the student always knows exactly how much to trust what they are reading.
+The notes are not a document. They are a database. The database is what gets built, verified, criticised, patched, and maintained. The document is what the student reads. These are two different things. Keeping them separate is what makes everything else possible.
+End of plan. Version 4.0. Every decision made. Every component defined. Every failure mode addressed. Every pre-build step specified. Ready to build.

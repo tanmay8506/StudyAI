@@ -1,0 +1,24 @@
+.env
+.env.local
+.env*.local
+__pycache__/
+*.py[cod]
+node_modules/
+.next/
+out/
+dist/
+backend/source_pdfs/*
+!backend/source_pdfs/.gitkeep
+frontend/.env.local
+frontend/.env*.local
+
+
+# Supabase
+supabase/.temp/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

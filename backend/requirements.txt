@@ -1,0 +1,17 @@
+# ── Core SDK dependencies ──────────────────────────────────────────────────
+google-generativeai>=0.8.0        # Gemini 2.0 Flash — replaces Anthropic Claude
+groq>=0.9.0                        # Groq Llama 3 — structural_dna
+
+# ── PDF processing ─────────────────────────────────────────────────────────
+pymupdf>=1.24.0                    # Fast PDF text extraction (fitz)
+pdfplumber>=0.11.0                 # Fallback table/layout extraction
+
+# ── Database ───────────────────────────────────────────────────────────────
+supabase>=2.4.0                    # Supabase Python client
+
+# ── Data / schema validation ───────────────────────────────────────────────
+jsonschema>=4.22.0                 # paper_dna schema validation
+python-dotenv>=1.0.0               # Load .env vars
+
+# ── Utilities ──────────────────────────────────────────────────────────────
+tenacity>=8.2.0                    # Retry logic (optional decorator approach)

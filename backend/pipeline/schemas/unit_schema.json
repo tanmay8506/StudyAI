@@ -1,0 +1,153 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "UnitOutput",
+  "description": "Unit-level output schema. Used by Orchestrator to validate assembled unit. Also used by Agent 11 (Patcher) when regenerating unit-level summary fields.",
+  "type": "object",
+  "required": [
+    "unit_number",
+    "unit_name",
+    "conceptual_summary",
+    "unit_closer"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "unit_number": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "unit_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "estimated_study_hours": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "marks_weightage": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "conceptual_summary": {
+      "type": "object",
+      "required": [
+        "what_this_unit_is_about",
+        "how_topics_connect",
+        "unifying_idea"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "what_this_unit_is_about": {
+          "type": "string",
+          "description": "2 plain sentences describing what the unit covers"
+        },
+        "how_topics_connect": {
+          "type": "string",
+          "description": "1-2 sentences on how topics build on each other"
+        },
+        "unifying_idea": {
+          "type": "string",
+          "description": "1 sentence — the single anchor concept that ties all topics together"
+        }
+      }
+    },
+    "unit_closer": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "exam_ready_checklist": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 4,
+          "items": {
+            "type": "string",
+            "description": "A specific capability the student should have after studying this unit"
+          }
+        }
+      }
+    },
+    "formula_sheet": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "Present for maths/physics/chemistry papers",
+      "additionalProperties": false,
+      "properties": {
+        "sheet_type": {
+          "type": "string",
+          "enum": [
+            "formula",
+            "diagram_reference",
+            "key_terms"
+          ]
+        },
+        "content": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "item"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "item": {
+                "type": "string",
+                "description": "Formula, theorem, or key term in LaTeX where applicable"
+              },
+              "application_condition": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "When/why to use this formula or concept"
+              },
+              "marks_value": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "description": "Typical marks this formula appears in"
+              }
+            }
+          }
+        }
+      }
+    },
+    "paper_dna_summary": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "Exam intelligence summary for this unit — sourced from paper_dna",
+      "additionalProperties": false,
+      "properties": {
+        "questions_from_here_marks": {
+          "type": "integer",
+          "description": "Total marks of questions from this unit across all available PYQ years"
+        },
+        "most_frequent_question_type": {
+          "type": "string",
+          "description": "The most common instruction word DU uses for this unit"
+        },
+        "topics_always_appear": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Topics that appear in every available PYQ year"
+        },
+        "topics_never_asked": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Topics on the syllabus with zero PYQ appearances"
+        }
+      }
+    }
+  }
+}
