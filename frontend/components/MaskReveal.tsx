@@ -22,7 +22,7 @@ type RevealVariant = "standard" | "fast" | "dramatic";
 
 interface MaskRevealProps {
   text: string;
-  as?: React.ElementType;
+  as?: any;
   className?: string;
   style?: React.CSSProperties;
   variant?: RevealVariant;
