@@ -30,7 +30,7 @@ export function ThemeToggle() {
         borderRadius:    "50%",
         border:          "1px solid var(--toggle-border)",
         background:      "var(--toggle-bg)",
-        cursor:          "none",
+        cursor:          "pointer",
         flexShrink:      0,
         position:        "relative",
         overflow:        "hidden",
