@@ -7,7 +7,7 @@ import { PageTransition } from "@/components/PageTransition";
 import { AmbientLight } from "@/components/AmbientLight";
 import { GrainOverlay } from "@/components/GrainOverlay";
 
-import { CustomCursor } from "@/components/CustomCursor";
+
 import { HeroHeadline } from "@/components/HeroHeadline";
 import { UPCInput } from "@/components/UPCInput";
 import { StatPills } from "@/components/StatPills";

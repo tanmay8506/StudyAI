@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { PageTransition } from "@/components/PageTransition";
 import { AmbientLight } from "@/components/AmbientLight";
 import { GrainOverlay } from "@/components/GrainOverlay";
-import { CustomCursor } from "@/components/CustomCursor";
+
 import { PipelineProgress } from "@/components/PipelineProgress";
 import { AgentGrid, AgentData } from "@/components/AgentGrid";
 import { UnitTracker, UnitProgressData } from "@/components/UnitTracker";

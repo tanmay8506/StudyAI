@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 import { GrainOverlay } from "@/components/GrainOverlay";
 import { BottomNav } from "@/components/BottomNav";
 import { PageTransition } from "@/components/PageTransition";
-import { CustomCursor } from "@/components/CustomCursor";
+
 
 export default function RootLayout({
   children,
@@ -31,7 +31,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${syne.variable} ${dmMono.variable} ${instrumentSerif.variable} font-sans antialiased bg-transparent text-foreground selection:bg-accent/30 selection:text-accent-foreground`}>
         <Providers>
-          <CustomCursor />
+
           <BottomNav />
           <PageTransition>
             {children}

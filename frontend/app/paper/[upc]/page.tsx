@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { PageTransition } from "@/components/PageTransition";
 import { AmbientLight } from "@/components/AmbientLight";
 import { GrainOverlay } from "@/components/GrainOverlay";
-import { CustomCursor } from "@/components/CustomCursor";
+
 import { PaperHeader } from "@/components/overview/PaperHeader";
 import { UnitCard, UnitCardData } from "@/components/overview/UnitCard";
 
