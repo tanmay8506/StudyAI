@@ -1,0 +1,36 @@
+STUDYAI: UI/UX EXECUTION MASTER PLAN
+STATUS: STRICT EXECUTION | NO DEVIATIONS
+Architectural Directive
+This document enforces a strict 5-phase execution sequence for the StudyAI frontend. The backend data pipeline is locked and functional. This plan governs the presentation layer, prioritizing Framer Motion physics, Z-axis parallax, and 'Academic Brutalism' aesthetics. We build the physics engine first. We do not deviate from this sequence.
+PHASE 1: The Physics Engine & Foundation
+Objective: Override native browser mechanics and establish the strict visual identity before painting any components.
+Lenis Smooth Scroll Integration: Inject @studio-freight/react-lenis into app/layout.tsx. This is mandatory to support fluid scroll-triggered Framer Motion physics without jank.
+CSS Variable Lockdown: Define Vantablack (#0F1012), Primary Ink (#F3F4F6), and Steel Borders (#2E3033) strictly in globals.css.
+Tailwind Configuration: Map the custom HSL variables to Tailwind utility classes.
+Typography Injection: Load Playfair Display (Serif), Inter/Geist (Sans), and JetBrains Mono (Mono) via next/font.
+PHASE 2: The Display Typography Hero (Z-Axis Parallax)
+Objective: Build a 3D physical space for the Landing Page using Text Interleaving.
+Deep Background Typography: Render massive display text (clamp 60-120px) fixed to the background at 5% opacity (z-index: -1).
+Mouse-Tracked Parallax: Wire Framer Motion useScroll and useMouse to shift the background text in opposition to the foreground elements.
+The UPC Input Console: Build a stark, glass-morphism terminal that floats cleanly over the background text.
+Focus Springs: When the input is focused, trigger a spring animation that heavily blurs the background text to pull absolute visual focus.
+PHASE 3: The Pipeline Bento Grid (Interactive Cards)
+Objective: Transform the 12-agent terminal into a high-end, magnetic Bento Grid.
+Grid Architecture: Map the agents into varied-size CSS grid cards spanning columns/rows based on agent hierarchy.
+Magnetic Cursor Tracking: Use useMotionValue to track cursor coordinates across the grid, rendering a microscopic radial glow behind the 1px borders.
+3D Card Tilt: Apply subtle X and Y axis rotation to agent cards when hovered.
+Grid Entrance Stagger: Animate the 12 agents cascading into view using precise Framer Motion springs upon page load.
+PHASE 4: The Reading Workspace (Scroll Reveals)
+Objective: Render generated mathematical notes with extreme editorial polish and Framer Motion ink-drops.
+Text Mask Reveals: Use whileInView with viewport margin thresholds to stagger text blocks fading up smoothly as they enter the screen.
+The Surgical Divider: Implement the persistent 1px left-margin gridline that anchors all reading content.
+Mathematics Hydration: Configure KaTeX to render seamlessly alongside text without blocking the main React thread.
+PHASE 5: The Friction Engine (Active Recall)
+Objective: Build the interactive testing UI with premium micro-physics.
+Etched Inputs: Build minimalist, dashed-border input fields for user drafts.
+Console Reveal: Fade in the Self-Assessment Console (Unsure / Partial / Full Marks) ONLY after the user begins typing.
+Reward Physics: Trigger a localized monochrome particle burst upon a "Full Marks" selection.
+Hard Constraints
+Sequential Execution: Do not start Phase 2 until Phase 1 is flawlessly rendering the base variables and smooth scrolling at 60fps.
+Data Isolation: The data layer is untouchable. Only presentation code changes.
+No Generic UI: Zero pre-built component libraries unless they are unstyled primitives (like Radix). Every border and interaction is custom-built to the aesthetic.

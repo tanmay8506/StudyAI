@@ -1,0 +1,1711 @@
+STUDYAI — KINETIC EDITORIAL + ACADEMIC BRUTALISM
+COMPLETE ELEVATED VISUAL SYSTEM & EXECUTION PLAN
+================================================================
+STATUS: PLANNING DOCUMENT — DO NOT DEVIATE
+AESTHETIC DIRECTION: KINETIC EDITORIAL × ACADEMIC BRUTALISM
+PIPELINE STATUS: LOCKED (mock pipeline running, do not touch)
+ELEVATION STATUS: AWWWARDS-TARGET — EVERY DECISION JUSTIFIED
+================================================================
+
+WHAT THE SCREENSHOTS REVEALED — THE GAP WE ARE CLOSING
+----------------------------------------------------------------
+The old design had:
+  - A generic purple-teal gradient used by dozens of Framer templates
+  - Raw JSON strings rendering as content (parseField bug — broken)
+  - Pipeline cards that are flat and lifeless — any dark dashboard
+  - Typography doing nothing special — swappable with any other app
+  - No material depth, no personality, no motion with purpose
+
+The new plan does not just restyle.
+It redefines the identity of StudyAI as a product that feels like
+it was built by someone obsessed with DU exams, editorial design,
+and motion physics simultaneously.
+
+When someone lands on this site they should stop.
+When they open a unit they should feel the precision.
+When the pipeline runs they should feel the intelligence.
+That is the bar. Everything below is written toward that bar.
+
+================================================================
+REFERENCE SITES — STUDY THESE BEFORE WRITING A SINGLE LINE
+----------------------------------------------------------------
+These are the exact sites to open and analyse before each phase.
+Do not copy them. Understand WHY they work, then apply that logic.
+
+WARMTH & EDITORIAL DEPTH:
+  - https://linear.app — dark product UI uses restraint + done sounds
+  - https://basement.studio — editorial dark with amber warmth + grain
+  - https://rauno.me — typographic depth, minimal color
+  - https://www.nan.fyi — technical content made beautiful
+  - https://paco.me — personal site, serif + mono combination
+
+TYPOGRAPHY AS DESIGN:
+  - https://www.nytimes.com — serif authority, editorial hierarchy
+  - https://www.are.na — academic density, clean dark UI
+  - https://frankchimero.com — one designer, pure typography
+  - https://practicaltypography.com — how to use type with precision
+
+MOTION & PHYSICS:
+  - https://www.framer.com — their own site uses what they sell
+  - https://vercel.com — stagger animations, depth without gradients
+  - https://lenis.darkroom.engineering — the scroll library site itself
+
+BENTO GRIDS DONE RIGHT:
+  - https://ui.aceternity.com — magnetic effects, glow borders
+  - https://magicui.design — card tilt, border glow implementations
+  - https://buildui.com — technical animations explained
+
+GRAIN & MATERIAL TEXTURE:
+  - https://basement.studio — film grain over dark UI, barely visible
+  - https://obys.agency — grain + custom cursor done at highest level
+  - https://activetheory.net — depth, material, 3D in editorial context
+
+CUSTOM CURSOR REFERENCES:
+  - https://obys.agency — magnetic spring cursor, morphs on hover
+  - https://resn.co.nz — cursor that communicates state
+  - https://linear.app — subtle cursor ring, no noise just precision
+
+CHARACTER TEXT REVEAL:
+  - https://vercel.com — word by word mask reveal on headlines
+  - https://linear.app — headline appears as if carved from darkness
+  - https://www.nan.fyi — technical text that reveals with purpose
+
+================================================================
+THE ELEVATED PHILOSOPHY — WHAT IS NEW IN THIS PLAN
+================================================================
+
+Six additions that push this from well-designed to award-worthy.
+Each one is justified below. None are decorative.
+
+1. FILM GRAIN TEXTURE LAYER
+   A subtle SVG noise overlay at ~3.5% opacity across the entire app.
+   This is what separates Basement Studio from everything else.
+   It makes the screen feel like it has material, not like a flat monitor.
+   You do not consciously notice it. You feel it.
+   Invisible to the eye. Felt by the body.
+   Reference: basement.studio — grain is what makes their dark feel warm.
+
+2. CUSTOM CURSOR SYSTEM
+   Replace the browser default with a warm-white dot (6px) and a trailing
+   ring (24px) that follows with spring lag.
+   On hoverable elements it morphs — expands into amber ring, or on
+   pipeline cards shows a subtle rotation.
+   On the reading page, hovering a block label shows "FLAG" inside the ring.
+   On mobile: disabled entirely.
+   Why it matters: the cursor is the user's hand. Making it feel physical
+   makes the entire site feel physical. This is the single most Awwwards-
+   coded element you can add.
+
+3. CHARACTER-LEVEL TEXT REVEAL
+   Instead of blocks fading in, the hero headline, unit titles, and topic
+   names reveal word by word from a mask clip.
+   Technique: overflow hidden container, each word wrapped in a span,
+   translateY 100% → 0 with staggered spring.
+   The text feels like it is being carved out of darkness rather than
+   appearing on top of it.
+   Reference: Linear's homepage headline. Vercel's hero. Every Awwwards
+   Site of the Year for the past 4 years.
+
+4. THE MANIFESTO PAGE (new page — does not exist in old plan)
+   A single full-scroll page visible to first-time visitors before homepage.
+   Huge editorial typography. Scroll-scrubbed text that highlights word
+   by word as you scroll down. A single number counter: 12 AGENTS, animated
+   0 → 12 as you scroll. A final CTA at the very bottom: "Enter your paper."
+   This is your story. It converts. It gives StudyAI a reason to exist
+   beyond the feature list.
+   Stored at route /about or shown as a pre-homepage splash (one-time).
+
+5. FOCUS MODE ON READING PAGE
+   A toggle in the topbar enters Focus Mode.
+   In focus mode:
+     - Sidebar collapses to 20px (just the priority dot column)
+     - Topbar minimizes to a 2px amber progress line
+     - Everything non-essential fades to 20% opacity
+     - Reading column expands to fill the space
+   Spring animation on all transitions. 300ms.
+   A student in an exam revision session should be able to disappear
+   into the content. This feature enables that.
+
+6. AMBER INK REVEAL FOR DEFINITIONS
+   When a Definition block enters the viewport, the amber left border
+   draws itself from top to bottom (SVG pathLength 0 → 1, 400ms easeOut).
+   Then the definition text reveals word by word.
+   Sequence: border draws → text appears. 600ms total.
+   This is the single most memorable micro-interaction on the reading page.
+   It makes the definition feel like it is being written in real time.
+
+7. SCROLL-EDGE READING PROGRESS
+   A 2px amber line on the very LEFT EDGE of the screen (not a topbar bar —
+   the literal left edge of the viewport) fills as the student scrolls
+   through a unit. Feels like a bookmark being drawn in the margin.
+   At 100%, a soft pulse radiates from the bottom of the line.
+   This replaces or complements the topbar progress — it lives in the
+   margin, not competing with content.
+
+8. DEAD TIME ANIMATION ON PIPELINE GRID
+   When agents are QUEUED and nothing is happening, every 6–8 seconds
+   a faint shimmer/pulse passes through the queued cards from left to right
+   like a sonar ping scanning the grid. Opacity wave: 0.45 → 0.65 → 0.45,
+   spring, 1200ms sweep.
+   It communicates: the system is alive and waiting, not frozen.
+   The difference between a loading state that builds trust and one that
+   creates anxiety.
+
+9. SONIFICATION (OPTIONAL, OFF BY DEFAULT)
+   When the pipeline marks an agent COMPLETE (checkmark draws):
+   a barely-audible soft click plays. 30ms, 40dB.
+   When all 12 complete: a single clean warm tone.
+   Toggleable in settings. Off by default.
+   Reference: Linear's done sounds — makes digital work feel real.
+
+10. NOISE TEXTURE ON PIPELINE CARDS
+    Each agent card gets a very faint SVG noise texture on its background
+    (same technique as global grain, applied at different scale per card).
+    Combined with 3D tilt, the cards feel like physical objects with
+    material — not flat rectangles.
+
+================================================================
+THE DESIGN SYSTEM — EVERY TOKEN, LOCKED
+================================================================
+
+COLOUR PALETTE:
+---------------
+All colours as CSS custom properties in globals.css.
+Nothing hardcoded anywhere in components. Ever.
+
+Backgrounds (dark to light — 5 levels of depth):
+  --bg-base:        #0a0908   (the void — warm near-black, NOT pure #000)
+  --bg-raised:      #111009   (sidebar, topbar backgrounds)
+  --bg-surface:     #1a1813   (section dividers, inactive areas)
+  --bg-card:        #1e1c16   (card default state)
+  --bg-card-hover:  #252319   (card hover state)
+
+Why warm not cool: The amber accent needs a warm base to feel cohesive.
+Pure black (#000000) with amber looks like a warning sign. Warm dark
+with amber looks like a lamp in a dark library. That is the feeling.
+
+Borders (3 levels — all rgba, never opaque):
+  --border-subtle:  rgba(255,255,255,0.06)   (default, always present)
+  --border-default: rgba(255,255,255,0.10)   (cards, inputs)
+  --border-strong:  rgba(255,255,255,0.18)   (hover states, active)
+
+Text (3 levels — warm whites and grays):
+  --text-primary:   #f0ece0   (all important content — warm white)
+  --text-secondary: #9a9485   (supporting text, descriptions)
+  --text-tertiary:  #5a5548   (labels, metadata, placeholders)
+
+Why warm not pure white: #ffffff on #0a0908 is too clinical. #f0ece0
+is warm enough to feel like paper, cold enough to be readable at density.
+
+THE ONE ACCENT COLOUR:
+  --accent:         #e8c84a   (amber/ochre — used with absolute discipline)
+  --accent-2:       #c9a82e   (darker amber for text on light surfaces)
+  --accent-dim:     rgba(232,200,74,0.08)   (very faint tint)
+  --accent-dim2:    rgba(232,200,74,0.15)   (medium tint, active states)
+
+NEW TOKENS (elevated additions):
+  --grain-opacity:  0.035            (film grain layer opacity)
+  --cursor-dot:     #f0ece0          (cursor primary dot color)
+  --cursor-ring:    rgba(232,200,74,0.4)  (cursor ring on hover elements)
+  --sidebar-collapsed: 20px          (focus mode collapsed sidebar width)
+  --reading-progress-color: var(--accent)
+  --reading-progress-width: 2px
+  --border-ink:     rgba(232,200,74,0.6)  (for ink-draw border animation)
+  --focus-fade:     0.20             (opacity of non-essential UI in focus mode)
+
+WHERE ACCENT APPEARS (exhaustive, not suggestive):
+  - Active sidebar topic left border
+  - Running agent card left border on pipeline
+  - All mathematical formula text (DM Mono)
+  - Answer boxes in worked examples
+  - Progress bar fill
+  - Year pills in examiner notes
+  - "Last 4 Hours" button active state
+  - The ambient light source (radial, 3.5% opacity)
+  - Instruction word frequency counts
+  - Quick check input focus border
+  - Pipeline progress bar fill
+  - Active nav item in bottom floating nav
+  - Custom cursor ring on hoverable elements
+  - Ink-draw border animation on definition blocks
+  - Left-edge scroll progress line
+
+WHERE ACCENT NEVER APPEARS:
+  - Headings (those are --text-primary)
+  - Body text
+  - Card backgrounds (unless it is a tinted dim version)
+  - Decorative elements
+  - The grain overlay
+
+Semantic colours (used only for their meaning, never decoration):
+  --red:        #e85a4a   (mistakes, errors, failed states, high priority)
+  --red-dim:    rgba(232,90,74,0.08)
+  --green:      #5ab87a   (verified, complete, success)
+  --green-dim:  rgba(90,184,122,0.08)
+  --blue:       #5a9ae8   (analogy boxes, threshold indicators)
+  --blue-dim:   rgba(90,154,232,0.08)
+
+TYPOGRAPHY SYSTEM:
+------------------
+Three fonts. Three roles. Never mixed or swapped.
+
+INSTRUMENT SERIF — all academic content
+  Source: fonts.google.com/specimen/Instrument+Serif
+  Used for: unit titles, definitions, PYQ question text, hero headline,
+            conceptual summaries, analogies, paper names, large display text,
+            manifesto page body, the "carved from darkness" hero text
+  Why: it carries weight and authority. A definition in Instrument Serif
+       reads like something from a textbook. The same text in Inter
+       reads like a tooltip. Font choice IS meaning.
+  Weights: 400 regular, 400 italic
+  Sizes: 72px hero, 120px manifesto display, 48px paper title,
+         40px unit title, 18px definitions, 15px PYQ text, 13px summaries
+  CRITICAL: load both normal and italic styles explicitly in next/font.
+            Without italic specified, faux-italic is applied — visually wrong.
+
+SYNE — all UI and navigation
+  Source: fonts.google.com/specimen/Syne
+  Used for: nav labels, badges, buttons, section headers, metadata rows,
+            card titles, body text in UI
+  Why: geometric, strong, slightly unusual. Not Inter. Not Geist.
+       It has personality without being decorative.
+  Weights: 400, 500, 600, 700, 800
+  Sizes: 10px labels (uppercase), 11px metadata, 12px secondary UI,
+         13px primary UI, 14px body, 17px card titles, 18px unit names
+
+DM MONO — all data and mathematics
+  Source: fonts.google.com/specimen/DM+Mono
+  Used for: all formulas (KaTeX), step numbers, UPCs, agent identifiers,
+            year references, status text, pipeline ticker, stat values,
+            time estimates, cursor label text (when cursor shows "FLAG" etc.)
+  Why: precise, technical, readable at small sizes. Every number and every
+       formula gets mono treatment — this creates a visual language where
+       "data" is always identifiable.
+  Weights: 400, 500
+  Sizes: 10px labels, 11px metadata, 12px formulas, 13px steps, 15px answers
+
+LOADING FONTS IN NEXT.JS:
+  Import all three via next/font/google in app/layout.tsx.
+  Assign CSS variables: --font-serif, --font-sans, --font-mono.
+  Apply variables to <html> element.
+  Never use @import in CSS — always next/font for performance.
+  Always set display: 'swap' to prevent layout shift on load.
+
+SPACING SYSTEM:
+---------------
+Base unit: 8px. Use only multiples. No exceptions.
+  4px  — gaps between inline elements (pills, dots)
+  8px  — small internal padding
+  12px — default padding for compact elements
+  16px — standard padding
+  20px — medium padding
+  24px — card padding standard
+  32px — section spacing
+  40px — major section breaks
+  48px — page section padding
+  64px — large vertical rhythm
+  80px — hero sections
+  96px — maximum vertical spacing
+  120px — manifesto page between sections
+
+BORDER RADIUS:
+--------------
+Four values only. Never deviate.
+  --r-sm:   4px    (tags, small pills)
+  --r-md:   6px    (inputs, small buttons)
+  --r-lg:   8px    (buttons)
+  --r-xl:   12px   (cards)
+  --r-full: 9999px (badges, dots, circular elements)
+
+The reading workspace uses --r-sm and --r-xl only.
+Sharp corners communicate precision. Round corners communicate softness.
+This product is precise. Use roundness sparingly.
+
+================================================================
+THE AMBIENT LIGHT SYSTEM
+================================================================
+
+Every page has exactly one light source. This replaced the purple gradient.
+It is the amber radial that creates warmth without color.
+
+THE COMPONENT: <AmbientLight />
+  position: fixed
+  z-index: 0
+  pointer-events: none
+  width: 700px, height: 700px
+  border-radius: 50%
+  background: radial-gradient(
+    circle,
+    rgba(232,200,74,0.035) 0%,
+    transparent 70%
+  )
+
+POSITIONING PER PAGE:
+  Manifesto:       top: -300px, right: -300px (top-right corner, very far)
+  Homepage:        top: -250px, right: -250px (top-right corner)
+  Pipeline:        top: -200px, right: -150px (slightly more centered)
+  Paper Overview:  top: -300px, right: -200px (far corner, very subtle)
+  Reading Page:    top: -200px, right: -100px (just visible past sidebar)
+
+WHY THIS WORKS:
+  The purple gradient was fighting content on every page.
+  This amber radial is so subtle (3.5% opacity) that you do not consciously
+  notice it — but the page feels warm instead of cold. The difference
+  between a room lit by a desk lamp vs. fluorescents.
+
+================================================================
+THE FILM GRAIN SYSTEM
+================================================================
+
+THE COMPONENT: <GrainOverlay />
+  position: fixed
+  inset: 0
+  z-index: 9999
+  pointer-events: none
+  mix-blend-mode: overlay
+  opacity: var(--grain-opacity) — 0.035
+
+IMPLEMENTATION:
+  Method 1 (preferred, Chromium): SVG feTurbulence filter on a rect
+    <svg width="100%" height="100%">
+      <filter id="grain">
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.65"
+          numOctaves="3"
+          stitchTiles="stitch"
+        />
+        <feColorMatrix type="saturate" values="0"/>
+      </filter>
+      <rect width="100%" height="100%" filter="url(#grain)"/>
+    </svg>
+
+  Method 2 (Safari fallback): pre-generated PNG noise texture at 200x200px,
+    tiled via CSS background-repeat: repeat
+    This is necessary because SVG filters are slow on Safari/iOS.
+
+  ANIMATION — what makes it feel like film grain not a static texture:
+    Every 80ms, update the feTurbulence seed attribute with a random value
+    (0–1000 range). This creates the flickering grain feel.
+    Use requestAnimationFrame at 12fps (throttled, not 60fps — grain does
+    not need to be buttery smooth, slight choppiness IS the grain aesthetic).
+
+  User agent detection:
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+    if (isSafari) → use PNG fallback
+    else → use SVG filter + animation
+
+WHY THIS MATTERS:
+  Without grain, dark UI feels like a flat monitor.
+  With grain at 3.5%, it feels like there is material behind the content.
+  Basement Studio, Obys Agency, Active Theory — every Awwwards-level dark
+  site uses this. It is the single cheapest-to-implement highest-impact
+  visual upgrade possible.
+
+================================================================
+THE CUSTOM CURSOR SYSTEM
+================================================================
+
+THE COMPONENT: <CustomCursor />
+  Disabled entirely on: touch devices, mobile screens < 768px
+
+TWO ELEMENTS:
+  cursorDot:
+    width: 6px, height: 6px
+    border-radius: 50%
+    background: var(--cursor-dot) — #f0ece0 (warm white)
+    position: fixed, z-index: 10000
+    pointer-events: none
+    Position: direct 1:1 with mouse via useMotionValue
+    No spring lag — it IS the cursor, must feel instant
+
+  cursorRing:
+    width: 24px, height: 24px
+    border-radius: 50%
+    border: 1px solid rgba(240,236,224,0.25)
+    background: transparent
+    position: fixed, z-index: 9999
+    pointer-events: none
+    Position: useSpring(mouseX, { damping: 20, stiffness: 300 })
+    The spring lag makes it trail the dot — communicates physicality
+
+CURSOR STATES (morph based on what is being hovered):
+
+  DEFAULT:
+    dot: 6px warm white
+    ring: 24px at 25% opacity, plain
+
+  HOVERING A CARD / BUTTON:
+    ring expands: 24px → 36px spring
+    ring border-color: transitions to var(--cursor-ring) — amber
+    dot: fades to 0 opacity (ring takes over as the indicator)
+
+  HOVERING A DEFINITION BLOCK LABEL (the FLAG trigger zone):
+    ring: expands to 40px
+    Inside the ring: "FLAG" text appears in DM Mono 8px var(--text-tertiary)
+    Uses a fixed label div that fades in inside the ring
+    Cursor communicates its action before the user clicks
+
+  HOVERING A PYQ QUESTION:
+    ring: expands, color → var(--green) at 40% opacity
+    Communicates: "this is exam content"
+
+  HOVERING THE PIPELINE RUNNING AGENT CARD:
+    ring: rotates continuously at 1 rotation per 3 seconds
+    Reflects the card's own spinning loader — cursor mirrors the state
+
+  HOVERING INTERACTIVE INPUT / QUICK CHECK:
+    dot: scales to 3px
+    ring: 16px — tightens (you are now in precision input mode)
+
+  ON CLICK:
+    dot: briefly scales to 10px then springs back
+    ring: briefly scales down to 12px then springs back
+    Spring: { damping: 12, stiffness: 400 } — snappy
+
+  ON DRAG / MOUSEDOWN HELD:
+    ring: scales to 20px, opacity increases to 50%
+
+================================================================
+THE CHARACTER TEXT REVEAL SYSTEM
+================================================================
+
+Used on: Hero headline, Manifesto text, Unit titles, Topic names on
+         reading page, Paper title on overview page.
+NOT used on: UI labels, metadata, body prose, card descriptions.
+
+COMPONENT: <MaskReveal text="..." tag="h1" delay={0} />
+
+  MECHANISM:
+    Split the text string by spaces into words.
+    Each word wrapped in: <span style={{ overflow: 'hidden', display: 'inline-block' }}>
+    Inside each span: <motion.span> with:
+      initial: { y: '100%' }
+      animate: { y: '0%' }
+      transition: spring, damping: 20, stiffness: 100
+      delay: index * 0.06 (60ms stagger between words)
+
+  The overflow hidden parent clips the word during animation.
+  The word appears to rise from below as if carved from darkness.
+  No opacity change — purely position. This is cleaner than fade.
+
+  VARIANTS:
+    'standard' — 60ms stagger, spring as above. For headlines.
+    'fast' — 30ms stagger, { damping: 25, stiffness: 200 }. For subheadings.
+    'dramatic' — 80ms stagger, { damping: 15, stiffness: 80 }. For manifesto.
+
+  SCROLL-TRIGGERED VERSION (manifesto + reading page):
+    whileInView + viewport margin: '-100px'
+    once: true (does not replay on scroll back)
+
+  ACCESSIBILITY:
+    prefers-reduced-motion: replace with simple opacity 0 → 1, 0.3s
+    aria-label on the container with the full text string
+
+================================================================
+PHASE STRUCTURE — 10 PHASES ORDERED
+================================================================
+
+PHASE 0 — IDENTITY FREEZE (Day 0 — thinking only, no code)
+-----------------------------------------------------------
+GOAL: Every decision locked before implementation begins.
+      Nothing coded without a written reason.
+
+DELIVERABLES:
+  - Final globals.css token map written out (all variables above)
+  - Font loading strategy confirmed — all 3 fonts, correct weights/styles
+  - Grain implementation method chosen per browser target
+  - Animation constants finalized in lib/animations.ts plan
+  - JSON parse bug strategy confirmed (parseField.ts spec written)
+  - Component tree mapped (every component, every page, named)
+  - Route structure finalized:
+      / — Manifesto page (first-time visitors)
+      /home — Homepage (returning or after manifesto CTA)
+      /pipeline/[upc] — Pipeline page
+      /paper/[upc] — Paper overview
+      /paper/[upc]/unit/[unitId] — Reading page
+  - Decision log written: "Token X exists because Y"
+
+PHASE 1 — GLOBAL INFRASTRUCTURE (Days 1–2)
+-------------------------------------------
+GOAL: Every page looks dramatically better before touching any component.
+      Foundation files only. No page-specific code.
+
+FILES:
+  globals.css — complete replacement with all new tokens
+  tailwind.config.ts — map all CSS variables to Tailwind utilities
+  app/layout.tsx — font loading, AmbientLight, GrainOverlay, CustomCursor,
+                   PageTransition wrapper
+  lib/animations.ts — all Framer Motion variants as named exports
+  lib/parseField.ts — THE JSON BUG FIX (critical, do before any visual work)
+  components/AmbientLight.tsx
+  components/GrainOverlay.tsx (new)
+  components/CustomCursor.tsx (new)
+  components/PageTransition.tsx (AnimatePresence wrapper)
+  components/MaskReveal.tsx (new — character text reveal component)
+  components/ZAxisText.tsx
+
+GLOBALS.CSS CHANGES:
+  - Delete all purple/teal/gradient variables from old design
+  - Add all CSS custom properties in this document
+  - body: background var(--bg-base), color var(--text-primary)
+  - font-family: var(--font-sans) on body
+  - * box-sizing border-box, margin 0, padding 0
+  - ::selection background: rgba(232,200,74,0.20)
+  - scrollbar: width thin, color var(--border-default)
+  - cursor: none globally (CustomCursor replaces it)
+    Exception: cursor: text on contenteditable and inputs
+  - Remove all old animation keyframes
+
+LIB/ANIMATIONS.TS — export all variants as named constants:
+  staggerContainer: staggerChildren 0.06s
+  fadeUp: y 20→0, opacity 0→1, spring damping 20 stiffness 100
+  fadeUpFast: y 12→0, opacity 0→1, duration 0.3
+  revealInView: y 12→0, opacity 0→1, duration 0.4, custom easing
+  drawPath: pathLength 0→1, duration 0.4, easeOut
+  scaleIn: scale 0.95→1, opacity 0→1, spring damping 20 stiffness 200
+  inkDraw: pathLength 0→1, duration 0.4, ease "easeOut" (definition borders)
+  sonarPulse: opacity 0.45→0.65→0.45, duration 1.2, ease "easeInOut"
+
+  TILT CONSTANTS:
+    TILT_MAX: 6
+    TILT_PERSPECTIVE: 800
+    TILT_SPRING: { damping: 30, stiffness: 200 }
+
+  SPRING PRESETS:
+    springSnappy: { type: 'spring', damping: 20, stiffness: 300 }
+    springBouncy: { type: 'spring', damping: 15, stiffness: 150 }
+    springHeavy:  { type: 'spring', damping: 30, stiffness: 100 }
+    springFocus:  { type: 'spring', damping: 25, stiffness: 180 }
+
+LIB/PARSEFIELD.TS — THE JSON BUG FIX:
+
+  parseField(raw):
+    Try JSON.parse(raw)
+    If parsed.meaning → return parsed.meaning
+    If parsed.text → return parsed.text
+    If parsed.content → return parsed.content
+    If parsed.definition → return parsed.definition
+    If string → return as-is
+    Catch → return raw unchanged
+
+  parseQuickCheck(raw):
+    Try JSON.parse(raw)
+    Return { question: parsed.question } ONLY
+    NEVER return or expose parsed.answer to any component
+    The answer field is backend-only. It never touches frontend.
+
+  parseCommonMistakes(raw):
+    Try JSON.parse(raw) — expects array
+    Each item: { mistake: string, marks_lost: string }
+    Return typed array
+    Catch → wrap raw string in array with no marks_lost
+
+  parseExaminerNote(raw):
+    Try JSON.parse(raw)
+    Return {
+      text: string,
+      years: string[],
+      instruction_words: { word: string, count: number }[]
+    }
+    Catch → return { text: raw, years: [], instruction_words: [] }
+
+  parseExample(raw):
+    Try JSON.parse(raw)
+    Return {
+      problem: string,
+      steps: { number: string, text: string }[],
+      answer: string,
+      common_error: string | null,
+      example_type: string,
+      verified: boolean,
+      verification_mode: string
+    }
+    Catch → return null
+
+PHASE 2 — MANIFESTO PAGE (Day 3) [NEW PAGE]
+--------------------------------------------
+GOAL: The entry experience for first-time visitors.
+      Cinematic. Scroll-driven. One page, one purpose: earn trust.
+
+ROUTE: / (redirects to /home after first visit via localStorage flag)
+       Or /about if you prefer to keep / as homepage always.
+
+THIS PAGE IS THE STORY OF STUDYAI.
+Every other page is functional. This page is emotional.
+
+LAYOUT:
+  Full-screen scroll journey. 6 sections. No navigation header.
+  AmbientLight top-right, GrainOverlay, CustomCursor.
+  Lenis smooth scroll. lerp: 0.08 (slower than other pages — deliberate).
+
+SECTION 1 — THE OPENING:
+  Full viewport height. Centered.
+  Background: var(--bg-base). Pure.
+  
+  Single word, Instrument Serif, clamp(80px, 12vw, 160px):
+  "Study."
+  Color: var(--text-primary)
+  Mask reveal on page load. 800ms.
+  
+  Below it, 80px later, Syne 14px var(--text-tertiary) appears:
+  "DU NEP 2022 · 12 Agents · Exam-calibrated"
+  Fades in 600ms after the headline.
+
+  A single downward scroll indicator: a thin 1px vertical line, 40px tall,
+  at the bottom center of the viewport. It pulses: scaleY 0.5 → 1 → 0.5
+  every 2 seconds. No arrow, no text. Just the line.
+
+SECTION 2 — THE PROBLEM (scroll-scrubbed text):
+  Background: var(--bg-base).
+  
+  A paragraph of Instrument Serif, 32px desktop / 22px mobile:
+  "Your DU exam has 12 years of question papers.
+  Your notes have none of that.
+  Your study material was written for a different syllabus.
+  You are studying blindly."
+  
+  SCROLL SCRUB BEHAVIOUR:
+  Each sentence highlights (color transitions from var(--text-tertiary)
+  to var(--text-primary)) as it reaches the center of the viewport
+  during scroll. The un-highlighted text sits at --text-tertiary.
+  As the user scrolls forward, sentences illuminate one by one.
+  As the user scrolls back, they dim.
+  Powered by: Framer Motion useScroll + useTransform per sentence.
+  Each sentence is a separate element with its own scroll range mapped
+  to opacity/color.
+
+SECTION 3 — THE NUMBER:
+  Full viewport. Centered. Dark.
+  
+  A single large number counter: DM Mono, clamp(120px, 18vw, 240px)
+  Color: var(--accent)
+  
+  As this section enters viewport, counter animates: 0 → 12
+  Duration: 1800ms, easing: cubic-bezier(0.16, 1, 0.3, 1) (fast end decel)
+  
+  Below the number, immediately:
+  Syne 16px uppercase var(--text-tertiary) letter-spacing 0.2em:
+  "AGENTS BUILDING YOUR NOTES"
+  
+  Below that, 40px gap, a flex row of 12 small dots:
+  Each dot: 8px circle, var(--border-subtle) default
+  They fill amber one by one in sequence, 150ms apart, triggered when the
+  number finishes counting.
+  
+  Below that, another 40px:
+  Syne 13px var(--text-secondary) max-width 400px centered:
+  "Syllabus mapping. PYQ analysis. Coverage verification. Worked examples.
+   Examiner pattern extraction. All autonomous. All calibrated to your paper."
+
+SECTION 4 — THE AGENTS (horizontal mini-cards):
+  A horizontal scrolling row of all 12 agent mini-cards.
+  Animated via scroll — as this section passes the viewport, the row
+  translates from right to left (parallax, 0.3x scroll speed).
+  
+  Each mini-card:
+    Width: 140px, height: 80px
+    Background: var(--bg-card)
+    Border: 1px solid var(--border-subtle)
+    Border-radius: var(--r-xl)
+    Padding: 12px
+    Agent identifier: DM Mono 9px var(--text-tertiary) — "A-01"
+    Agent name: Syne 12px weight 700 var(--text-primary)
+    Model name: DM Mono 9px var(--text-tertiary)
+  
+  No status indicators here — just identity. The cards scroll past like
+  a train of workers. Communicates: there are many, they are organized,
+  they are real.
+
+SECTION 5 — THE READING PREVIEW:
+  A zoomed-in preview of what the reading page looks like.
+  A mock unit card rendered at 80% scale, centered, with a subtle
+  drop shadow: 0 40px 80px rgba(0,0,0,0.5).
+  The card shows: a Rapid Revision Card, a Definition block, an Examiner
+  Note — all with real-looking dummy content.
+  
+  This section answers: "What do I actually get?"
+  
+  On scroll into this section, the card scales from 0.85 → 1.0 with spring.
+  A faint amber glow appears behind the card (radial gradient, 5% opacity).
+  
+  Label above the card: Syne 10px uppercase var(--text-tertiary):
+  "WHAT YOUR UNIT LOOKS LIKE"
+
+SECTION 6 — THE CTA:
+  Full viewport. Centered. The final beat.
+  
+  Instrument Serif italic, clamp(36px, 6vw, 72px), var(--text-primary):
+  "Your exam is in the data.
+  Let us find it."
+  
+  Mask reveal, dramatic variant (80ms stagger).
+  
+  Below, 48px gap: the same UPC input from the homepage.
+  Same styling. Same behavior.
+  Same button: "Generate →" in amber.
+  
+  This is the manifesto's conversion point.
+  The user has been shown the problem, the solution, the agents, the output.
+  Now they enter their paper code.
+
+PAGE TRANSITION OUT:
+  When the user submits their paper code or clicks a "Skip" link (top-right,
+  very small, var(--text-tertiary)):
+  The page fades out with a vertical wipe: a black rectangle expands
+  from center, covering the page, then routes to /home.
+  Duration: 400ms total.
+
+PHASE 3 — HOMEPAGE (Day 4)
+----------------------------
+GOAL: The landing page becomes a typographic statement.
+      Someone should be able to screenshot it and it looks designed.
+
+REFERENCE: basement.studio, rauno.me, nan.fyi
+
+FULL VIEWPORT HEIGHT. Vertically centered content column.
+AmbientLight top-right. GrainOverlay. CustomCursor.
+ZAxisText behind everything. Foreground: pure content.
+
+Z-AXIS BACKGROUND TEXT LAYER (ZAxisText component):
+  Words: the actual DU subject areas:
+    PROBABILITY, STATISTICS, DIFFERENTIAL, EQUATIONS,
+    CALCULUS, ALGEBRA, TOPOLOGY, ANALYSIS
+  Font: Instrument Serif
+  Size: clamp(60px, 9vw, 130px)
+  Opacity: 0.035 (barely visible — if you notice immediately, too strong)
+  Color: var(--text-primary)
+  Position: fixed, z-index -1, overflow hidden
+  Layout: scattered across viewport organically (not in a grid)
+  
+  PARALLAX: tied to mouse position via useMotionValue
+    Shifts at 0.15x mouse speed in OPPOSITE direction to cursor.
+    useTransform mouseX [0, windowWidth] → x [-20, 20]
+    Spring interpolation so it glides, does not snap.
+  
+  ON INPUT FOCUS:
+    blur animates from 0px to 4px via spring.
+    Pulls absolute focus to the input, bg becomes soft.
+
+HERO CONTENT (z-index 1):
+
+  STUDYAI LOGOTYPE:
+    Syne, 11px, weight 700, uppercase, letter-spacing 0.15em
+    Color: var(--text-tertiary)
+    Margin bottom: 48px
+
+  HEADLINE:
+    Line 1: "Your DU exam,"     — Instrument Serif, 72px desktop / 44px mobile
+    Line 2: "precisely decoded." — Instrument Serif italic, same size
+    Color: var(--text-primary)
+    Letter spacing: -0.02em
+    Line height: 1.1
+    No gradient on text. Pure warm white. Italic creates contrast.
+    
+    ANIMATION: MaskReveal component, standard variant.
+    Line 1 reveals word by word. Line 2 follows with 120ms overall delay.
+    The mask reveal replaces the old slide-up — more dramatic, more editorial.
+
+  SUBHEADING:
+    "Enter your paper code. 12 agents build your exam notes."
+    Syne, 15px, var(--text-secondary)
+    Max-width: 400px, margin-top: 20px
+    fadeUp animation, 200ms after headline completes
+
+  INPUT ROW:
+    Layout: flex row, gap 12px
+    
+    Input:
+      Background: transparent
+      Border: none
+      Border-bottom: 1px solid var(--border-default) ONLY (underline)
+      Padding: 12px 0
+      Font: Syne, 16px, var(--text-primary)
+      Placeholder: "Paper code — e.g. 2352203601", var(--text-tertiary)
+      Width: 320px
+      Focus:
+        border-bottom → var(--accent), 200ms
+        ZAxisText layer blurs simultaneously via spring
+        No outline, no glow, no shadow
+    
+    Button:
+      Text: "Generate →"
+      Syne, 14px, weight 700
+      Background: var(--accent)
+      Color: var(--bg-base)
+      Border-radius: var(--r-lg)
+      Padding: 12px 24px
+      Hover: background → var(--accent-2), scale 1.02 spring
+      Loading: "Generating..." with subtle pulse animation
+
+  STAT PILLS ROW:
+    Three items: "12 AGENTS" / "EXAM-CALIBRATED" / "DU NEP 2022"
+    Flex row, separated by 1px vertical lines, no card background
+    Each:
+      Value: Instrument Serif italic, 18px, var(--text-primary)
+      Label: Syne, 10px uppercase, letter-spacing 0.12em, var(--text-tertiary)
+    Animation: fades in last, 700ms delay after page load
+
+PAGE LOAD SEQUENCE (total ~900ms):
+  0ms:    AmbientLight + GrainOverlay (instant)
+  0ms:    ZAxisText fades in slowly (600ms ease-in)
+  200ms:  Logotype fades in
+  300ms:  Headline Line 1 mask reveals (word by word)
+  420ms:  Headline Line 2 mask reveals
+  520ms:  Subheading fades up
+  620ms:  Input row fades up
+  740ms:  Stat pills fade in
+
+VALIDATION & ERROR:
+  Inline below input, no modal
+  Syne 12px, var(--red), slides down from y:-8 via spring
+  Messages: "Must be exactly 10 digits" / "Numeric characters only"
+  If paper exists in DB: route directly to /paper/:upc, skip pipeline
+
+PHASE 4 — PIPELINE PAGE (Days 5–6)
+-------------------------------------
+NOTE: PIPELINE IS A MOCK. Do not touch any backend pipeline logic.
+This phase is purely presentation of whatever state the mock provides.
+
+GOAL: The agent grid becomes a living, physical bento grid with material
+      depth. Each card should feel like a glass tile that responds to you.
+
+PAGE LAYOUT:
+  Full viewport. No scroll needed on desktop.
+  Top: progress header strip (full width)
+  Below: two-column — agent grid (65%) + unit tracker (35%)
+
+PROGRESS HEADER STRIP:
+  Background: var(--bg-raised)
+  Border-bottom: 1px solid var(--border-subtle)
+  Padding: 16px 32px
+  Left: paper name, Syne 14px var(--text-primary)
+  Right: UPC, DM Mono 12px var(--text-tertiary)
+  Below: full-width progress bar
+    Track: 1px line, var(--border-subtle)
+    Fill: scaleX 0→1, transform-origin left, var(--accent)
+    Above bar: DM Mono 10px uppercase var(--text-tertiary):
+    "PIPELINE EXECUTION · {n}/12 AGENTS COMPLETE · EST. {time}"
+
+THE BENTO GRID:
+  CSS Grid: 4 columns, rows auto, gap 12px
+  
+  Card sizing by agent importance:
+    A-01 Syllabus Map:    1×1
+    A-02 Researcher:      1×1
+    A-03 Paper DNA:       1×1
+    A-04 Mental Mapper:   1×1
+    A-05 Writer:          2×1 (double width — content engine)
+    A-06 Coverage:        1×1
+    A-07 Verifier:        1×2 (double height — trust layer)
+    A-08 Critic:          1×1
+    A-09 Rewriter:        1×1
+    A-10 Final Examiner:  1×1
+    A-11 Patcher:         1×1
+    A-12 Consistency:     1×1
+
+AGENT CARD COMPONENT:
+
+  BASE STRUCTURE (all states):
+    Background: var(--bg-card) + faint noise texture overlay
+    Border: 1px solid var(--border-subtle)
+    Border-radius: var(--r-xl)
+    Padding: 20px
+    Position: relative
+    Overflow: hidden
+    
+    NOISE TEXTURE ON CARD SURFACE (new):
+      An absolutely positioned overlay div inside each card:
+        position: absolute, inset: 0
+        background: the SVG feTurbulence texture at baseFrequency 0.85
+        opacity: 0.025 (even more subtle than global grain)
+        mix-blend-mode: overlay
+        pointer-events: none
+        border-radius: inherit
+      This is separate from the magnetic glow overlay.
+      Layer order bottom to top: card bg → noise texture → content → glow overlay
+    
+    Top row:
+      Left: "A-01" DM Mono 10px var(--text-tertiary)
+      Right: status icon (state-specific)
+    Middle: agent name, Syne 15px weight 700 var(--text-primary)
+    Bottom: model name DM Mono 10px var(--text-tertiary) + status label
+
+  STATE 1 — QUEUED:
+    Opacity: 0.45
+    Status icon: hollow circle, var(--text-tertiary)
+    Status label: "QUEUED" var(--text-tertiary)
+    
+    DEAD TIME ANIMATION (new):
+    Every 6–8 seconds, a sonar pulse sweeps the grid left to right.
+    Each queued card's opacity pulses: 0.45 → 0.65 → 0.45 over 1200ms.
+    The sweep starts from card A-01 and propagates right with 80ms delay
+    per card position. Cards feel alive and waiting, not frozen.
+
+  STATE 2 — RUNNING:
+    Opacity: 1
+    Border-left: 2px solid var(--accent)
+    Background: linear-gradient(90deg, var(--accent-dim) 0%, var(--bg-card) 40%)
+    Status icon: spinning loader ring, var(--accent)
+      16px circle, 1.5px stroke, 3/4 arc, 360deg/1s linear infinite
+    Status label: "PROCESSING" var(--accent)
+    
+    Left border pulse: scaleY 0.92→1.08 every 1.5s spring
+    
+    Ticker text (cycles every 3s with fade):
+      DM Mono 10px var(--text-secondary) italic
+      "Extracting examiner phrasing from PYQ…"
+      "Mapping combination risks across units…"
+      "Calibrating against paper DNA…"
+
+  STATE 3 — COMPLETE:
+    Border: 1px solid rgba(90,184,122,0.2)
+    Background: var(--green-dim)
+    Status icon: SVG checkmark with pathLength 0→1 draw animation, 400ms
+    Status label: "VERIFIED" var(--green)
+    Brief scale 1.02→1 spring on state change
+    
+    SOUND (if enabled): soft click, 30ms, 40dB
+    If all 12 complete: single warm tone plays
+
+  STATE 4 — FAILED:
+    Border: 1px solid rgba(232,90,74,0.2)
+    Background: var(--red-dim)
+    Status icon: X mark, rotates in from -45deg, var(--red)
+    Status label: "FAILED" var(--red)
+    Small retry button: Syne 10px, var(--red) border, no background
+
+3D TILT EFFECT:
+  On mousemove:
+    rotateX = (cursorY - cardCenterY) / cardHeight * -6
+    rotateY = (cursorX - cardCenterX) / cardWidth * 6
+    Apply via Framer Motion useSpring, TILT_SPRING
+    transformPerspective: 800
+    On mouse leave: springs to 0
+
+MAGNETIC BORDER GLOW:
+  Track cursor X and Y relative to card.
+  Update CSS properties --mouse-x and --mouse-y on the card element.
+  Overlay div inside card (separate from noise texture overlay):
+    position absolute, inset 0, border-radius inherit
+    background: radial-gradient(180px at var(--mouse-x) var(--mouse-y),
+      rgba(232,200,74,0.10), transparent 70%)
+    pointer-events: none, z-index: 2
+    opacity: 0 → 1 on card hover, opacity: 0 on leave
+
+GRID ENTRANCE ANIMATION:
+  Cards cascade in on page load:
+  Each card: y 20→0, opacity 0→1, spring damping 20 stiffness 100
+  Stagger: 60ms per card (660ms total for 12 cards)
+  By card 12, card 1 may already be running.
+
+RIGHT COLUMN — UNIT TRACKER:
+  Sticky, full height.
+  "COMPILED UNITS" Syne 10px uppercase var(--text-tertiary)
+  
+  Each unit as a compact row:
+    Name: Syne 13px var(--text-primary)
+    Progress bar: 2px height, var(--accent) fill, animates as topics complete
+    Status badge pill
+  
+  Status states: Queued (dim) / Processing (pulsing) / Complete (green)
+  
+  When first unit completes:
+    "Read Unit 1 →" appears in var(--accent), slides up spring
+
+PHASE 5 — PAPER OVERVIEW PAGE (Day 7)
+---------------------------------------
+GOAL: The bridge between cinematic (pipeline) and surgical (reading).
+      Organized, authoritative, scannable.
+
+PAGE LAYOUT:
+  Single column, max-width 900px, centered.
+  No sidebar. AmbientLight top-right. GrainOverlay.
+
+PAPER HEADER:
+  UPC: DM Mono 11px var(--text-tertiary) — "UPC · 2352203601"
+  
+  Paper title: Instrument Serif 52px var(--text-primary) letter-spacing -0.02em
+    MaskReveal component, standard variant, on page load.
+  
+  Metadata row:
+    Dept / Programme / Semester / Type
+    Label: Syne 10px uppercase var(--text-tertiary)
+    Value: Syne 14px var(--text-secondary)
+    Separated by 1px vertical lines
+  
+  TIER BADGE (prominent, below metadata):
+    Tier 1: border rgba(90,184,122,0.3), bg var(--green-dim), "TIER 1 · PYQ CALIBRATED"
+    Tier 2: border rgba(232,200,74,0.3), bg var(--accent-dim2), "TIER 2 · PARTIAL CALIBRATION"
+    Tier 3: border rgba(232,90,74,0.2), bg var(--red-dim), "TIER 3 · SYLLABUS BASED"
+    Tier 4: same as 3, "TIER 4 · INSUFFICIENT DATA"
+    14px text, generous padding, DM Mono + Syne combination
+  
+  PYQ YEAR PILLS (tier 1/2):
+    DM Mono 11px var(--accent), bg var(--accent-dim), border rgba(232,200,74,0.2)
+    border-radius var(--r-full), flex row gap 6px
+  
+  LAST 4 HOURS BUTTON (top-right):
+    bg var(--accent-dim2), border rgba(232,200,74,0.3)
+    "⏰ Last 4 Hours" Syne 13px weight 700 var(--accent)
+    Hover: clock icon rotates 360deg spring, bg intensifies
+    Active: amber bg, green "ACTIVE" pill appears beside it
+  
+  PYQ SUBMISSION BANNER (tier 3/4):
+    Full-width strip, bg rgba(232,200,74,0.06), border rgba(232,200,74,0.15)
+    "Help improve this paper" + "I have this question paper →" button
+
+UNITS SECTION:
+  "Units" Syne 18px weight 700 + count badge
+  Single column cards (full width reads better for dense content)
+  Gap: 12px
+  
+  Each unit card:
+    bg var(--bg-card), border var(--border-default), radius var(--r-xl), padding 24px
+    Cursor: pointer (if complete)
+    
+    CARD INTERIOR:
+    
+    Top row (space-between):
+      Left:
+        Unit number: DM Mono 10px var(--text-tertiary) "U-01"
+        Unit name: Syne 18px weight 700 var(--text-primary)
+        Conceptual summary: Instrument Serif italic 13px var(--text-secondary)
+      Right:
+        Study time: DM Mono 13px var(--text-secondary)
+        Marks: Syne 14px weight 700 var(--text-primary)
+    
+    PRIORITY STRIP:
+      Flex row of 6px priority dots (red/amber/gray/subtle by priority)
+      Instant visual scan: "this unit is mostly high yield"
+      Label before: Syne 10px uppercase "TOPICS"
+      After: topic count DM Mono 10px
+    
+    COMPLETION PROGRESS BAR:
+      2px height, var(--accent) fill scaleX, full width
+    
+    HOVER STATE:
+      border-color → var(--border-strong)
+      background → var(--bg-card-hover)
+      Arrow → slides right 4px, color → var(--accent)
+      Card: translateY -2px spring
+    
+    STATUS: Complete / Generating (pulsing border) / Queued (dim) / Failed
+
+  CARD ENTRANCE:
+    y 16→0, opacity 0→1, stagger 60ms per card, spring
+
+PHASE 6 — READING PAGE (Days 8–11)
+-------------------------------------
+THIS IS THE MOST IMPORTANT PAGE.
+Everything else leads here. This is where the product lives or dies.
+The design must serve one goal: helping a student learn and retain
+content for their exam. Nothing decorative. Nothing competes with content.
+
+OVERALL LAYOUT:
+  CSS Grid: 220px (sidebar) + 1fr (main content)
+  Height: 100vh, overflow hidden (columns scroll independently)
+
+  NEW: FOCUS MODE
+    Toggle in sticky topbar: "⊙ Focus" Syne 11px var(--text-tertiary)
+    When activated (spring transitions, 300ms each):
+      Sidebar: width 220px → var(--sidebar-collapsed) 20px
+               Shows only priority dots stacked vertically
+               Unit label and topic names hidden (opacity → 0 spring)
+      Topbar: height 48px → 8px
+              All topbar content fades to opacity 0
+              The 8px strip becomes just the amber progress line
+      Reading column: expands to fill full width minus 20px
+      GrainOverlay: opacity increases from 0.035 → 0.06 (more immersive)
+    Toggle off: all springs back to normal state
+
+  NEW: LEFT-EDGE SCROLL PROGRESS LINE
+    A 2px amber line position: fixed, left: 0, top: 0
+    Height: driven by scroll progress (useScroll + useTransform)
+    Color: var(--accent)
+    At 100%: a soft radial pulse radiates from the bottom of the line
+      Background: radial-gradient at left:0 bottom:currentHeight
+      rgba(232,200,74,0.15), spreads 40px, opacity 0→1→0, 600ms spring
+    This replaces or supplements the topbar progress bar.
+    Lives in the margin. Does not compete with content.
+
+LEFT SIDEBAR (220px, sticky, height 100vh):
+  bg var(--bg-raised), border-right 1px var(--border-subtle)
+  overflow-y auto, scrollbar thin
+  
+  SIDEBAR HEADER:
+    Padding: 20px 16px 16px
+    Border-bottom: 1px var(--border-subtle)
+    StudyAI logotype: Syne 10px uppercase var(--text-tertiary)
+    Paper name: Instrument Serif 15px var(--text-primary)
+    Tier badge: compact version
+  
+  TOPIC NAVIGATION:
+    Section label per unit: Syne 10px uppercase var(--text-tertiary)
+    
+    Each topic row:
+      Left: priority dot (6px) — red/amber/gray by priority
+      Center: topic name Syne 12px var(--text-secondary), flex 1
+      Right: study time DM Mono 10px var(--text-tertiary)
+      Padding: 7px 16px
+      
+      HOVER: bg → var(--bg-card), dot scales to 8px spring
+      ACTIVE: border-left 2px var(--accent), bg var(--accent-dim),
+              name color → var(--accent)
+      
+      Priority dot hover: expands to pill showing "HIGH"/"MEDIUM"/"LOW"
+        Springs to pill shape, contracts on leave
+
+STICKY TOPBAR (above main content):
+  position sticky, top 0
+  bg rgba(10,9,8,0.92) — bg-base at 92%
+  backdrop-filter: blur(12px) — the ONE place blur is used
+  border-bottom: 1px var(--border-subtle)
+  Height: 48px, padding: 0 32px
+  z-index: 50
+  
+  Left: unit name Syne 11px uppercase var(--text-tertiary)
+  Right:
+    "⊙ Focus" toggle (new) — activates Focus Mode
+    "Export PDF" — outlined, Syne 11px var(--text-secondary)
+    "⏰ Last 4 Hours" — amber tinted, most important
+      bg var(--accent-dim2), border rgba(232,200,74,0.3)
+      color var(--accent), Syne 11px weight 700
+      Hover: clock rotates 360deg spring, bg intensifies
+
+MAIN CONTENT COLUMN:
+  Max-width: 720px (optimal ~65ch reading column)
+  Padding: 0 48px 80px
+  Overflow-y: auto, height: 100vh
+
+UNIT HEADER:
+  Padding: 40px 0 32px
+  Border-bottom: 1px var(--border-subtle)
+  
+  Metadata row: Syne 11px uppercase var(--text-tertiary)
+  "B.SC. (H) MATHEMATICS · SEMESTER 3" + 24px horizontal rule separator
+  
+  Unit title: Instrument Serif 40px var(--text-primary) letter-spacing -0.01em
+    MaskReveal component, standard variant, on page load.
+  
+  Conceptual summary: Syne 14px var(--text-secondary) leading-relaxed
+    Max-width: 560px (narrower than reading column)
+  
+  Stats row: TOPICS / STUDY TIME / HIGH YIELD / PYQ VERIFIED
+    Each: label Syne 10px uppercase var(--text-tertiary),
+          value DM Mono 14px var(--text-primary)
+    Separated by 1px vertical lines
+
+PER-TOPIC SECTION:
+  Each topic: section element with id="topic-{topicId}"
+  Border-bottom: 1px var(--border-subtle)
+  Padding: 32px 0
+  
+  TOPIC NUMBER ROW:
+    Flex, align center, gap 14px, margin-bottom 22px
+    Topic number pill: DM Mono 10px var(--text-tertiary)
+      border var(--border-default), radius var(--r-md), padding 2px 8px
+    Horizontal rule: flex 1, 1px var(--border-subtle)
+    Study time: DM Mono 11px var(--text-tertiary)
+
+THE 10 CONTENT BLOCKS (strict render order):
+
+BLOCK 1 — RAPID REVISION CARD:
+  Always first. Always visible even when topic is collapsed.
+  Visual anchor of every topic. Clicking toggles rest of topic.
+  
+  bg var(--bg-card), border var(--border-default), radius var(--r-xl)
+  Border-left: 3px solid [priority color — red/amber/gray]
+  
+  TOP STRIP (16px 20px padding):
+    Left: topic name Syne 17px weight 700 var(--text-primary)
+    Right: yield badge (High/Medium/Low/Never — red/amber/gray/dim)
+  
+  THREE-COLUMN GRID (border-top var(--border-subtle)):
+    Three equal columns, 1px vertical lines between, padding 12px 20px each
+    
+    Col 1 "ONE-LINE DEF":
+      Label: Syne 9px uppercase var(--text-tertiary)
+      Value: Syne 13px var(--text-primary)
+    
+    Col 2 "KEY FORMULA":
+      Label: Syne 9px uppercase var(--text-tertiary)
+      Value: DM Mono 12px var(--accent) — always amber
+      If contains $: render with KaTeX inline
+    
+    Col 3 "EXAMINER PATTERN":
+      Label: Syne 9px uppercase var(--text-tertiary)
+      Value: Instrument Serif italic 14px var(--text-secondary)
+
+BLOCK 2 — DEFINITION (with ink-draw reveal):
+  Section label row:
+    "DEFINITION" Syne 10px uppercase var(--text-tertiary) tracking-widest
+    After: 32px horizontal rule (1px var(--border-default))
+    Right side: flag button (hidden → visible on parent hover, 150ms)
+      "⚑ Flag" Syne 10px
+      Hover: var(--red), red border at 30%, bg var(--red-dim)
+  
+  Definition card:
+    bg var(--bg-card), border var(--border-default), radius var(--r-xl)
+    Padding: 16px 20px
+    Font: Instrument Serif 18px var(--text-primary) leading-relaxed
+    
+    THE INK-DRAW BORDER (new):
+      The left border is not a standard CSS border-left.
+      It is an absolutely positioned SVG line element:
+        height: 100%, width: 3px, left: 0, top: 0
+        A vertical SVG path: M 0 0 L 0 [height]
+        Color: var(--border-ink) — rgba(232,200,74,0.6)
+        stroke-width: 3
+        pathLength: 0
+      
+      ANIMATION SEQUENCE on whileInView:
+        Step 1 (0ms): SVG path begins drawing, pathLength 0 → 1, 400ms easeOut
+        Step 2 (400ms): MaskReveal begins on definition text, word by word
+        Total sequence: ~1000ms
+        once: true
+      
+      This is the single most memorable micro-interaction on the reading page.
+      The definition feels like it is being written in real time.
+  
+  Scroll reveal: whileInView, once: true, viewport margin -80px
+
+BLOCK 3 — CORE CONCEPT:
+  "CORE CONCEPT" label (same pattern)
+  Content: Syne 14px var(--text-secondary) leading-relaxed, no card wrapper
+  
+  Analogy box (if field exists):
+    bg var(--blue-dim), border rgba(90,154,232,0.15), radius var(--r-lg)
+    Padding: 12px 16px, flex row gap 10px
+    "ANALOGY" label Syne 9px uppercase var(--blue) weight 700
+    Text: Syne 13px italic var(--text-secondary)
+    If analogy_verified === false: ⚠ icon var(--accent) + tooltip
+
+BLOCK 4 — EXAMPLE BLOCK:
+  Card: bg var(--bg-card), border var(--border-default), radius var(--r-xl), overflow hidden
+  
+  Header strip: bg var(--bg-card-hover), border-bottom var(--border-subtle)
+    Left: example type Syne 10px uppercase var(--text-tertiary)
+    Right: VerifiedBadge (pathLength checkmark draw on mount)
+  
+  Problem: Syne 14px var(--text-primary), border-bottom var(--border-subtle)
+  
+  Steps: each step flex row gap 12px padding 6px 16px
+    Number: DM Mono 10px var(--text-tertiary) "01."
+    Text: DM Mono 13px var(--text-secondary)
+    ALL step content in DM Mono — mathematical working
+  
+  Answer box:
+    bg var(--accent-dim), border rgba(232,200,74,0.2), radius var(--r-lg)
+    DM Mono 16px weight 500 var(--accent), center, padding 12px
+    The amber box signals: HERE IS THE ANSWER.
+  
+  Common error callout (if exists):
+    bg rgba(255,200,50,0.05), border rgba(255,200,50,0.12), radius var(--r-lg)
+    "⚠ COMMON ERROR" label amber + error text Syne 12px
+
+BLOCK 5 — EXAMINER'S NOTE:
+  bg rgba(232,200,74,0.05), border rgba(232,200,74,0.15), radius var(--r-xl)
+  Padding: 16px 20px
+  Unique amber tint — feels different, feels like insider information
+  
+  Main text: Syne 14px var(--text-primary)
+  Years (4-digit) auto-wrapped in amber pills: DM Mono 11px var(--accent)
+  
+  Divider: 1px var(--border-subtle) at 10% amber tint
+  
+  Instruction word pills: flex wrap gap 6px
+    Syne 11px var(--text-secondary), bg rgba(255,255,255,0.04)
+    Frequency count: DM Mono 10px var(--accent) — "calculate ×3"
+
+BLOCK 6 — COMMON MISTAKES:
+  Each mistake: flex row card
+    bg var(--red-dim), border rgba(232,90,74,0.12), radius var(--r-lg)
+    Left: × icon var(--red)
+    Center: mistake text Syne 13px var(--text-secondary)
+    Right: "−2 marks" pill, Syne 10px weight 700 var(--red)
+
+BLOCK 7 — ANSWER WRITING TECHNIQUE:
+  Only if topic marks >= 6.
+  Card: bg var(--bg-card), overflow hidden
+  Header: "6-MARK BLUEPRINT · ANSWER STRUCTURE" Syne 12px weight 700
+  Right: "6+ MARKS" pill var(--blue) DM Mono 10px
+  Steps: DM Mono 11px var(--accent) number + Syne 13px text
+  Marks distribution: flex wrap pills
+
+BLOCK 8 — PYQ BLOCK:
+  Each PYQ: bg var(--bg-card), radius var(--r-xl)
+  If recency_weight >= 1.5: border → rgba(232,200,74,0.2) amber
+  
+  Header: year badge (green confirmed / gray unconfirmed) + marks pill
+  Question: Instrument Serif 15px var(--text-primary)
+    Reads like reading the actual exam paper. Serif signals: this is real.
+  Key steps: DM Mono 11px var(--text-tertiary) with amber arrow
+
+BLOCK 9 — QUICK CHECKS (the friction engine):
+  CRITICAL: answers from database NEVER appear here.
+  parseQuickCheck returns { question } only.
+  Self-assessment is subjective — student grades themselves.
+  
+  Each question card:
+    border: 1px dashed var(--border-default) — dashed signals incomplete
+    Padding: 12px 16px
+  
+  Question: Syne 14px var(--text-primary)
+  Input: bg var(--bg-base), border var(--border-default), radius var(--r-md)
+    Focus: border → rgba(232,200,74,0.3)
+  
+  Self-assessment console (shows when input has content):
+    fadeUp spring, opacity 0→1, y 8→0
+    Three buttons: "Unsure" / "Partial" / "Full Marks"
+    
+    On "Full Marks":
+      Input locks, text dims to 60% opacity
+      PARTICLE BURST at cursor position:
+        8–12 small dots, monochrome (var(--text-tertiary))
+        Explode outward from cursor, random directions
+        Each: scale 1→0, opacity 1→0, 600ms
+        No confetti library — absolute positioned divs, spring physics
+      Card border: dashed var(--border-default) → dashed var(--green)
+
+BLOCK 10 — CONNECTS TO:
+  Full-width flex row card
+  bg var(--bg-card), border var(--border-default), radius var(--r-xl)
+  Padding: 14px 20px, cursor pointer, margin-top 24px
+  
+  Left:
+    "NEXT TOPIC" Syne 10px uppercase var(--text-tertiary)
+    Topic name Syne 14px weight 600 var(--text-primary)
+    Bridge reason Syne 12px var(--text-secondary)
+  Right: → arrow, hover → translateX +4px spring, color → var(--accent)
+
+UNIT CLOSER (after all topics):
+  bg var(--bg-card), border var(--border-default), radius var(--r-xl)
+  "EXAM-READY CHECKLIST" header + rule
+  Four checklist items: ✓ var(--green) + Syne 13px text
+
+SCROLL BEHAVIOR:
+  Lenis: lerp 0.1
+  Each content block: whileInView y 12→0, opacity 0→1
+    once: true, viewport margin -80px, duration 0.4
+
+FOCUS MODE SIDEBAR DETAIL:
+  Collapsed state (20px wide):
+    Shows a vertical stack of priority dots
+    Each dot: 6px circle, positioned at the center of the 20px strip
+    The dots represent topics in order — their colors unchanged
+    On hover of the 20px strip: sidebar expands back to 220px spring
+    This allows the student to see "where they are" in the unit
+    without leaving focus mode permanently
+
+PHASE 7 — MOTION SYSTEM AUDIT (Day 12)
+----------------------------------------
+GOAL: Every animation on every page reviewed against one test:
+      "Does this motion communicate something, or is it just moving?"
+      If it is just moving, it is removed.
+
+AUDIT CHECKLIST:
+  [ ] Hero headline: mask reveal ← communicates authority
+  [ ] Pipeline card entrance: stagger ← communicates system waking up
+  [ ] Running card left border pulse ← communicates active work
+  [ ] Dead time sonar pulse ← communicates waiting
+  [ ] Agent complete checkmark draw ← communicates verification
+  [ ] Paper title mask reveal ← communicates weight of the content
+  [ ] Unit card hover lift ← communicates clickability
+  [ ] Definition ink-draw border ← communicates writing in real time
+  [ ] Quick check particle burst ← communicates achievement
+  [ ] Connects-to arrow slide ← communicates direction
+  [ ] Focus mode spring collapse ← communicates the shift in mental mode
+  [ ] Left-edge scroll line ← communicates reading progress as a bookmark
+  [ ] Custom cursor ring expand ← communicates what clicking will do
+  [ ] Manifesto scroll scrub ← communicates narrative unfolding
+
+  Any animation not on this list: remove it or justify it with one sentence.
+
+PHASE 8 — PAGE TRANSITIONS & NAVIGATION (Day 12)
+--------------------------------------------------
+WRAP ALL PAGES in AnimatePresence in PageTransition.tsx client component.
+
+STANDARD TRANSITIONS:
+  Route change: current page opacity 1→0, 150ms.
+               New page opacity 0→1, 200ms.
+  No slides. No scale. No dramatic reveals between app pages.
+  The reading workspace is dense — transition must not jolt.
+
+SPECIAL TRANSITION — Manifesto → Homepage:
+  Black rectangle expands from center (clipPath: inset 50% → inset 0%)
+  Covers manifesto. Reveals homepage. Duration: 400ms.
+  This is the only non-fade transition in the app.
+  It signals: you have crossed the threshold.
+
+BOTTOM FLOATING NAV:
+  Three items: Home / Pipeline / Workspace
+  bg var(--bg-raised), border var(--border-subtle), radius var(--r-full)
+  Padding: 8px 4px, flex row
+  Each item:
+    Icon + label Syne 11px
+    Active: label text → var(--accent), left indicator dot → var(--accent)
+  Position: fixed, bottom 24px, left 50%, transform translateX(-50%)
+  z-index: 100
+
+PHASE 9 — PERFORMANCE & ACCESSIBILITY (Day 13)
+------------------------------------------------
+PERFORMANCE RULES:
+  - ALL mouse-tracking: useMotionValue NOT useState (bypasses re-renders)
+  - Tilt + glow: requestAnimationFrame throttled
+  - Lenis: sync with Framer Motion RAF loop via @studio-freight/react-lenis
+  - KaTeX: server-side where possible, never block main thread
+  - ZAxisText: will-change: transform (GPU layer)
+  - Agent card glow overlay: will-change: background
+  - GrainOverlay SVG animation: runs at 12fps not 60fps
+  - CustomCursor: will-change: transform on both elements
+  - MaskReveal: hardware-accelerated via transform only (no opacity change)
+
+  will-change applied ONLY to:
+    ZAxisText, agent card glow overlay, topbar (backdrop-filter), cursor elements
+    No other elements.
+
+MOBILE FALLBACKS (screen < 768px):
+  DISABLED:
+    - ZAxisText background layer (performance)
+    - 3D card tilt (no hover on touch)
+    - Magnetic border glow (requires mouse tracking)
+    - CustomCursor (touch devices have no cursor)
+    - Manifesto scroll scrub (simplified to static text)
+    - Dead time sonar pulse (battery)
+    - Left-edge scroll progress line (simplified — in topbar instead)
+  
+  ACTIVE ON MOBILE:
+    - All colors, fonts, spacing
+    - GrainOverlay (PNG fallback version)
+    - AmbientLight
+    - Page load stagger animations
+    - MaskReveal (reduced to opacity fade + y if reduced-motion)
+    - Quick check particle burst (6 particles)
+    - Ink-draw border on definitions
+    - All content blocks
+    - Focus mode (sidebar becomes a bottom sheet)
+
+ACCESSIBILITY:
+  - All animations respect prefers-reduced-motion:
+    @media (prefers-reduced-motion: reduce):
+      Disable all transforms and transitions
+      MaskReveal: replace with opacity 0→1 only
+      Ink-draw: replace with border just appearing at opacity 0→1
+  - All interactive elements keyboard navigable
+  - CustomCursor: never replaces visual focus indicators
+    Focus styles: 2px var(--accent) outline, offset 2px
+  - Color never the ONLY information carrier:
+    Priority: dot color AND position AND badge text AND label
+  - aria-label on MaskReveal containers (full text string)
+  - KaTeX: aria-label with natural language on complex formulas
+
+PHASE 10 — POLISH PASS (Day 14)
+---------------------------------
+GOAL: The last 5% that makes the difference between good and Awwwards.
+
+MICRO-DETAILS CHECKLIST:
+  [ ] Scrollbar styled: width 4px, track transparent, thumb var(--border-default)
+      Thumb: var(--border-strong) on hover
+  [ ] ::selection: bg rgba(232,200,74,0.20), color var(--text-primary)
+  [ ] Page title format: "StudyAI · [Paper Title]" — not just "StudyAI"
+  [ ] All empty/loading states designed — no raw null renders
+  [ ] 404 page: Instrument Serif "404." large, then Syne "This paper does not exist."
+      Same ambient light. Same grain. Not a generic error screen.
+  [ ] All focus rings: 2px var(--accent), offset 2px, radius matching element
+  [ ] Input placeholder: var(--text-tertiary) — not browser default gray
+  [ ] DM Mono numbers: all use font-variant-numeric: tabular-nums
+      This ensures numbers align in columns (pipeline stats, marks, etc.)
+  [ ] Syne uppercase labels: all use letter-spacing: 0.08em minimum
+  [ ] All hover transitions: 150ms (not 200ms, not 100ms — exactly 150ms)
+      Exception: spring animations (those use damping/stiffness, not duration)
+  [ ] No orphaned words in headlines: use non-breaking spaces before last word
+  [ ] Grain overlay: test at 3.5% — if you notice it, reduce to 2.5%
+  [ ] AmbientLight: test at 3.5% — if you notice it, reduce to 2.5%
+  [ ] Check every badge/pill has exactly --r-full border-radius
+  [ ] Check every card has exactly --r-xl border-radius
+  [ ] All DM Mono text has correct weights (400 for labels, 500 for values)
+  [ ] Syne weight 800 is used ONLY in manifesto and hero — nowhere else
+  [ ] Every border is rgba — zero opaque borders anywhere
+
+================================================================
+COMPONENT CHECKLIST — EVERY COMPONENT NAMED
+================================================================
+
+GLOBAL (new + original):
+  [ ] AmbientLight.tsx
+  [ ] GrainOverlay.tsx ← NEW
+  [ ] CustomCursor.tsx ← NEW
+  [ ] PageTransition.tsx (AnimatePresence wrapper)
+  [ ] ZAxisText.tsx
+  [ ] MaskReveal.tsx ← NEW
+  [ ] FocusModeProvider.tsx ← NEW (React context for focus mode state)
+
+MANIFESTO PAGE (new):
+  [ ] ManifestoSection.tsx (wrapper for each scroll section)
+  [ ] ScrollScrubText.tsx ← NEW (scroll-driven word highlight)
+  [ ] AgentCounterNumber.tsx ← NEW (0→12 animated counter)
+  [ ] AgentMiniCard.tsx ← NEW (horizontal scroll row)
+  [ ] ReadingPreviewMock.tsx ← NEW (static preview of reading page)
+  [ ] ManifestoCTA.tsx (UPC input, same as homepage but reused)
+
+HOMEPAGE:
+  [ ] HeroHeadline.tsx (uses MaskReveal)
+  [ ] UPCInput.tsx (with focus blur on ZAxisText)
+  [ ] StatPills.tsx
+
+PIPELINE:
+  [ ] AgentCard.tsx (4 states + tilt + glow + noise texture + dead time pulse)
+  [ ] AgentGrid.tsx (bento layout)
+  [ ] PipelineProgress.tsx (header strip + progress bar)
+  [ ] UnitTracker.tsx (right column)
+  [ ] AgentTicker.tsx (live cycling text)
+  [ ] DeadTimePulse.tsx ← NEW (sonar sweep animation system)
+
+PAPER OVERVIEW:
+  [ ] PaperHeader.tsx
+  [ ] TierBadge.tsx
+  [ ] Last4HoursButton.tsx (clock rotation)
+  [ ] PYQYearPills.tsx
+  [ ] UnitCard.tsx (all states, priority dots, progress bar)
+  [ ] PYQSubmissionBanner.tsx
+
+READING PAGE:
+  [ ] UnitSidebar.tsx (normal + focus mode collapsed state)
+  [ ] StickyTopbar.tsx (normal + focus mode minimized state)
+  [ ] FocusModeToggle.tsx ← NEW
+  [ ] ScrollEdgeProgress.tsx ← NEW (left-edge amber line)
+  [ ] UnitHeader.tsx (uses MaskReveal for unit title)
+  [ ] TopicSection.tsx
+  [ ] RapidRevisionCard.tsx
+  [ ] DefinitionBlock.tsx (with InkDrawBorder sub-component)
+  [ ] InkDrawBorder.tsx ← NEW (SVG path draw animation)
+  [ ] CoreConceptBlock.tsx
+  [ ] ExampleBlock.tsx
+  [ ] VerifiedBadge.tsx (pathLength draw on mount)
+  [ ] ExaminerNoteBlock.tsx
+  [ ] CommonMistakesBlock.tsx
+  [ ] AnswerWritingBlock.tsx
+  [ ] PYQBlock.tsx
+  [ ] QuickCheckBlock.tsx
+  [ ] SelfAssessmentConsole.tsx
+  [ ] ParticleBurst.tsx (Full Marks reward)
+  [ ] ConnectsToBlock.tsx
+  [ ] UnitCloser.tsx
+  [ ] FieldFlagButton.tsx (hover-reveal flag)
+  [ ] BlockLabel.tsx (reusable section label + rule)
+
+SHARED:
+  [ ] YieldBadge.tsx (High/Medium/Low/Never)
+  [ ] PriorityDot.tsx (with pill expansion on hover)
+  [ ] SectionLabel.tsx ("DEFINITION ——" pattern)
+
+================================================================
+KNOWN GOTCHAS — READ BEFORE BUILDING
+================================================================
+
+1. LENIS + FRAMER MOTION CONFLICT:
+   They both want to control the RAF loop.
+   Solution: @studio-freight/react-lenis, sync with Framer Motion useAnimationFrame.
+   Do not install both independently without syncing.
+
+2. NEXT.JS 15 + FRAMER MOTION:
+   AnimatePresence with App Router requires "use client" on layout.
+   Wrap in: components/PageTransition.tsx (client component).
+   Do not put AnimatePresence directly in app/layout.tsx.
+
+3. KATEX FLICKER:
+   KaTeX renders async — raw LaTeX visible for a frame without handling.
+   Solution: use react-katex (server-side rendering).
+   <InlineMath math="x^2" /> and <BlockMath math="\sum_{i=1}^{n} x_i" />
+
+4. MOUSE TRACKING PERFORMANCE:
+   Never useState for cursor position — causes too many re-renders.
+   Always useMotionValue. Apply directly to style props.
+
+5. BACKDROP FILTER ON TOPBAR:
+   backdrop-filter requires semi-transparent background to show.
+   Solution: rgba(10,9,8,0.92) — not 'transparent'.
+
+6. INSTRUMENT SERIF + NEXT/FONT:
+   Requires both weight 400 AND style italic specified separately.
+   Without italic: faux-italic (ugly synthetic slant).
+   next/font syntax:
+     Instrument_Serif({ weight: ['400'], style: ['normal', 'italic'] })
+
+7. USESPRING INITIAL VALUE:
+   Set initial value explicitly. Otherwise spring starts from 0 and
+   you get a flash on first hover.
+
+8. WILL-CHANGE OVERUSE:
+   Degrades performance if used everywhere. Apply ONLY to:
+   ZAxisText, agent card glow overlay, topbar, cursor elements.
+   Nothing else.
+
+9. QUICK CHECK ANSWERS:
+   parseQuickCheck returns { question } only.
+   Answer stripped at parse layer. Never pass to any component.
+   Never log it. Self-assessment is subjective by design.
+
+10. SYNE FONT WEIGHTS:
+    Available: 400, 500, 600, 700, 800.
+    Use 400 body, 700 card titles/labels, 800 manifesto/hero only.
+
+11. GRAIN OVERLAY ON SAFARI:
+    SVG feTurbulence animated at 12fps causes performance issues on Safari.
+    Detect Safari via user agent → use static PNG noise texture instead.
+    The PNG should be 200x200px, tiled via background-repeat: repeat.
+    Source or generate: toptal.com/designers/subtlepatterns — noise textures.
+
+12. MASK REVEAL + SCREEN READERS:
+    The word-split technique creates many DOM elements.
+    Always add aria-label with full text string to the container element.
+    Without this, screen readers announce each word separately.
+
+13. INK DRAW BORDER + CARD HEIGHT:
+    The SVG path height must match the card height dynamically.
+    Use a ResizeObserver on the card to update the SVG path endpoint.
+    Or use: M 0 0 L 0 100% inside a viewBox="0 0 3 100" preserveAspectRatio="none"
+    This stretches the SVG to match card height automatically.
+
+14. FOCUS MODE + KATEX:
+    When sidebar collapses and reading column expands, KaTeX formulas
+    may reflow and require re-render. Wrap KaTeX in a key prop that
+    changes when focus mode changes to force re-render.
+
+15. CUSTOM CURSOR + FOCUS RINGS:
+    Setting cursor: none globally hides the focus indicator on keyboard nav.
+    Solution: on :focus-visible, show the 2px amber outline regardless.
+    The CustomCursor only replaces the pointer cursor — it should never
+    override focus visibility.
+
+================================================================
+WHAT SEPARATES THIS FROM EVERY OTHER STUDY APP
+================================================================
+
+Every other study tool looks like a productivity app.
+This one looks like it was built by someone who takes DU exams seriously.
+
+The film grain that makes the screen feel like it has material.
+The cursor that knows what you are about to do before you do it.
+The headline that is carved from darkness word by word.
+The manifesto that tells the story before you enter the product.
+The amber border that draws itself before the definition appears.
+The left edge of the screen becoming a bookmark as you read.
+The pipeline that breathes and pulses while agents work.
+The focus mode that makes the entire world fall away.
+The checkmark that draws itself when verification is complete.
+The particle burst when a student knows the answer.
+
+None of this is decorative.
+Every visual decision serves the exam.
+Every motion decision serves the student.
+Every typographic decision serves authority.
+
+That is the difference between a beautiful app and a meaningful one.
+This is both.
+
+================================================================
+END OF DOCUMENT
+STUDYAI ELEVATED DESIGN PLAN v2.0
+================================================================
