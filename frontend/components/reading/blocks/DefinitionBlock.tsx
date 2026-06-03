@@ -3,24 +3,25 @@
 import { motion } from "framer-motion";
 import { InkDrawBorder } from "../InkDrawBorder";
 import { parseField } from "@/lib/parseField";
-import { MathText } from "@/components/MathText";
+import { InlineEditField } from "../InlineEditField";
 
 /**
  * DefinitionBlock — Presents the foundational definition of the topic.
- * 
- * The InkDrawBorder SVG animates in on the left edge while the text is
- * immediately visible underneath — no gating on the draw animation.
+ *
+ * Supports inline editing when a real `topicId` is provided (real mode).
+ * In mock mode, topicId is omitted and editing is silently disabled.
  */
 
 interface DefinitionBlockProps {
   definitionText: unknown;
+  topicId?: string;
 }
 
-export function DefinitionBlock({ definitionText }: DefinitionBlockProps) {
+export function DefinitionBlock({ definitionText, topicId }: DefinitionBlockProps) {
   const text = parseField(definitionText);
 
   return (
-    <motion.section 
+    <motion.section
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: 0.1 }}
@@ -34,12 +35,12 @@ export function DefinitionBlock({ definitionText }: DefinitionBlockProps) {
           </span>
           <div className="w-[32px] h-[1px] bg-border-default" />
         </div>
-        
+
         {/* Flag Button */}
         <motion.button
           initial={{ opacity: 0 }}
           whileHover={{ scale: 0.95 }}
-          className="opacity-0 group-hover:opacity-100 transition-opacity duration-150 flex items-center gap-1.5 px-3 py-1 rounded border border-transparent hover:border-[rgba(232,90,74,0.3)] hover:bg-red-dim font-sans text-[10px] text-text-tertiary hover:text-red"
+          className="no-print opacity-0 group-hover:opacity-100 transition-opacity duration-150 flex items-center gap-1.5 px-3 py-1 rounded border border-transparent hover:border-[rgba(232,90,74,0.3)] hover:bg-red-dim font-sans text-[10px] text-text-tertiary hover:text-red"
         >
           <span>⚑</span> Flag
         </motion.button>
@@ -47,13 +48,18 @@ export function DefinitionBlock({ definitionText }: DefinitionBlockProps) {
 
       {/* Definition Card */}
       <div className="relative bg-bg-card border border-border-default rounded-xl p-[16px_20px] pl-[24px]">
-        
-        {/* Ink Draw Border — visual only, does not gate text display */}
+
+        {/* Ink Draw Border — visual only */}
         <InkDrawBorder />
 
-        {/* Text always visible immediately */}
+        {/* Inline-editable definition text */}
         <p className="font-serif text-[18px] text-text-primary leading-relaxed">
-          <MathText content={text} />
+          <InlineEditField
+            content={text}
+            topicId={topicId}
+            field="definition"
+            renderMath={true}
+          />
         </p>
       </div>
     </motion.section>

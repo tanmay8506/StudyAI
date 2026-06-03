@@ -61,7 +61,10 @@ export function StickyTopbar({ unitName, scrollYProgress }: StickyTopbarProps) {
             ⊙ Focus
           </button>
           
-          <button className="px-3 py-1.5 border border-border-default rounded-md font-sans text-[11px] text-text-secondary hover:bg-bg-card transition-colors">
+          <button 
+            onClick={() => window.print()}
+            className="no-print px-3 py-1.5 border border-border-default rounded-md font-sans text-[11px] text-text-secondary hover:bg-bg-card transition-colors"
+          >
             Export PDF
           </button>
 

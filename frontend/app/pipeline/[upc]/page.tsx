@@ -9,6 +9,9 @@ import { GrainOverlay } from "@/components/GrainOverlay";
 import { PipelineProgress } from "@/components/PipelineProgress";
 import { AgentGrid, AgentData } from "@/components/AgentGrid";
 import { UnitTracker, UnitProgressData } from "@/components/UnitTracker";
+import { USE_MOCK } from "@/lib/mock-flag";
+import { getUnitsForPaper } from "@/lib/queries";
+import { subscribeToUnitStatus } from "@/lib/queries";
 
 const INITIAL_AGENTS: AgentData[] = [
   { id: "A-01", name: "Syllabus Map", model: "o1-mini", state: "queued" },
@@ -43,8 +46,10 @@ export default function PipelinePage() {
 
   // Document Title
   useEffect(() => {
-    document.title = "StudyAI · Simulated Mock Paper";
-  }, []);
+    document.title = USE_MOCK
+      ? "StudyAI · Simulated Mock Paper"
+      : `StudyAI · Generating ${upc}`;
+  }, [upc]);
 
   // Mock Pipeline Simulation
   useEffect(() => {

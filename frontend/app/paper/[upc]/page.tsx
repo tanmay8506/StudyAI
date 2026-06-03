@@ -1,15 +1,16 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { PageTransition } from "@/components/PageTransition";
 import { AmbientLight } from "@/components/AmbientLight";
 import { GrainOverlay } from "@/components/GrainOverlay";
-
 import { PaperHeader } from "@/components/overview/PaperHeader";
 import { UnitCard, UnitCardData } from "@/components/overview/UnitCard";
+import { USE_MOCK } from "@/lib/mock-flag";
+import { getPaper, getUnitsForPaper } from "@/lib/queries";
 
-// Mock Data for the Paper Overview
+// ─── Mock Data (shown when NEXT_PUBLIC_USE_MOCK=true) ──────────────────────
 const MOCK_PAPER_DATA = {
   upc: "2352203601",
   title: "Riemann Integration & Series of Functions",
@@ -68,55 +69,139 @@ const MOCK_UNITS: UnitCardData[] = [
   }
 ];
 
+// ─── Real-Mode Types ────────────────────────────────────────────────────────
+interface RealPaperData {
+  upc: string;
+  title: string;
+  tier: 1 | 2 | 3 | 4;
+  department: string;
+  programme: string;
+  semester: string;
+  type: string;
+  pyqYears: string[];
+}
+
 export default function PaperOverviewPage() {
   const params = useParams();
   const upc = (params.upc as string) || MOCK_PAPER_DATA.upc;
-  
+
+  // ── Real-mode state ──
+  const [realPaper, setRealPaper] = useState<RealPaperData | null>(null);
+  const [realUnits, setRealUnits] = useState<UnitCardData[]>([]);
+  const [isLoading, setIsLoading] = useState(!USE_MOCK);
+
   useEffect(() => {
-    document.title = `StudyAI · ${MOCK_PAPER_DATA.title}`;
-  }, []);
+    document.title = `StudyAI · ${USE_MOCK ? MOCK_PAPER_DATA.title : upc}`;
+  }, [upc]);
+
+  // Fetch real data when not in mock mode
+  useEffect(() => {
+    if (USE_MOCK) return;
+
+    async function fetchData() {
+      setIsLoading(true);
+      try {
+        const [paper, units] = await Promise.all([
+          getPaper(upc),
+          getUnitsForPaper(upc)
+        ]);
+
+        if (paper) {
+          setRealPaper({
+            upc: paper.upc,
+            title: paper.paper_name ?? upc,
+            tier: ((paper.tier ?? 2) as 1 | 2 | 3 | 4),
+            department: paper.department ?? "",
+            programme: paper.programme ?? "",
+            semester: `Semester ${paper.semester ?? ""}`,
+            type: paper.paper_type ?? "theory",
+            pyqYears: (paper.pyq_years_available ?? []).map(String),
+          });
+        }
+
+        if (units.length > 0) {
+          setRealUnits(
+            units.map((u, i) => ({
+              id: u.id,
+              name: u.unit_name,
+              summary: "",
+              studyTime: u.estimated_study_hours ? `${u.estimated_study_hours}h` : "—",
+              marks: u.marks_weightage ? `${u.marks_weightage} Marks` : "—",
+              priorityDots: [],
+              completedTopics: 0,
+              totalTopics: 0,
+              status: u.status === "complete" ? "Complete"
+                : u.status === "generating" ? "Generating"
+                : u.status === "failed" ? "Failed"
+                : "Queued",
+            }))
+          );
+        }
+      } catch (err) {
+        console.error("[PaperOverviewPage] failed to fetch real data:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchData();
+  }, [upc]);
+
+  // Determine what to render
+  const displayPaper = USE_MOCK ? MOCK_PAPER_DATA : (realPaper ?? MOCK_PAPER_DATA);
+  const displayUnits = USE_MOCK ? MOCK_UNITS : (realUnits.length > 0 ? realUnits : MOCK_UNITS);
 
   return (
     <PageTransition>
       <main className="min-h-screen w-full bg-bg-base text-text-primary flex flex-col items-center pb-24 overflow-x-hidden relative">
-        
-        {/* Global Infrastucture */}
+
+        {/* Global Infrastructure */}
         <GrainOverlay />
         <AmbientLight variant="overview" />
 
         <div className="w-full max-w-[900px] px-6 md:px-8 mt-24 relative z-10 flex flex-col gap-16">
-          
-          <PaperHeader 
-            upc={upc}
-            title={MOCK_PAPER_DATA.title}
-            tier={MOCK_PAPER_DATA.tier}
-            department={MOCK_PAPER_DATA.department}
-            programme={MOCK_PAPER_DATA.programme}
-            semester={MOCK_PAPER_DATA.semester}
-            type={MOCK_PAPER_DATA.type}
-            pyqYears={MOCK_PAPER_DATA.pyqYears}
-          />
 
-          <section>
-            <div className="flex items-center gap-3 mb-6">
-              <h2 className="font-sans text-[18px] font-bold text-text-primary">
-                Units
-              </h2>
-              <div className="font-mono text-[10px] bg-bg-card border border-border-default rounded-full px-2 py-0.5 text-text-secondary">
-                {MOCK_UNITS.length}
-              </div>
+          {isLoading ? (
+            <div className="flex items-center justify-center h-40">
+              <span className="font-mono text-[12px] text-text-tertiary animate-pulse">
+                Loading paper…
+              </span>
             </div>
+          ) : (
+            <>
+              <PaperHeader
+                upc={upc}
+                title={displayPaper.title}
+                tier={displayPaper.tier}
+                department={displayPaper.department}
+                programme={displayPaper.programme}
+                semester={displayPaper.semester}
+                type={displayPaper.type}
+                pyqYears={displayPaper.pyqYears}
+              />
 
-            <div className="flex flex-col gap-3">
-              {MOCK_UNITS.map((unit, index) => (
-                <UnitCard 
-                  key={unit.id} 
-                  unit={unit} 
-                  index={index} 
-                />
-              ))}
-            </div>
-          </section>
+              <section>
+                <div className="flex items-center gap-3 mb-6">
+                  <h2 className="font-sans text-[18px] font-bold text-text-primary">
+                    Units
+                  </h2>
+                  <div className="font-mono text-[10px] bg-bg-card border border-border-default rounded-full px-2 py-0.5 text-text-secondary">
+                    {displayUnits.length}
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-3">
+                  {displayUnits.map((unit, index) => (
+                    <UnitCard
+                      key={unit.id}
+                      unit={unit}
+                      index={index}
+                    />
+                  ))}
+                </div>
+              </section>
+            </>
+          )}
 
         </div>
       </main>

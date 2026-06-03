@@ -16,9 +16,8 @@ import { fadeUp } from "@/lib/animations";
 import { Magnetic } from "@/components/Magnetic";
 import { useMotionValue, useSpring, useTransform } from "framer-motion";
 
-// Fallback import if getPaper isn't available, but we assume it is based on previous page.tsx
-// If it fails, the user will be routed to pipeline by default.
 import { getPaper } from "@/lib/queries";
+import { USE_MOCK } from "@/lib/mock-flag";
 
 export default function Homepage() {
   const router = useRouter();
@@ -51,15 +50,21 @@ export default function Homepage() {
   };
 
   const handleSubmit = async (upc: string) => {
+    // MOCK MODE: skip DB check and backend, go straight to pipeline simulation
+    if (USE_MOCK) {
+      router.push(`/pipeline/${upc}`);
+      return;
+    }
+
+    // REAL MODE: check Supabase first, then trigger real backend
     try {
-      // Check if paper exists in the database
       const paper = await getPaper(upc);
-      
+
       if (paper) {
-        // If exists, skip pipeline, go direct to paper
+        // Paper already generated — go straight to overview
         router.push(`/paper/${upc}`);
       } else {
-        // Otherwise trigger backend and go to pipeline
+        // Trigger the real 12-agent pipeline
         try {
           await fetch('http://localhost:8000/generate', {
             method: 'POST',
@@ -67,8 +72,7 @@ export default function Homepage() {
             body: JSON.stringify({ upc })
           });
         } catch (e) {
-          // Use warn instead of error to prevent Next.js dev overlay from intercepting it
-          console.warn("Failed to trigger backend, falling back to mock pipeline.", e);
+          console.warn("Backend unreachable, routing to pipeline page anyway.", e);
         }
         router.push(`/pipeline/${upc}`);
       }

@@ -20,6 +20,7 @@ import { PYQBlock } from "@/components/reading/blocks/PYQBlock";
 import { QuickCheckBlock } from "@/components/reading/blocks/QuickCheck";
 import { ConnectsToBlock } from "@/components/reading/blocks/ConnectsTo";
 import { MaskReveal } from "@/components/MaskReveal";
+import { USE_MOCK } from "@/lib/mock-flag";
 
 // --- MOCK DATA ---
 const MOCK_TOPICS = [
@@ -198,10 +199,10 @@ function ReadingColumn() {
                   >
                     {/* Inner wrapper restores overflow for content to be fully visible when open */}
                     <div className="overflow-visible">
-                      <DefinitionBlock definitionText={MOCK_DEF} />
-                      <CoreConceptBlock content={MOCK_CORE} analogy={MOCK_ANALOGY} />
+              <DefinitionBlock definitionText={MOCK_DEF} topicId={USE_MOCK ? undefined : "real-topic-id"} />
+                      <CoreConceptBlock content={MOCK_CORE} analogy={MOCK_ANALOGY} topicId={USE_MOCK ? undefined : "real-topic-id"} />
                       <ExampleBlock exampleData={MOCK_EXAMPLE} />
-                      <ExaminerNoteBlock noteData={MOCK_EXAMINER} />
+                      <ExaminerNoteBlock noteData={MOCK_EXAMINER} topicId={USE_MOCK ? undefined : "real-topic-id"} />
                       <CommonMistakesBlock mistakesData={MOCK_MISTAKES} />
                       <AnswerWritingBlock topicMarks={6} data={MOCK_ANSWER} />
                       <PYQBlock questions={MOCK_PYQS} />

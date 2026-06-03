@@ -152,7 +152,7 @@ html.light {
     font-family: var(--font-inter), system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    cursor: none;
+    cursor: auto;
     overflow-x: hidden;
     transition: background-color 0.35s ease, color 0.35s ease;
   }
@@ -208,15 +208,11 @@ html.light {
     scrollbar-color: var(--border-default) transparent;
   }
 
-  /* Mobile/Touch cursor fallback */
-  @media (max-width: 767px), (pointer: coarse) {
-    body { cursor: auto; }
-  }
-
+  /* Pointer cursor on interactive elements */
   a,
   button,
   [role="button"] {
-    cursor: none;
+    cursor: pointer;
   }
 }
 
@@ -329,7 +325,7 @@ html.light {
     border-radius: var(--r-lg);
     padding: 12px 24px;
     border: none;
-    cursor: none;
+    cursor: pointer;
     transition: background-color 150ms ease, transform 150ms ease;
   }
   .btn-primary:hover {
@@ -355,4 +351,121 @@ html.light {
 .katex-accent {
   color: var(--accent);
   font-family: var(--font-mono);
+}
+
+/* ================================================================
+   PRINT / PDF MODE
+   Triggered by window.print() via the "Export PDF" button.
+   Overrides the dark theme to produce a clean black-on-white output.
+   ================================================================ */
+
+@media print {
+  /* ── Override all dark-mode CSS variables ── */
+  :root,
+  html,
+  html.light {
+    --bg-base:        #ffffff;
+    --bg-raised:      #ffffff;
+    --bg-surface:     #f5f5f5;
+    --bg-card:        #ffffff;
+    --bg-card-hover:  #f5f5f5;
+    --text-primary:   #111111;
+    --text-secondary: #444444;
+    --text-tertiary:  #777777;
+    --border-default: rgba(0, 0, 0, 0.15);
+    --border-subtle:  rgba(0, 0, 0, 0.08);
+    --border-strong:  rgba(0, 0, 0, 0.25);
+    --accent:         #1a1a1a;
+    --accent-dim:     rgba(0,0,0,0.06);
+  }
+
+  /* ── Page setup ── */
+  @page {
+    margin: 20mm 18mm;
+    size: A4 portrait;
+  }
+
+  /* ── Body reset ── */
+  html, body {
+    background: #ffffff !important;
+    color: #111111 !important;
+    font-size: 11pt !important;
+    line-height: 1.7 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* ── Hide all UI chrome ── */
+  .no-print,
+  nav,
+  [data-bottomnav],
+  [data-sidebar],
+  [data-grain],
+  [data-ambient],
+  [data-scroll-progress] {
+    display: none !important;
+  }
+
+  /* Target by component class patterns */
+  .topbar-glass { display: none !important; }
+  .grain-overlay { display: none !important; }
+
+  /* ── Layout: remove sidebars, let content fill full width ── */
+  .flex-row { flex-direction: column !important; }
+  [class*="UnitSidebar"] { display: none !important; }
+
+  /* Reading column fills the page */
+  #reading-scroll-container {
+    overflow: visible !important;
+    height: auto !important;
+  }
+
+  /* ── Typography ── */
+  h1, h2, h3 {
+    font-family: Georgia, serif !important;
+    color: #111111 !important;
+    page-break-after: avoid;
+  }
+
+  p, li {
+    color: #222222 !important;
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* ── Cards ── */
+  .card-base,
+  [class*="rounded"] {
+    background: #ffffff !important;
+    border: 1px solid rgba(0,0,0,0.15) !important;
+    box-shadow: none !important;
+  }
+
+  /* ── Topic sections — never split mid-section ── */
+  section[id^="topic-"] {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    margin-bottom: 16pt;
+  }
+
+  /* ── KaTeX math — ensure block math stays on one line ── */
+  .katex-display {
+    overflow: hidden !important;
+    page-break-inside: avoid !important;
+  }
+  .katex {
+    color: #111111 !important;
+  }
+
+  /* ── Flag buttons, interactive controls — hide ── */
+  button:not(.print-show) {
+    display: none !important;
+  }
+
+  /* ── Accent pill tags — readable in print ── */
+  .pill-accent {
+    background: transparent !important;
+    border: 1px solid #aaaaaa !important;
+    color: #444444 !important;
+  }
 }
