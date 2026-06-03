@@ -10,3 +10,4 @@ def delete_paper(upc):
 
 if __name__ == "__main__":
     delete_paper('2352203601')
+    delete_paper('2352283601')

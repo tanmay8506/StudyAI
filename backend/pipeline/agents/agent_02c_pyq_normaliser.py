@@ -24,8 +24,7 @@ from pathlib import Path
 from groq import Groq
 
 # ── Path setup ───────────────────────────────────────────────────────────────
-ROOT = Path(__file__).resolve().parents[3]
-SCHEMAS_DIR = ROOT / "pipeline" / "schemas"
+SCHEMAS_DIR = Path(__file__).resolve().parents[1] / "schemas"
 PYQ_SCHEMA_PATH = SCHEMAS_DIR / "pyq_normalised_schema.json"
 
 
@@ -116,7 +115,7 @@ def normalise_single_pyq(
             print(f"  [2C] Normalising PYQ {year} (attempt {attempt + 1})...")
 
             response = client.chat.completions.create(
-                model="llama3-70b-8192",
+                model="llama-3.3-70b-versatile",
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0,
                 max_tokens=4096,

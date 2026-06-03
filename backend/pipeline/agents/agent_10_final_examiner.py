@@ -81,6 +81,7 @@ def _call_examiner(user_prompt: str, attempt: int = 1) -> dict:
         generation_config=genai.types.GenerationConfig(
             temperature=0.1,
             max_output_tokens=4096,
+            response_mime_type="application/json",
         ),
     )
     raw = response.text.strip()

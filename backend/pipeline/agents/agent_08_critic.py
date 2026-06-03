@@ -71,7 +71,7 @@ You MUST output valid JSON matching this exact schema:
   ]
 }
 Maximum 10 corrections. Ordered by severity descending (critical first).
-Output ONLY valid JSON. No prose before or after. No markdown fences.
+Output ONLY valid JSON. Do NOT include any comments (like '// ...') inside the JSON output. If there are no corrections, the 'corrections' array must be completely empty: []. No prose before or after. No markdown fences.
 """
     return f"{constitution}\n\n{schema_reminder}"
 
@@ -238,6 +238,7 @@ def run_sync(
                 system_instruction=system_prompt,
                 generation_config=genai.types.GenerationConfig(
                     max_output_tokens=MAX_TOKENS,
+                    response_mime_type="application/json",
                 )
             )
             response = model.generate_content(user_message + retry_suffix)
@@ -255,8 +256,8 @@ def run_sync(
         except (json.JSONDecodeError, ValueError) as exc:
             last_error = f"JSON parse error: {exc}"
             logger.warning(
-                "Critic output parse failed | topic_id=%s | attempt=%d | error=%s",
-                topic_id, attempt, exc,
+                "Critic output parse failed | topic_id=%s | attempt=%d | error=%s | raw_output=%r",
+                topic_id, attempt, exc, raw_output,
             )
             continue
 

@@ -74,6 +74,7 @@ def _call_regen(topic: dict, attempt: int = 1) -> dict | None:
             generation_config=genai.types.GenerationConfig(
                 temperature=0.2,
                 max_output_tokens=1024,
+                response_mime_type="application/json",
             ),
         )
         raw = response.text.strip()

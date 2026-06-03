@@ -51,7 +51,7 @@ from typing import Any
 from database import queries as q
 from database.client import db
 from utils.cost_tracker import CostTracker, CostKillSwitchError
-from utils.rate_limiter import RateLimiter
+from utils.rate_limiter import RateLimiter, patch_gemini_sdk
 
 # ── Agent imports (each module exposes a single async `run(...)` coroutine) ──
 from pipeline.agents import (
@@ -92,8 +92,8 @@ MAX_PATCHER_RETRIES = 2
 MAX_UNIT_RESUME_ATTEMPTS = 3
 
 # Semaphore limits match rate_limiter.py provider caps
-_FLASH_SEM = asyncio.Semaphore(5)   # Gemini 2.0 Flash  (Writer + Critic)
-_PRO_SEM = asyncio.Semaphore(2)     # Gemini Pro        (DNA + Mapper + Verifier)
+_FLASH_SEM = asyncio.Semaphore(1)   # Gemini 2.0 Flash  (Writer + Critic)
+_PRO_SEM = asyncio.Semaphore(1)     # Gemini Pro        (DNA + Mapper + Verifier)
 _GROQ_SEM = asyncio.Semaphore(3)    # Groq Llama 3
 _CEREBRAS_SEM = asyncio.Semaphore(3)  # Cerebras
 
@@ -108,6 +108,7 @@ async def run_pipeline(upc: str, force_rerun_from: int | None = None) -> None:
     Main pipeline coroutine.  Called by FastAPI as a background task.
     `force_rerun_from` sets the agent number to re-run from (clears downstream).
     """
+    patch_gemini_sdk()
     log.info("═══ Pipeline start: %s ═══", upc)
     cost = CostTracker(upc)
 

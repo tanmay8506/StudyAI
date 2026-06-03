@@ -3,18 +3,356 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ================================================================
+   STUDYAI — DESIGN TOKENS
+   Dark Mode (default) + Light Mode overrides
+   DO NOT hardcode any value in components. Use these CSS vars.
+   ================================================================ */
+
+/* ── DARK MODE (default) ── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Backgrounds (5 levels of depth, warm void) */
+  --bg-base:        #0a0908;
+  --bg-raised:      #111009;
+  --bg-surface:     #1a1813;
+  --bg-card:        #1e1c16;
+  --bg-card-hover:  #252319;
+
+  /* Borders */
+  --border-subtle:  rgba(255, 255, 255, 0.06);
+  --border-default: rgba(255, 255, 255, 0.10);
+  --border-strong:  rgba(255, 255, 255, 0.18);
+
+  /* Text */
+  --text-primary:   #f0ece0;
+  --text-secondary: #9a9485;
+  --text-tertiary:  #5a5548;
+
+  /* Accent — amber/ochre */
+  --accent:         #e8c84a;
+  --accent-2:       #c9a82e;
+  --accent-dim:     rgba(232, 200, 74, 0.08);
+  --accent-dim2:    rgba(232, 200, 74, 0.15);
+  --accent-rgb:     232, 200, 74;
+
+  /* Semantic */
+  --red:        #e85a4a;
+  --red-dim:    rgba(232, 90, 74, 0.08);
+  --green:      #5ab87a;
+  --green-dim:  rgba(90, 184, 122, 0.08);
+  --blue:       #5a9ae8;
+  --blue-dim:   rgba(90, 154, 232, 0.08);
+
+  /* System Tokens */
+  --grain-opacity:          0.025;
+  --cursor-dot:             #f0ece0;
+  --cursor-ring:            rgba(232, 200, 74, 0.4);
+  --sidebar-collapsed:      20px;
+  --reading-progress-color: var(--accent);
+  --reading-progress-width: 2px;
+  --border-ink:             rgba(232, 200, 74, 0.6);
+  --focus-fade:             0.20;
+
+  /* Topbar glass */
+  --topbar-glass-bg: rgba(10, 9, 8, 0.92);
+
+  /* Ambient light */
+  --ambient-color-1: rgba(232, 200, 74, 0.06);
+  --ambient-color-2: rgba(232, 200, 74, 0.03);
+
+  /* Border Radius */
+  --r-sm:   4px;
+  --r-md:   6px;
+  --r-lg:   8px;
+  --r-xl:   12px;
+  --r-full: 9999px;
+
+  /* Theme Toggle */
+  --toggle-bg:    rgba(255,255,255,0.06);
+  --toggle-border: rgba(255,255,255,0.12);
 }
 
-.dark {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+/* ── LIGHT MODE ── */
+html.light {
+  /* Backgrounds (Airy, clean white/silver) */
+  --bg-base:        #fdfdfc;
+  --bg-raised:      #ffffff;
+  --bg-surface:     #f2f1ed;
+  --bg-card:        #ffffff;
+  --bg-card-hover:  #f8f7f3;
+
+  /* Borders */
+  --border-subtle:  rgba(0, 0, 0, 0.05);
+  --border-default: rgba(0, 0, 0, 0.10);
+  --border-strong:  rgba(0, 0, 0, 0.20);
+
+  /* Text */
+  --text-primary:   #111111;
+  --text-secondary: #5a5852;
+  --text-tertiary:  #999890;
+
+  /* Accent — Electric Indigo */
+  --accent:         #4f52ff;
+  --accent-2:       #3336cc;
+  --accent-dim:     rgba(79, 82, 255, 0.08);
+  --accent-dim2:    rgba(79, 82, 255, 0.16);
+  --accent-rgb:     79, 82, 255;
+
+  /* Semantic */
+  --red:        #e03527;
+  --red-dim:    rgba(224, 53, 39, 0.08);
+  --green:      #1a9e55;
+  --green-dim:  rgba(26, 158, 85, 0.08);
+  --blue:       #2264e0;
+  --blue-dim:   rgba(34, 100, 224, 0.08);
+
+  /* System Tokens */
+  --grain-opacity:          0.018;
+  --cursor-dot:             #111111;
+  --cursor-ring:            rgba(79, 82, 255, 0.5);
+  --border-ink:             rgba(79, 82, 255, 0.5);
+  --reading-progress-color: var(--accent);
+  --topbar-glass-bg:        rgba(250, 250, 248, 0.92);
+
+  /* Ambient — soft colorful mesh gradients */
+  --ambient-color-1: rgba(79, 82, 255, 0.07);
+  --ambient-color-2: rgba(255, 100, 180, 0.05);
+
+  /* Theme Toggle */
+  --toggle-bg:     rgba(0,0,0,0.04);
+  --toggle-border: rgba(0,0,0,0.10);
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+/* ================================================================
+   BASE RESET & BODY
+   ================================================================ */
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    color-scheme: dark;
+  }
+
+  html.light {
+    color-scheme: light;
+  }
+
+  body {
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    font-family: var(--font-inter), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    cursor: none;
+    overflow-x: hidden;
+    transition: background-color 0.35s ease, color 0.35s ease;
+  }
+
+  /* Restore cursor on inputs */
+  input,
+  textarea,
+  [contenteditable] {
+    cursor: text;
+  }
+
+  /* Focus rings */
+  *:focus-visible {
+    outline: 2px solid var(--accent) !important;
+    outline-offset: 2px !important;
+    border-radius: 2px;
+  }
+
+  /* DM Mono numeric alignment */
+  .font-mono,
+  [class*="font-mono"] {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Uppercase letter spacing */
+  .uppercase, .uppercase.font-sans {
+    letter-spacing: 0.08em;
+  }
+
+  /* Selection */
+  ::selection {
+    background: rgba(var(--accent-rgb), 0.20);
+    color: var(--text-primary);
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-default);
+    border-radius: var(--r-full);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--border-strong);
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-default) transparent;
+  }
+
+  /* Mobile/Touch cursor fallback */
+  @media (max-width: 767px), (pointer: coarse) {
+    body { cursor: auto; }
+  }
+
+  a,
+  button,
+  [role="button"] {
+    cursor: none;
+  }
+}
+
+/* ================================================================
+   TYPOGRAPHY UTILITIES
+   ================================================================ */
+
+@layer utilities {
+  .label-uppercase {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-family: var(--font-sans);
+  }
+
+  .text-editorial {
+    font-family: var(--font-serif);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  .text-data {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .text-accent-ink {
+    color: var(--accent);
+    font-family: var(--font-mono);
+  }
+}
+
+/* ================================================================
+   COMPONENT LAYER
+   ================================================================ */
+
+@layer components {
+  /* Card */
+  .card-base {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-default);
+    border-radius: var(--r-xl);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+  .card-base:hover {
+    background-color: var(--bg-card-hover);
+    border-color: var(--border-strong);
+  }
+
+  /* Pill */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    border-radius: var(--r-full);
+    padding: 2px 8px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .pill-accent {
+    background-color: var(--accent-dim);
+    border: 1px solid rgba(var(--accent-rgb), 0.2);
+    color: var(--accent);
+  }
+
+  /* Section Label */
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-sans);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-tertiary);
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background-color: var(--border-default);
+  }
+
+  /* Input */
+  .input-underline {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border-default);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    padding: 12px 0;
+    outline: none;
+    transition: border-color 150ms ease;
+  }
+  .input-underline::placeholder {
+    color: var(--text-tertiary);
+  }
+  .input-underline:focus {
+    border-bottom-color: var(--accent);
+  }
+
+  /* Button Primary */
+  .btn-primary {
+    background-color: var(--accent);
+    color: var(--bg-base);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: var(--r-lg);
+    padding: 12px 24px;
+    border: none;
+    cursor: none;
+    transition: background-color 150ms ease, transform 150ms ease;
+  }
+  .btn-primary:hover {
+    background-color: var(--accent-2);
+  }
+
+  /* Topbar Glass */
+  .topbar-glass {
+    background-color: var(--topbar-glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+}
+
+/* ================================================================
+   KATEX OVERRIDES
+   ================================================================ */
+.katex {
+  font-size: 1em;
+  color: inherit;
+}
+.katex-accent {
+  color: var(--accent);
+  font-family: var(--font-mono);
 }

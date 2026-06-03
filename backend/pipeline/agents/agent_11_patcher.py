@@ -109,6 +109,7 @@ def _gemini_call(prompt: str) -> Any:
         generation_config=genai.types.GenerationConfig(
             temperature=0.2,
             max_output_tokens=4096,
+            response_mime_type="application/json",
         ),
     )
     raw = response.text.strip()
@@ -322,4 +323,37 @@ if __name__ == "__main__":
 
 async def run(unit: dict, topics: list[dict], examiner_output: dict, paper: dict, cost=None) -> dict:
     import asyncio
-    return await asyncio.to_thread(run_patcher, unit, topics, examiner_output)
+    
+    def topic_lookup_fn(hint: str) -> str | None:
+        if not hint:
+            return None
+        hint_lower = hint.strip().lower()
+        for t in topics:
+            if t.get("topic_name", "").strip().lower() == hint_lower:
+                return t["id"]
+        for t in topics:
+            if hint_lower in t.get("topic_name", "").lower():
+                return t["id"]
+        if len(topics) == 1:
+            return topics[0]["id"]
+        return None
+
+    # run_patcher expects:
+    # 1. unit_topics: list[dict] -> topics
+    # 2. examiner_output: dict -> examiner_output
+    # 3. unit_name: str -> unit.get("unit_name", "")
+    # 4. topic_lookup_fn: callable -> topic_lookup_fn
+    res = await asyncio.to_thread(
+        run_patcher,
+        topics,
+        examiner_output,
+        unit.get("unit_name", ""),
+        topic_lookup_fn
+    )
+    
+    # Inject unit_id into unit_patches if not present, so the orchestrator does not throw KeyError
+    for up in res.get("unit_patches", []):
+        if "unit_id" not in up:
+            up["unit_id"] = unit.get("id")
+            
+    return res

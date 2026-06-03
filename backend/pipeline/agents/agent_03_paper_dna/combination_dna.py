@@ -50,6 +50,7 @@ def _get_client() -> genai.GenerativeModel:
         generation_config=genai.types.GenerationConfig(
             temperature=0.0,
             max_output_tokens=2048,
+            response_mime_type="application/json",
         ),
     )
 

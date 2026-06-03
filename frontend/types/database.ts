@@ -12,7 +12,8 @@ export interface Paper {
 }
 
 export interface Unit {
-  unit_id: string;
+  id: string;
+  unit_id?: string; // alias for compatibility
   upc: string;
   unit_number: number;
   unit_name: string;
@@ -23,12 +24,14 @@ export interface Unit {
 }
 
 export interface Topic {
-  topic_id: string;
+  id: string;
+  topic_id?: string; // alias for compatibility
   unit_id: string;
   topic_number: number;
   topic_name: string;
   content: any;
 }
+
 
 export interface FormulaSheet {
   unit_id: string;

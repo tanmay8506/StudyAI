@@ -15,6 +15,7 @@ Run locally:
 
 from __future__ import annotations
 
+import silence_warnings  # noqa: F401 — must be first import
 import asyncio
 import logging
 import os
@@ -29,6 +30,7 @@ load_dotenv()
 
 from database import queries as q
 from pipeline.orchestrator import run_pipeline
+from utils.rate_limiter import patch_gemini_sdk
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Logging
@@ -49,6 +51,7 @@ log = logging.getLogger("studyai.main")
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     log.info("StudyAI backend starting")
+    patch_gemini_sdk()
     yield
     log.info("StudyAI backend shutting down")
 
@@ -141,7 +144,28 @@ async def generate(request: GenerateRequest,
 
     async def _run_and_cleanup():
         try:
-            await run_pipeline(upc)
+            import asyncio
+            
+            log.info("MOCK PIPELINE: Running simulation for %s to test frontend animations", upc)
+            
+            # Create a mock paper
+            q.upsert_paper(upc, {"paper_name": "Telemetry Simulation Paper", "pipeline_status": "generating"})
+            
+            # Create 4 mock units
+            units = []
+            for i in range(1, 5):
+                u = q.create_unit(upc, i, f"Simulated Study Unit {i}")
+                units.append(u)
+                
+            # Simulate the pipeline agents working on the units
+            for u in units:
+                q.set_unit_status(u["id"], "generating")
+                await asyncio.sleep(5) # 5 second delay per unit for dramatic effect
+                q.set_unit_status(u["id"], "complete")
+                
+            q.set_paper_status(upc, "complete")
+            log.info("MOCK PIPELINE: Simulation complete for %s", upc)
+            
         finally:
             _active_runs.discard(upc)
 
@@ -217,6 +241,22 @@ async def force_rerun(request: RerunRequest,
         "from_agent": request.from_agent,
         "status": "queued",
         "message": f"Pipeline re-running from agent {request.from_agent}.",
+    }
+
+
+@app.get("/")
+async def root() -> dict:
+    return {
+        "message": "Welcome to the StudyAI Academic Brutalism Backend API Server.",
+        "status": "healthy",
+        "frontend_url": "http://localhost:3000",
+        "documentation": "This server runs a 12-agent pipeline to generate structured exam notes.",
+        "endpoints": {
+            "POST /generate": "Triggers the pipeline for a given UPC.",
+            "GET /status/{upc}": "Retrieves the live pipeline and unit generation status.",
+            "POST /generate/rerun": "Force-reruns the pipeline from a specific agent.",
+            "GET /health": "Simple health check endpoint."
+        }
     }
 
 

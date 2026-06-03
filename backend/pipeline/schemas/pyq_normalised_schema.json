@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "NormalisedPYQ",
+  "type": "object",
+  "required": ["year", "year_confirmed", "questions"],
+  "properties": {
+    "year": {
+      "type": "integer"
+    },
+    "year_confirmed": {
+      "type": "boolean"
+    },
+    "year_confidence": {
+      "type": "string",
+      "enum": ["confirmed", "unconfirmed"]
+    },
+    "total_marks": {
+      "type": ["integer", "null"]
+    },
+    "time_allowed_minutes": {
+      "type": ["integer", "null"]
+    },
+    "questions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["question_number", "parts"],
+        "properties": {
+          "question_number": {
+            "type": "string"
+          },
+          "unit": {
+            "type": ["integer", "null"]
+          },
+          "parts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["part_label", "question_text", "marks", "instruction_word"],
+              "properties": {
+                "part_label": {
+                  "type": ["string", "null"]
+                },
+                "question_text": {
+                  "type": "string"
+                },
+                "marks": {
+                  "type": "integer"
+                },
+                "instruction_word": {
+                  "type": "string"
+                },
+                "topic_hint": {
+                  "type": ["string", "null"]
+                },
+                "unit": {
+                  "type": ["integer", "null"]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

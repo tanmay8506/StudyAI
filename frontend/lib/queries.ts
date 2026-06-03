@@ -13,45 +13,49 @@ import type { RealtimeChannel } from "@supabase/supabase-js";
 // ─────────────────────────────────────────
 
 export async function getPaper(upc: string): Promise<Paper | null> {
-    const { data, error } = await supabase
-        .from("papers")
-        .select("*")
-        .eq("upc", upc)
-        .single();
-
-    if (error) {
-        console.error("[getPaper] error:", error.message);
+    try {
+        const res = await fetch(`/api/paper/${upc}`, { cache: "no-store" });
+        if (res.status === 404) return null;
+        if (!res.ok) {
+            const body = await res.json().catch(() => ({}));
+            console.error("[getPaper] error:", body.error ?? res.statusText);
+            return null;
+        }
+        return (await res.json()) as Paper;
+    } catch (err) {
+        console.error("[getPaper] fetch error:", err);
         return null;
     }
-    return data as Paper;
 }
 
 export async function getUnitsForPaper(upc: string): Promise<Unit[]> {
-    const { data, error } = await supabase
-        .from("units")
-        .select("*")
-        .eq("upc", upc)
-        .order("unit_number", { ascending: true });
-
-    if (error) {
-        console.error("[getUnitsForPaper] error:", error.message);
+    try {
+        const res = await fetch(`/api/paper/${upc}/units`, { cache: "no-store" });
+        if (!res.ok) {
+            const body = await res.json().catch(() => ({}));
+            console.error("[getUnitsForPaper] error:", body.error ?? res.statusText);
+            return [];
+        }
+        return (await res.json()) as Unit[];
+    } catch (err) {
+        console.error("[getUnitsForPaper] fetch error:", err);
         return [];
     }
-    return (data ?? []) as Unit[];
 }
 
 export async function getTopicsForUnit(unitId: string): Promise<Topic[]> {
-    const { data, error } = await supabase
-        .from("topics")
-        .select("*")
-        .eq("unit_id", unitId)
-        .order("topic_number", { ascending: true });
-
-    if (error) {
-        console.error("[getTopicsForUnit] error:", error.message);
+    try {
+        const res = await fetch(`/api/unit/${unitId}/topics`, { cache: "no-store" });
+        if (!res.ok) {
+            const body = await res.json().catch(() => ({}));
+            console.error("[getTopicsForUnit] error:", body.error ?? res.statusText);
+            return [];
+        }
+        return (await res.json()) as Topic[];
+    } catch (err) {
+        console.error("[getTopicsForUnit] fetch error:", err);
         return [];
     }
-    return (data ?? []) as Topic[];
 }
 
 export async function getFormulaSheetsForUnit(
@@ -76,11 +80,9 @@ export async function getProblemSetForUnit(
         .from("problem_sets")
         .select("*")
         .eq("unit_id", unitId)
-        .limit(1)
-        .single();
+        .maybeSingle();
 
     if (error) {
-        if (error.code === "PGRST116") return null;
         console.error("[getProblemSetForUnit] error:", error.message);
         return null;
     }

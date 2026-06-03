@@ -39,6 +39,7 @@ Outputs:
 
 from __future__ import annotations
 
+import asyncio
 import json
 import logging
 import os
@@ -699,10 +700,30 @@ def _write_topic_to_db(topic_id: str, result: dict) -> None:
 # ─────────────────────────────────────────────────────────────────────────────
 
 def _sleep_before_retry(attempt: int) -> None:
-    """Exponential backoff between retry attempts."""
+    """Exponential backoff between retry attempts (runs inside asyncio.to_thread so time.sleep is safe)."""
     wait = attempt * RETRY_DELAY_SECONDS
     logger.info(f"[Writer] Waiting {wait}s before retry attempt {attempt + 1}...")
     time.sleep(wait)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  Async entry point (called by orchestrator)
+# ─────────────────────────────────────────────────────────────────────────────
+
+async def run(topic: dict, paper: dict, cost=None, split_mode: str | None = None) -> dict:
+    """
+    Async wrapper so the orchestrator can await this agent.
+    run_writer is synchronous (uses time.sleep for retries) so we
+    run it in a thread to avoid blocking the event loop.
+    """
+    from database import queries as q
+    unit_id = topic.get("unit_id")
+    unit_row: dict = {}
+    if unit_id:
+        units = q.get_units_for_paper(paper["upc"])
+        unit_row = next((u for u in units if u["id"] == unit_id), {})
+    mapper_output = paper.get("_mapper_output") or {}
+    return await asyncio.to_thread(run_writer, topic, unit_row, paper, mapper_output)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -864,14 +885,3 @@ if __name__ == "__main__":
     else:
         print("✗ Writer failed after all retries. Check logs above.")
         print("="*60)
-
-async def run(topic: dict, paper: dict, cost=None, split_mode=None) -> dict:
-    from database import queries as q
-    import asyncio
-    unit_id = topic.get("unit_id")
-    unit_row: dict = {}
-    if unit_id:
-        units = q.get_units_for_paper(paper["upc"])
-        unit_row = next((u for u in units if u["id"] == unit_id), {})
-    mapper_output = paper.get("_mapper_output") or {}
-    return await asyncio.to_thread(run_writer, topic, unit_row, paper, mapper_output)

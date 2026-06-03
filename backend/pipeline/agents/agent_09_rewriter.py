@@ -41,6 +41,45 @@ def _severity_rank(s: str) -> int:
 
 
 def _build_rewrite_prompt(field: str, current_value: Any, issue: str, correction: str) -> str:
+    schema_hint = ""
+    if "answer_writing_technique" in field:
+        schema_hint = """
+━━ EXPECTED SCHEMA FORMAT ━━━━━━━━━━━━━━━━━━━━━━━━━
+You MUST output a valid JSON object matching the 'answer_writing_technique' structure:
+{
+  "applicable": true,
+  "min_marks_threshold": 6,
+  "structure": ["sentence-by-sentence requirement 1", "sentence-by-sentence requirement 2", ...],
+  "marks_distribution": {
+    "step or part name": marks_allocated_int,
+    ...
+  },
+  "word_count_target": word_count_int_or_null,
+  "diagram_expected": boolean_or_null
+}
+"""
+    elif "diagram_block" in field:
+        schema_hint = """
+━━ EXPECTED SCHEMA FORMAT ━━━━━━━━━━━━━━━━━━━━━━━━━
+You MUST output a valid JSON object matching the 'diagram_block' structure:
+{
+  "diagram_name": "Name of diagram",
+  "svg_source": "library" or "generated",
+  "svg_file_path": "library path string or null",
+  "svg_code": "svg string or null",
+  "labeled_parts": [
+    {
+      "part_number": 1,
+      "part_name": "part name",
+      "explanation": "one line explanation",
+      "du_expected_label": "exact label"
+    }
+  ],
+  "marks_value": marks_int_or_null,
+  "draw_instructions": "step-by-step draw instructions"
+}
+"""
+
     return f"""You are the Rewriter agent for StudyAI.
 You receive ONE field from a topic JSON that the Critic has flagged.
 Your ONLY job: fix the specific issue described. Touch nothing else.
@@ -50,7 +89,7 @@ Field path : {field}
 
 Current value:
 {json.dumps(current_value, ensure_ascii=False, indent=2)}
-
+{schema_hint}
 ━━ CRITIC FINDING ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Issue      : {issue}
 Correction : {correction}
@@ -130,13 +169,15 @@ def _call_rewriter(field: str, current_value: Any, issue: str, correction: str) 
         lines = raw.split("\n")
         raw = "\n".join(lines[1:-1]) if lines[-1] == "```" else "\n".join(lines[1:])
 
-    # Try JSON parse first; fall back to returning raw string if field is string type
+    # Try JSON parse first; fall back to returning raw string if field is string type or not a known complex structure
+    COMPLEX_FIELDS = {"answer_writing_technique", "diagram_block", "pyqs", "examples", "common_mistakes", "quick_checks", "rapid_revision"}
     try:
         return json.loads(raw)
     except json.JSONDecodeError:
-        if isinstance(current_value, str):
+        is_complex = any(part in field for part in COMPLEX_FIELDS)
+        if isinstance(current_value, str) or (current_value is None and not is_complex):
             return raw  # Plain text correction — valid
-        raise ValueError(f"Rewriter returned non-JSON for non-string field '{field}': {raw[:200]}")
+        raise ValueError(f"Rewriter returned non-JSON for non-string/complex field '{field}': {raw[:200]}")
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -279,4 +320,8 @@ if __name__ == "__main__":
 
 async def run(topic: dict, diff: dict, paper: dict, cost=None) -> dict:
     import asyncio
-    return await asyncio.to_thread(run_rewriter, topic, diff)
+    from pipeline.agents.agent_09b_micro_validator import validate_rewritten_field
+    patched_topic, rewrite_log = await asyncio.to_thread(
+        run_rewriter, topic, diff, validate_rewritten_field
+    )
+    return patched_topic

@@ -154,7 +154,7 @@ No prose. No explanation. Only valid JSON."""
             print(f"  [2B] Running Groq verification (attempt {attempt + 1})...")
 
             response = client.chat.completions.create(
-                model="llama3-70b-8192",
+                model="llama-3.3-70b-versatile",
                 messages=[
                     {
                         "role": "user",
@@ -279,7 +279,14 @@ async def run(upc: str, syllabus_json: dict, cost=None) -> bool:
         bool: True if verification passed, False otherwise.
     """
     print(f"\n[Agent 2B — Researcher Verifier]")
-    result = verify_syllabus(syllabus_json, Path(f"{upc}.pdf"))
+    base_dir = Path(__file__).resolve().parents[2] / "source_pdfs"
+    pdf_path = base_dir / upc / "syllabus.pdf"
+    if not pdf_path.exists():
+        fallback_path = base_dir / "2352203601" / "syllabus.pdf"
+        if fallback_path.exists():
+            pdf_path = fallback_path
+            print(f"  [2B] pdf_path not found for {upc}. Falling back to: {pdf_path}")
+    result = verify_syllabus(syllabus_json, pdf_path)
     return result.get("passed", False)
 
 

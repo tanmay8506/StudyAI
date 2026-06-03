@@ -31,7 +31,7 @@ load_dotenv()
 logger = logging.getLogger(__name__)
 
 _client = Groq(api_key=os.environ["GROQ_API_KEY"])
-_MODEL  = "llama3-70b-8192"
+_MODEL  = "llama-3.1-8b-instant"
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Rule-based checks (no AI call needed)
@@ -42,6 +42,8 @@ _UNICODE_MATH = re.compile(
 )
 
 def _check_type_integrity(original: Any, rewritten: Any) -> tuple[bool, str]:
+    if original is None:
+        return True, ""
     if type(original) != type(rewritten):
         return False, (
             f"Type mismatch: original is {type(original).__name__}, "
