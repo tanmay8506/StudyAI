@@ -12,7 +12,7 @@ import { HeroHeadline } from "@/components/HeroHeadline";
 import { UPCInput } from "@/components/UPCInput";
 import { StatPills } from "@/components/StatPills";
 import { fadeUp } from "@/lib/animations";
-import { Hero3D } from "@/components/Hero3D";
+
 import { Magnetic } from "@/components/Magnetic";
 import { useMotionValue, useSpring, useTransform } from "framer-motion";
 
@@ -95,7 +95,7 @@ export default function Homepage() {
         {/* GLOBAL INFRASTRUCTURE */}
         <GrainOverlay />
         <AmbientLight variant="homepage" />
-        <Hero3D />
+
 
 
         {/* FOREGROUND CONTENT WITH PARALLAX TILT */}
